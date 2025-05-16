@@ -1,6 +1,22 @@
 Classification Results:
 
 Category 1:
-ID:0 x -274y -991.193z -130.928Image X:847Image y:117Valid Pixels: 42589
+ID:0 x -289.644y -1669.68z -136.412Image X:1497Image y:128Valid Pixels: 14671
 Category 2:
-ID:0 x -1202.11y -618.135z -121.341Image X:499Image y:1008Valid Pixels: 72595
+ID:0 x -591.763y -667.1z -126.026Image X:538Image y:425Valid Pixels: 43360
+Category 3:
+ID:0 x -160.827y -108.213z -124.442Image X:0Image y:20Valid Pixels: 17786
+Category 4:
+ID:0 x -690.245y -1654.29z -133.474Image X:1485Image y:511Valid Pixels: 9990
+Category 5:
+ID:0 x -1204.19y -608.639z -121.248Image X:490Image y:1010Valid Pixels: 74433
+Category 6:
+ID:0 x -385.462y -1776.91z -138.779Image X:1Image y:240Valid Pixels: 19685
+Category 7:
+ID:0 x -743.349y -1777.81z -137.075Image X:0Image y:575Valid Pixels: 7968
+Category 8:
+ID:0 x -629.41y -4244.61z -153.184Image X:802Image y:515Valid Pixels: 38465
+Category 9:
+ID:0 x -639.677y -4033.4z -150.614Image X:601Image y:524Valid Pixels: 22529
+Category 10:
+ID:0 x -1156.39y -4099.24z -152.267Image X:662Image y:1014Valid Pixels: 27381

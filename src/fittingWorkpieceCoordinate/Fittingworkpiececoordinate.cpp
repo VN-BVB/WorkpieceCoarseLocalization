@@ -52,6 +52,9 @@ void FittingWorkpieceCoordinate::whenFinishInferrence()
 {
     categorizedObjects.clear();
     categoryWorldCenters.clear();
+    categoryWorldLeftTopCenters.clear();
+    filteredWorldCenters.clear();       // 人工筛选后的工件中心点（世界坐标系）
+    filteredWorldTopLeftPoints.clear(); // 人工筛选后的工件左上角点（世界坐标系）
     worldMaskImages.clear();
     workpieceROIs.clear();
     selectedWorkpieces.clear();
@@ -60,6 +63,7 @@ void FittingWorkpieceCoordinate::whenFinishInferrence()
     removeSmallCategories(categorizedObjects); //实时拍摄使用，站点拍摄意义不大
 
     categoryWorldCenters = calculateCategoryCenters(categorizedObjects);
+    //categoryWorldLeftTopCenters在displayDetectedWorkpieces中存储。
     displayDetectedWorkpieces(categorizedObjects, cvImagesInferring, categoryWorldCenters);
     // for (const auto& Center3d : categoryCenters3d) {
     //     std::cout<<"每次结束给的坐标"<<Center3d<<std::endl;
@@ -67,6 +71,7 @@ void FittingWorkpieceCoordinate::whenFinishInferrence()
 
     allObjects.clear();
 }
+
 std::vector<cv::Point3d> FittingWorkpieceCoordinate:: pixel2WorldCoordPoint(std::vector<cv::Point2d> &Pt2ds,
                                                                              int cameraNumber){
     std::vector<cv::Point3d> cameraPointsXYZ;
@@ -499,6 +504,9 @@ void FittingWorkpieceCoordinate::displayDetectedWorkpieces(const std::vector<std
         }
         worldTopLeft *= (1.0 / count);
 
+        //将左上角坐标存入类变量中
+        categoryWorldLeftTopCenters.push_back(worldTopLeft);
+
         // 使用 categoryCenters3d 作为中心坐标
         cv::Point3d worldCenter = categoryCenters3d[categoryIdx];
 
@@ -666,15 +674,16 @@ void FittingWorkpieceCoordinate::handleClickEvent(int x, int y){
 }
 void FittingWorkpieceCoordinate::whenVerifyWorkpieceCoordinates()
 {
-    std::vector<cv::Point3d> resultCenters;
     std::vector<cv::Mat>resultWorkpieceMasks;
     for (size_t i = 0; i < categorizedObjects.size(); ++i) {
         if (std::find(selectedWorkpieces.begin(), selectedWorkpieces.end(), i) == selectedWorkpieces.end()) {
-            resultCenters.push_back(categoryWorldCenters[i]);
+            filteredWorldCenters.push_back(categoryWorldCenters[i]);
+            filteredWorldTopLeftPoints.push_back(categoryWorldLeftTopCenters[i]);
             resultWorkpieceMasks.push_back(worldMaskImages[i]);
         }
     }
-    emit sendWorkpieceMaskImageInWorld(resultCenters,resultWorkpieceMasks);//发送筛选后的
+    emit sendFinalInfoToMain(filteredWorldCenters,filteredWorldTopLeftPoints);
+    emit sendWorkpieceMaskImageInWorld(filteredWorldCenters,resultWorkpieceMasks);//发送筛选后的
 
     // std::string filePath = "./data/result/FittingWorkpieceCoordinate/object_finalWorldPointsInManual.txt";
     // std::ofstream outputFile(filePath, std::ios::trunc);  // 覆盖模式trunc打开文件，追加模式为app
@@ -694,13 +703,11 @@ void FittingWorkpieceCoordinate::whenVerifyWorkpieceCoordinates()
     //     std::cerr << "Failed to open file for writing!" << std::endl;
     // }
 }
-void FittingWorkpieceCoordinate::whenDisplayWeldSeamArea(const std::vector<std::vector<std::array<double, 4>>> &boxInfos,
-                                                      const std::vector<cv::Point3d>& centerCoords){
-
+void FittingWorkpieceCoordinate::whenDisplayWeldSeamArea(const std::vector<std::vector<std::array<double, 4>>> &boxInfos){
 
     for (size_t i = 0; i < boxInfos.size(); ++i) {
 
-        cv::Mat centerPointOrigin = (cv::Mat_<double>(3, 1) << centerCoords[i].x, centerCoords[i].y, 1);
+        cv::Mat centerPointOrigin = (cv::Mat_<double>(3, 1) << filteredWorldCenters[i].x, filteredWorldCenters[i].y, 1);
         cv::Mat resultCenter = canvasMat * centerPointOrigin;
 
         double centerPointX = resultCenter.at<double>(0, 0);
@@ -714,8 +721,8 @@ void FittingWorkpieceCoordinate::whenDisplayWeldSeamArea(const std::vector<std::
             double height = box[3];
 
             // offsetX +=1300;
-            double relativeX = offsetX - centerCoords[i].x;
-            double relativeY = offsetY - centerCoords[i].y;
+            double relativeX = offsetX - filteredWorldCenters[i].x;
+            double relativeY = offsetY - filteredWorldCenters[i].y;
             double railMapX = relativeX+ centerPointX;
             double railMapY = relativeY+ centerPointY;
 

@@ -22,7 +22,11 @@ extern std::string inferencePath ;//推理路径
 extern std::string calibCameraNum;
 extern std::string configFilePath;//配置保存路径
 extern std::string trackFilePath;
-
+struct workpieceBoxInWorld{
+    std::vector<cv::Rect_<double>> workpieceAreaRect;//工件世界位置
+    std::vector<std::vector<cv::Rect_<double>>> weldAreaRect;//工件焊缝区域信息
+    cv::Mat TrackDirection; // 地轨方向向量
+};
 class WorkpieceCoarseLocalization : public QWidget  {
     Q_OBJECT
 public:
@@ -30,13 +34,10 @@ public:
     ~WorkpieceCoarseLocalization();
 private:
     Ui::WorkpieceCoarseLocalization *ui;
+
     //世界坐标系下工件信息
-    struct workpieceBoxInWorld{
-        std::vector<cv::Point3d> worldCenter; //工件中心
-        std::vector<cv::Point3d> worldTopLeft;//工件左上角坐标
-        std::vector<int> cameraIndex; //工件所在的相机序号
-        //std::vector<std::vector<cv::Rect<double>>weldAreaRect;//工件焊缝区域信息
-    };
+
+    workpieceBoxInWorld workpieceBoxInfoInWorld;
 
     Yolo11SegInference *yolo11SegInference = new Yolo11SegInference;  // 分割类
     Yolo11RectInference *yolo11RectInference = new Yolo11RectInference;// 目标检测类
@@ -89,8 +90,8 @@ public slots:
     void whenGetWorkpieceResult1(cv::Mat res);
     void whenUpdateComboBox(const std::vector<std::string> &SerialNumbers);
     void whenViewWorldCoordinateLabel(int x, int y);
-    void whenGetBoxInfo(const std::vector<std::vector<std::array<double, 4>>> &boxInfos,
-                        const std::vector<cv::Point3d>& centerCoords);
+    void whenGetWeldBoxInfo(const std::vector<std::vector<std::array<double, 4>>> &boxInfos);
+    void whenGetResultInfo(const std::vector<cv::Point3d> resultCenters, const std::vector<cv::Point3d> resultLeftTop);
 signals:
     void sendCommandToInferPath(std::string path);
     void sendDisconnectCamera();

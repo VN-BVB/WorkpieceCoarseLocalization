@@ -32,8 +32,7 @@ public slots:
     void whenFinishInferrence();
     void loadCalibrationParameters(const std::string &filename);
     void handleClickEvent(int x, int y);
-    void whenDisplayWeldSeamArea(const std::vector<std::vector<std::array<double, 4>>> &boxInfos,
-                              const std::vector<cv::Point3d>& centerCoords);
+    void whenDisplayWeldSeamArea(const std::vector<std::vector<std::array<double, 4>>> &boxInfos);
 public:
 
     FittingWorkpieceCoordinate();
@@ -86,6 +85,9 @@ private:
                          0, 0, 1); //画布坐标系偏移
     std::vector<std::vector<ObjectInfo>> categorizedObjects; // 存储分类结果
     std::vector<cv::Point3d> categoryWorldCenters; //存储人工筛选前世界坐标下的中心点
+    std::vector<cv::Point3d> categoryWorldLeftTopCenters; //存储人工筛选前世界坐标下的左上角点
+    std::vector<cv::Point3d> filteredWorldCenters;       // 人工筛选后的工件中心点（世界坐标系）
+    std::vector<cv::Point3d> filteredWorldTopLeftPoints; // 人工筛选后的工件左上角点（世界坐标系）
     int distance = 100; // 移动距离
     double threshold = 10.0; //工件坐标分类距离阈值
     int maxPixelCount = 3;  //最多像素掩膜索取数（与类别尺寸取min）
@@ -100,7 +102,10 @@ signals:
      */
     void appendFittingLog(QString message);
     void sendWorkpieceResultToMainWindow(cv::Mat res);
-    void sendWorkpieceMaskImageInWorld(std::vector<cv::Point3d> worldCenters, std::vector<cv::Mat> worldMaskImages);
+    void sendFinalInfoToMain(std::vector<cv::Point3d> resultCenters,
+                             std::vector<cv::Point3d> resultLeftTop);
+    void sendWorkpieceMaskImageInWorld(std::vector<cv::Point3d> worldCenters,
+                                       std::vector<cv::Mat> worldMaskImages);
 };
 
 #endif // FITTINGWORKPIECECOORDINATE_H

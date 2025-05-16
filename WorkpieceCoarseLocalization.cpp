@@ -41,11 +41,13 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget *parent) : QWid
     connect(yolo11SegInference,&Yolo11SegInference::sendSignalTocalculate, fittingWorkpieceCoordinate,&FittingWorkpieceCoordinate::whenFinishInferrence );
     connect(yolo11SegInference, &Yolo11SegInference::sendAppendInferLog,this, &WorkpieceCoarseLocalization::whenAppendLog);
     connect(fittingWorkpieceCoordinate, &FittingWorkpieceCoordinate::sendWorkpieceResultToMainWindow, this, &WorkpieceCoarseLocalization::whenGetWorkpieceResult1);
-    connect(this,&WorkpieceCoarseLocalization::sendVerifyCoordinatesInManual,fittingWorkpieceCoordinate,&FittingWorkpieceCoordinate::whenVerifyWorkpieceCoordinates);
     connect(fittingWorkpieceCoordinate, &FittingWorkpieceCoordinate::appendFittingLog,this, &WorkpieceCoarseLocalization::whenAppendLog);
     connect(fittingWorkpieceCoordinate, &FittingWorkpieceCoordinate::sendWorkpieceMaskImageInWorld,yolo11RectInference, &Yolo11RectInference::whenRecieveWpMaskInWorld);
+    connect(fittingWorkpieceCoordinate, &FittingWorkpieceCoordinate::sendFinalInfoToMain,this, &WorkpieceCoarseLocalization::whenGetResultInfo);
+    connect(this,&WorkpieceCoarseLocalization::sendVerifyCoordinatesInManual,fittingWorkpieceCoordinate,&FittingWorkpieceCoordinate::whenVerifyWorkpieceCoordinates);
     connect(yolo11RectInference, &Yolo11RectInference::sendBoxInfoToDisplay, fittingWorkpieceCoordinate, &FittingWorkpieceCoordinate::whenDisplayWeldSeamArea);
-    connect(yolo11RectInference, &Yolo11RectInference::sendBoxInfoToDisplay,this,&WorkpieceCoarseLocalization::whenGetBoxInfo);
+    connect(yolo11RectInference, &Yolo11RectInference::sendBoxInfoToDisplay,this,&WorkpieceCoarseLocalization::whenGetWeldBoxInfo);
+
     //相机
     baslerControl->moveToThread(cameraControlSubThread);
     connect(this, &WorkpieceCoarseLocalization::initCameraThread, baslerControl, &BaslerControl::openCamera);
@@ -134,15 +136,45 @@ void WorkpieceCoarseLocalization::whenViewWorldCoordinateLabel(int x,int y){
     ui->coordinateLabel->setText(QString("X: %1, Y: %2").arg(x).arg(y));
 }
 
-void WorkpieceCoarseLocalization::whenGetBoxInfo(const std::vector<std::vector<std::array<double, 4> > > &boxInfos,
-                                const std::vector<cv::Point3d> &centerCoords){
-    // cv::Mat TrackDirection;
-    // MyMatrixTrackDirection Track;
-    // TrackDirection = Track.readTrackDirectionFromJsonFile(configFilePath);
-    // // std::cout <<    "TrackDirection"
-    // //           <<    TrackDirection  <<std::endl;
-    // std::cout << "send boxinfos centercoords and track "<<std::endl;
+void WorkpieceCoarseLocalization::whenGetWeldBoxInfo(const std::vector<std::vector<std::array<double, 4> > > &boxInfos){
+    workpieceBoxInfoInWorld.weldAreaRect.clear();
+    for (const auto& objBoxes : boxInfos) {
+        std::vector<cv::Rect_<double>> weldRectsForOneObj;
 
+        for (const auto& box : objBoxes) {
+            // box 格式为 {centerX, centerY, width, height}
+            double cx = box[0];
+            double cy = box[1];
+            double w  = box[2];
+            double h  = box[3];
+
+            double x = cx - w / 2.0;
+            double y = cy - h / 2.0;
+
+            cv::Rect_<double> weldRect(x, y, w, h);
+            weldRectsForOneObj.push_back(weldRect);
+        }
+
+        workpieceBoxInfoInWorld.weldAreaRect.push_back(weldRectsForOneObj);
+    }
+}
+void WorkpieceCoarseLocalization::whenGetResultInfo(const std::vector<cv::Point3d> resultCenters,
+                                                    const std::vector<cv::Point3d> resultLeftTop){
+    workpieceBoxInfoInWorld.workpieceAreaRect.clear();
+    // MyMatrixTrackDirection Track;
+    // workpieceBoxInfoInWorld.TrackDirection = Track.readTrackDirectionFromJsonFile(configFilePath);
+    // std::cout <<    "TrackDirection"
+    //           <<    workpieceBoxInfoInWorld.TrackDirection  <<std::endl;
+    for (size_t i = 0; i < resultCenters.size() && i < resultLeftTop.size(); ++i) {
+        const cv::Point3d& center = resultCenters[i];
+        const cv::Point3d& topLeft = resultLeftTop[i];
+
+        double width = std::abs(center.x - topLeft.x) * 2;
+        double height = std::abs(center.y - topLeft.y) * 2;
+
+        cv::Rect_<double> rect(topLeft.x, topLeft.y, width, height);
+        workpieceBoxInfoInWorld.workpieceAreaRect.push_back(rect);
+    }
 }
 void WorkpieceCoarseLocalization::whenAppendLog(const QString message) {
     ui->textCalibratation->append(message);

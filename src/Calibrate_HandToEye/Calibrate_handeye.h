@@ -2,7 +2,7 @@
 #define CALIBRATE_HANDEYE_H
 #include <QObject>
 #include <QThread>
-#include <opencv2/opencv.hpp>   // Include OpenCV API
+#include <opencv2/opencv.hpp>
 #include "include/handEyeCalibration.h"
 #include "include/calibration.h"
 #include "include/others.h"

@@ -117,8 +117,7 @@ private:
                                       std::vector<cv::Point3d> worldCenters);
 signals:
     void sendInferResultToMainWindow(cv::Mat res);
-    void sendBoxInfoToDisplay(const std::vector<std::vector<std::array<double, 4>>> &boxInfos,
-                      const std::vector<cv::Point3d>& centerCoords);
+    void sendBoxInfoToDisplay(const std::vector<std::vector<std::array<double, 4>>> &boxInfos);
 public slots:
     void whenImageNeedToInfer(std::vector<cv::Mat> cvImages);
 };

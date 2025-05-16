@@ -351,5 +351,5 @@ void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<c
         boxInfos.push_back(std::move(infos));
     }
 
-    emit sendBoxInfoToDisplay(boxInfos, worldCenters);
+    emit sendBoxInfoToDisplay(boxInfos);
 }
