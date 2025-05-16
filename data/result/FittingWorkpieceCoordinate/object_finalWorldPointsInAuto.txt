@@ -1,0 +1,1 @@
+workpiece 1: categoryCenters3d: (-379.758 , -201.864 , -852.889), 

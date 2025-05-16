@@ -1,0 +1,54 @@
+Classification Results:
+
+Category 1:
+ID:0 x 283.956y 214.563z 5.28358Image X:149Image y:320Valid Pixels: 22294
+ID:1 x 277.835y 206.551z 4.82327Image X:44Image y:312Valid Pixels: 22108
+ID:2 x 284.832y 217.588z 5.76404Image X:249Image y:323Valid Pixels: 21929
+ID:3 x 293.254y 219.899z 9.31496Image X:955Image y:328Valid Pixels: 21768
+ID:4 x 296.051y 220.387z 8.31593Image X:759Image y:327Valid Pixels: 21720
+ID:5 x 304.745y 213.576z 10.9448Image X:1260Image y:325Valid Pixels: 21625
+ID:6 x 292.789y 224.539z 6.74781Image X:456Image y:330Valid Pixels: 21618
+ID:7 x 296.457y 220.709z 8.81925Image X:859Image y:328Valid Pixels: 21597
+ID:8 x 294.657y 217.902z 9.84497Image X:1055Image y:327Valid Pixels: 21542
+ID:9 x 290.489y 224.641z 6.23097Image X:354Image y:330Valid Pixels: 21527
+ID:10 x 291.887y 224.325z 7.24955Image X:555Image y:330Valid Pixels: 21462
+ID:11 x 296.743y 217.839z 10.3604Image X:1155Image y:328Valid Pixels: 21461
+ID:12 x 293.913y 220.923z 7.79584Image X:657Image y:327Valid Pixels: 21257
+ID:13 x 301.037y 212.525z 11.4403Image X:1353Image y:325Valid Pixels: 15810
+ID:14 x 298.844y 214.632z 11.9138Image X:1447Image y:328Valid Pixels: 11937
+ID:15 x 299.007y 207.642z 12.4842Image X:1543Image y:322Valid Pixels: 7693
+Category 2:
+ID:0 x 814.73y 177.101z 6.29302Image X:279Image y:283Valid Pixels: 22659
+ID:1 x 806.913y 174.126z 5.27281Image X:73Image y:280Valid Pixels: 22487
+ID:2 x 811.924y 176.092z 5.784Image X:177Image y:282Valid Pixels: 22448
+ID:3 x 827.706y 176.634z 7.8757Image X:591Image y:283Valid Pixels: 22092
+ID:4 x 835.953y 166.286z 11.0397Image X:1193Image y:278Valid Pixels: 22032
+ID:5 x 832.869y 164.557z 10.0317Image X:994Image y:274Valid Pixels: 22031
+ID:6 x 828.541y 170.835z 7.42978Image X:492Image y:277Valid Pixels: 21954
+ID:7 x 838.007y 168.118z 11.5372Image X:1292Image y:281Valid Pixels: 21938
+ID:8 x 836.619y 166.455z 10.5372Image X:1096Image y:277Valid Pixels: 21834
+ID:9 x 820.292y 179.088z 6.8068Image X:384Image y:285Valid Pixels: 21680
+ID:10 x 829.835y 175.159z 8.4045Image X:693Image y:282Valid Pixels: 21563
+ID:11 x 834.777y 169.6z 9.48993Image X:897Image y:278Valid Pixels: 21480
+ID:12 x 835.145y 172.455z 8.96083Image X:798Image y:280Valid Pixels: 21353
+ID:13 x 833.173y 166.164z 4.97532Image X:0Image y:272Valid Pixels: 20848
+ID:14 x 837.56y 167.995z 12.0404Image X:1388Image y:282Valid Pixels: 20400
+ID:15 x 838.552y 165.949z 12.5688Image X:1485Image y:281Valid Pixels: 12474
+ID:16 x 833.38y 167.28z 13.0346Image X:1576Image y:283Valid Pixels: 5334
+Category 3:
+ID:0 x 1104.6y -22.4641z 7.0976Image X:72Image y:86Valid Pixels: 51680
+ID:1 x 1104.27y -22.8082z 7.60342Image X:171Image y:86Valid Pixels: 51365
+ID:2 x 1110.06y -19.9657z 8.11035Image X:276Image y:89Valid Pixels: 50192
+ID:3 x 1134.07y -26.2703z 13.8375Image X:1384Image y:93Valid Pixels: 49404
+ID:4 x 1123.34y -16.3536z 9.1522Image X:488Image y:93Valid Pixels: 49127
+ID:5 x 1128.41y -20.5799z 11.7387Image X:989Image y:93Valid Pixels: 49035
+ID:6 x 1128.3y -24.0242z 12.2746Image X:1087Image y:91Valid Pixels: 48755
+ID:7 x 1118.8y -15.0599z 8.61289Image X:384Image y:94Valid Pixels: 48483
+ID:8 x 1131.7y -25.9561z 13.3184Image X:1285Image y:92Valid Pixels: 48347
+ID:9 x 1124.98y -19.2917z 11.2051Image X:887Image y:93Valid Pixels: 48180
+ID:10 x 1129.74y -25.5104z 12.8Image X:1186Image y:91Valid Pixels: 47604
+ID:11 x 1125.84y -13.7187z 9.64448Image X:590Image y:96Valid Pixels: 47571
+ID:12 x 1126.36y -12.2944z 10.1381Image X:690Image y:98Valid Pixels: 47542
+ID:13 x 1120.99y -17.177z 10.6609Image X:784Image y:94Valid Pixels: 47015
+ID:14 x 1132.28y -23.0567z 6.73841Image X:0Image y:85Valid Pixels: 42913
+ID:15 x 1141.78y -27.3813z 14.3911Image X:1488Image y:93Valid Pixels: 30156

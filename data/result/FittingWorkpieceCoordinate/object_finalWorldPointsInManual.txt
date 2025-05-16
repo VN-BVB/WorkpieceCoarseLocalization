@@ -1,0 +1,1 @@
+workpiece 1: resultCenters: (760.297 , 1162.4 , 8.21973), 

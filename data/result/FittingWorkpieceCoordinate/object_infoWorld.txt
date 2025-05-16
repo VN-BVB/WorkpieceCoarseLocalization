@@ -1,0 +1,80 @@
+Picture 0
+rect 1: rect: (1543 , 322 , workpiece 1: worldPoints: (299.007 , 207.642 , 12.4842), Valid Pixels: 7693
+Picture 1
+rect 1: rect: (1447 , 328 , workpiece 1: worldPoints: (198.844 , 214.632 , 11.9138), Valid Pixels: 11937
+Picture 2
+rect 1: rect: (1353 , 325 , workpiece 1: worldPoints: (101.037 , 212.525 , 11.4403), Valid Pixels: 15810
+Picture 3
+rect 1: rect: (1260 , 325 , workpiece 1: worldPoints: (4.74481 , 213.576 , 10.9448), Valid Pixels: 21625
+Picture 4
+rect 1: rect: (1155 , 328 , workpiece 1: worldPoints: (-103.257 , 217.839 , 10.3604), Valid Pixels: 21461
+Picture 5
+rect 1: rect: (1055 , 327 , workpiece 1: worldPoints: (-205.343 , 217.902 , 9.84497), Valid Pixels: 21542
+rect 2: rect: (1576 , 283 , workpiece 2: worldPoints: (333.38 , 167.28 , 13.0346), Valid Pixels: 5334
+Picture 6
+rect 1: rect: (955 , 328 , workpiece 1: worldPoints: (-306.746 , 219.899 , 9.31496), Valid Pixels: 21768
+rect 2: rect: (1485 , 281 , workpiece 2: worldPoints: (238.552 , 165.949 , 12.5688), Valid Pixels: 12474
+Picture 7
+rect 1: rect: (1388 , 282 , workpiece 1: worldPoints: (137.56 , 167.995 , 12.0404), Valid Pixels: 20400
+rect 2: rect: (859 , 328 , workpiece 2: worldPoints: (-403.543 , 220.709 , 8.81925), Valid Pixels: 21597
+Picture 8
+rect 1: rect: (1292 , 281 , workpiece 1: worldPoints: (38.0067 , 168.118 , 11.5372), Valid Pixels: 21938
+rect 2: rect: (759 , 327 , workpiece 2: worldPoints: (-503.949 , 220.387 , 8.31593), Valid Pixels: 21720
+Picture 9
+rect 1: rect: (1193 , 278 , workpiece 1: worldPoints: (-64.047 , 166.286 , 11.0397), Valid Pixels: 22032
+rect 2: rect: (657 , 327 , workpiece 2: worldPoints: (-606.087 , 220.923 , 7.79584), Valid Pixels: 21257
+rect 3: rect: (1488 , 93 , workpiece 3: worldPoints: (241.782 , -27.3813 , 14.3911), Valid Pixels: 30156
+Picture 10
+rect 1: rect: (1096 , 277 , workpiece 1: worldPoints: (-163.381 , 166.455 , 10.5372), Valid Pixels: 21834
+rect 2: rect: (1384 , 93 , workpiece 2: worldPoints: (134.065 , -26.2703 , 13.8375), Valid Pixels: 49404
+rect 3: rect: (555 , 330 , workpiece 3: worldPoints: (-708.113 , 224.325 , 7.24955), Valid Pixels: 21462
+Picture 11
+rect 1: rect: (1285 , 92 , workpiece 1: worldPoints: (31.702 , -25.9561 , 13.3184), Valid Pixels: 48347
+rect 2: rect: (994 , 274 , workpiece 2: worldPoints: (-267.131 , 164.557 , 10.0317), Valid Pixels: 22031
+rect 3: rect: (456 , 330 , workpiece 3: worldPoints: (-807.211 , 224.539 , 6.74781), Valid Pixels: 21618
+Picture 12
+rect 1: rect: (897 , 278 , workpiece 1: worldPoints: (-365.223 , 169.6 , 9.48993), Valid Pixels: 21480
+rect 2: rect: (1186 , 91 , workpiece 2: worldPoints: (-70.2567 , -25.5104 , 12.8), Valid Pixels: 47604
+rect 3: rect: (354 , 330 , workpiece 3: worldPoints: (-909.511 , 224.641 , 6.23097), Valid Pixels: 21527
+Picture 13
+rect 1: rect: (798 , 280 , workpiece 1: worldPoints: (-464.855 , 172.455 , 8.96083), Valid Pixels: 21353
+rect 2: rect: (1087 , 91 , workpiece 2: worldPoints: (-171.7 , -24.0242 , 12.2746), Valid Pixels: 48755
+rect 3: rect: (249 , 323 , workpiece 3: worldPoints: (-1015.17 , 217.588 , 5.76404), Valid Pixels: 21929
+Picture 14
+rect 1: rect: (989 , 93 , workpiece 1: worldPoints: (-271.587 , -20.5799 , 11.7387), Valid Pixels: 49035
+rect 2: rect: (693 , 282 , workpiece 2: worldPoints: (-570.165 , 175.159 , 8.4045), Valid Pixels: 21563
+rect 3: rect: (149 , 320 , workpiece 3: worldPoints: (-1116.04 , 214.563 , 5.28358), Valid Pixels: 22294
+Picture 15
+rect 1: rect: (887 , 93 , workpiece 1: worldPoints: (-375.015 , -19.2917 , 11.2051), Valid Pixels: 48180
+rect 2: rect: (44 , 312 , workpiece 2: worldPoints: (-1222.17 , 206.551 , 4.82327), Valid Pixels: 22108
+rect 3: rect: (591 , 283 , workpiece 3: worldPoints: (-672.294 , 176.634 , 7.8757), Valid Pixels: 22092
+Picture 16
+rect 1: rect: (492 , 277 , workpiece 1: worldPoints: (-771.459 , 170.835 , 7.42978), Valid Pixels: 21954
+rect 2: rect: (784 , 94 , workpiece 2: worldPoints: (-479.014 , -17.177 , 10.6609), Valid Pixels: 47015
+rect 3: rect: (0 , 321 , workpiece 3: worldPoints: (-1266.56 , 215.738 , 4.5136), Valid Pixels: 17348
+Picture 17
+rect 1: rect: (690 , 98 , workpiece 1: worldPoints: (-573.639 , -12.2944 , 10.1381), Valid Pixels: 47542
+rect 2: rect: (384 , 285 , workpiece 2: worldPoints: (-879.708 , 179.088 , 6.8068), Valid Pixels: 21680
+rect 3: rect: (0 , 330 , workpiece 3: worldPoints: (-1266.51 , 224.841 , 4.42881), Valid Pixels: 12150
+Picture 18
+rect 1: rect: (279 , 283 , workpiece 1: worldPoints: (-985.27 , 177.101 , 6.29302), Valid Pixels: 22659
+rect 2: rect: (590 , 96 , workpiece 2: worldPoints: (-674.156 , -13.7187 , 9.64448), Valid Pixels: 47571
+rect 3: rect: (1 , 325 , workpiece 3: worldPoints: (-1265.52 , 219.781 , 4.48103), Valid Pixels: 8071
+Picture 19
+rect 1: rect: (177 , 282 , workpiece 1: worldPoints: (-1088.08 , 176.092 , 5.784), Valid Pixels: 22448
+rect 2: rect: (488 , 93 , workpiece 2: worldPoints: (-776.656 , -16.3536 , 9.1522), Valid Pixels: 49127
+Picture 20
+rect 1: rect: (384 , 94 , workpiece 1: worldPoints: (-881.203 , -15.0599 , 8.61289), Valid Pixels: 48483
+rect 2: rect: (73 , 280 , workpiece 2: worldPoints: (-1193.09 , 174.126 , 5.27281), Valid Pixels: 22487
+Picture 21
+rect 1: rect: (0 , 272 , workpiece 1: worldPoints: (-1266.83 , 166.164 , 4.97532), Valid Pixels: 20848
+rect 2: rect: (276 , 89 , workpiece 2: worldPoints: (-989.944 , -19.9657 , 8.11035), Valid Pixels: 50192
+Picture 22
+rect 1: rect: (171 , 86 , workpiece 1: worldPoints: (-1095.73 , -22.8082 , 7.60342), Valid Pixels: 51365
+rect 2: rect: (1 , 275 , workpiece 2: worldPoints: (-1265.8 , 169.197 , 4.95216), Valid Pixels: 5381
+Picture 23
+rect 1: rect: (72 , 86 , workpiece 1: worldPoints: (-1195.4 , -22.4641 , 7.0976), Valid Pixels: 51680
+Picture 24
+rect 1: rect: (0 , 85 , workpiece 1: worldPoints: (-1267.72 , -23.0567 , 6.73841), Valid Pixels: 42913
+Picture 25
+rect 1: rect: (0 , 85 , workpiece 1: worldPoints: (-1267.72 , -23.0567 , 6.73841), Valid Pixels: 17452

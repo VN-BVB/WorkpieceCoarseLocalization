@@ -1,0 +1,57 @@
+-ID:/qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc
+-ID:/YOLO/yolo11_Seg_C++
+-ID:/qt/opencv/opencv/build/include
+-ID:/qt/vtkmsvc/include/vtk-8.2
+-ID:/ProgramData/eigen-git-mirror-master
+-ID:/qt/PCL1.9.1/3rdParty/OpenNI2/Include
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/include/pcl-1.9/pcl
+-ID:/qt/PCL1.9.1/include/pcl-1.9
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/3rdParty/Boost/include/boost-1_68
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/3rdParty/Eigen/eigen3
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/3rdParty/FLANN/include
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/3rdParty/FLANN/include/flann
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/3rdParty/Qhull/include
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/3rdParty/VTK/include/vtk-8.1
+-ID:/ProgramData/Coin3d/include
+-ID:/Basler/pylon7/Development/include
+-ID:/YOLO/yolo11_Seg_C++/3rdparty/auboi5
+-ID:/YOLO/yolo11_Seg_C++/3rdparty/auboi5/inc
+-ID:/YOLO/yolo11_Seg_C++/3rdparty/plog/include/plog
+-ID:/YOLO/yolo11_Seg_C++/3rdparty/cereal/include
+-ID:/YOLO/yolo11_Seg_C++/3rdparty/HD6
+-ID:/YOLO/yolo11_Seg_C++
+-ID:/YOLO/yolo11_Seg_C++/src
+-ID:/qt5.14.2/5.14.2/msvc2017_64/include
+-ID:/qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets
+-ID:/qt5.14.2/5.14.2/msvc2017_64/include/QtGui
+-ID:/qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE
+-ID:/qt5.14.2/5.14.2/msvc2017_64/include/QtCore
+-I.
+-ID:\ProgramData\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include
+-ID:\ProgramData\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include
+-ID:\Windows Kits\10\include\10.0.17763.0\ucrt
+-ID:\Windows Kits\10\include\10.0.17763.0\shared
+-ID:\Windows Kits\10\include\10.0.17763.0\um
+-ID:\Windows Kits\10\include\10.0.17763.0\winrt
+-ID:\Windows Kits\10\include\10.0.17763.0\cppwinrt
+-ID:\ProgramData\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include
+-ID:\ProgramData\Microsoft Visual Studio\2017\Community\VC\Auxiliary\VS\include
+-ID:\Windows Kits\10\Include\10.0.17763.0\cppwinrt
+-ID:\Windows Kits\10\Include\10.0.17763.0\shared
+-ID:\Windows Kits\10\Include\10.0.17763.0\ucrt
+-ID:\Windows Kits\10\Include\10.0.17763.0\um
+-ID:\Windows Kits\10\Include\10.0.17763.0\winrt

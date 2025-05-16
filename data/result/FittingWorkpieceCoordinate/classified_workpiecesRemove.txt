@@ -1,0 +1,6 @@
+Classification Results:
+
+Category 1:
+ID:0 x -274y -991.193z -130.928Image X:847Image y:117Valid Pixels: 42589
+Category 2:
+ID:0 x -1202.11y -618.135z -121.341Image X:499Image y:1008Valid Pixels: 72595

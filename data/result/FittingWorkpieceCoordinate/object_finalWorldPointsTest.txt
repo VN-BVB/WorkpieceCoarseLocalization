@@ -1,0 +1,3 @@
+workpiece 1: categoryCenters3dTest: (457.912 , 276.834 , 5.57912), 
+workpiece 2: categoryCenters3dTest: (946.079 , 260.349 , 5.67345), 
+workpiece 3: categoryCenters3dTest: (1214.51 , 160.037 , 6.4513), 

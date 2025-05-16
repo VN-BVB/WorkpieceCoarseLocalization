@@ -1,0 +1,168 @@
+Center: (1584, 381), Valid Pixels: 7761
+Center: (1584, 380), Valid Pixels: 7693
+Center: (1536, 386), Valid Pixels: 11937
+Center: (1489, 384), Valid Pixels: 15810
+Center: (1513, 384), Valid Pixels: 13590
+Center: (1432, 384), Valid Pixels: 21625
+Center: (1330, 386), Valid Pixels: 21461
+Center: (1230, 386), Valid Pixels: 21542
+Center: (1601, 364), Valid Pixels: 5334
+Center: (1130, 386), Valid Pixels: 21768
+Center: (1555, 361), Valid Pixels: 12474
+Center: (1507, 363), Valid Pixels: 20400
+Center: (1033, 386), Valid Pixels: 21597
+Center: (1425, 362), Valid Pixels: 21938
+Center: (933, 387), Valid Pixels: 21720
+Center: (1325, 359), Valid Pixels: 22032
+Center: (831, 386), Valid Pixels: 21257
+Center: (1557, 265), Valid Pixels: 30156
+Center: (1226, 359), Valid Pixels: 21834
+Center: (1486, 267), Valid Pixels: 49404
+Center: (728, 390), Valid Pixels: 21462
+Center: (1386, 265), Valid Pixels: 48347
+Center: (1126, 359), Valid Pixels: 22031
+Center: (628, 391), Valid Pixels: 21618
+Center: (1027, 361), Valid Pixels: 21480
+Center: (1287, 265), Valid Pixels: 47604
+Center: (528, 390), Valid Pixels: 21527
+Center: (926, 362), Valid Pixels: 21353
+Center: (1188, 266), Valid Pixels: 48755
+Center: (422, 384), Valid Pixels: 21929
+Center: (1089, 269), Valid Pixels: 49035
+Center: (822, 365), Valid Pixels: 21563
+Center: (322, 382), Valid Pixels: 22294
+Center: (987, 270), Valid Pixels: 48180
+Center: (219, 378), Valid Pixels: 22108
+Center: (719, 366), Valid Pixels: 22092
+Center: (620, 363), Valid Pixels: 21954
+Center: (885, 270), Valid Pixels: 47015
+Center: (153, 383), Valid Pixels: 17348
+Center: (790, 275), Valid Pixels: 47542
+Center: (515, 367), Valid Pixels: 21680
+Center: (100, 388), Valid Pixels: 12150
+Center: (411, 367), Valid Pixels: 22659
+Center: (692, 274), Valid Pixels: 47571
+Center: (50, 385), Valid Pixels: 8071
+Center: (311, 365), Valid Pixels: 22448
+Center: (588, 271), Valid Pixels: 49127
+Center: (485, 270), Valid Pixels: 48483
+Center: (206, 363), Valid Pixels: 22487
+Center: (118, 355), Valid Pixels: 20848
+Center: (384, 271), Valid Pixels: 50192
+Center: (276, 264), Valid Pixels: 51365
+Center: (27, 359), Valid Pixels: 5381
+Center: (177, 263), Valid Pixels: 51680
+Center: (90, 263), Valid Pixels: 42913
+Center: (27, 261), Valid Pixels: 17452
+图片序号 1
+工件 1: worldPoints: (341.849 , 268.109 , 12.1354), Valid Pixels: 7761
+
+图片序号 2
+工件 1: worldPoints: (341.848 , 267.08 , 12.145), Valid Pixels: 7693
+
+图片序号 3
+工件 1: worldPoints: (291.698 , 273.543 , 11.8317), Valid Pixels: 11937
+
+图片序号 4
+工件 1: worldPoints: (242.583 , 271.821 , 11.6001), Valid Pixels: 15810
+
+图片序号 5
+工件 1: worldPoints: (267.66 , 271.644 , 11.7283), Valid Pixels: 13590
+
+图片序号 6
+工件 1: worldPoints: (183.08 , 272.287 , 11.2957), Valid Pixels: 21625
+
+图片序号 7
+工件 1: worldPoints: (76.9597 , 275.275 , 10.7327), Valid Pixels: 21461
+
+图片序号 8
+工件 1: worldPoints: (-26.4214 , 276.253 , 10.2022), Valid Pixels: 21542
+工件 2: worldPoints: (359.568 , 250.517 , 12.3891), Valid Pixels: 5334
+
+图片序号 9
+工件 1: worldPoints: (-129.043 , 277.224 , 9.67559), Valid Pixels: 21768
+工件 2: worldPoints: (311.543 , 247.694 , 12.1733), Valid Pixels: 12474
+
+图片序号 10
+工件 1: worldPoints: (261.405 , 250.092 , 11.898), Valid Pixels: 20400
+工件 2: worldPoints: (-227.857 , 278.112 , 9.16899), Valid Pixels: 21597
+
+图片序号 11
+工件 1: worldPoints: (175.83 , 249.763 , 11.4696), Valid Pixels: 21938
+工件 2: worldPoints: (-329.049 , 279.947 , 8.64155), Valid Pixels: 21720
+
+图片序号 12
+工件 1: worldPoints: (71.8617 , 247.675 , 10.9648), Valid Pixels: 22032
+工件 2: worldPoints: (-431.685 , 279.648 , 8.12675), Valid Pixels: 21257
+工件 3: worldPoints: (313.576 , 148.887 , 13.1065), Valid Pixels: 30156
+
+图片序号 13
+工件 1: worldPoints: (-30.4471 , 248.719 , 10.4391), Valid Pixels: 21834
+工件 2: worldPoints: (239.616 , 151.54 , 12.7088), Valid Pixels: 49404
+工件 3: worldPoints: (-534.903 , 284.269 , 7.56306), Valid Pixels: 21462
+
+图片序号 14
+工件 1: worldPoints: (135.544 , 150.555 , 12.1932), Valid Pixels: 48347
+工件 2: worldPoints: (-133.048 , 249.764 , 9.91192), Valid Pixels: 22031
+工件 3: worldPoints: (-634.892 , 285.7 , 7.04546), Valid Pixels: 21618
+
+图片序号 15
+工件 1: worldPoints: (-233.891 , 252.767 , 9.37532), Valid Pixels: 21480
+工件 2: worldPoints: (32.9116 , 151.773 , 11.6642), Valid Pixels: 47604
+工件 3: worldPoints: (-734.848 , 284.985 , 6.54807), Valid Pixels: 21527
+
+图片序号 16
+工件 1: worldPoints: (-336.083 , 254.66 , 8.84229), Valid Pixels: 21353
+工件 2: worldPoints: (-69.1265 , 154.067 , 11.1282), Valid Pixels: 48755
+工件 3: worldPoints: (-840.963 , 279.12 , 6.06773), Valid Pixels: 21929
+
+图片序号 17
+工件 1: worldPoints: (-170.492 , 158.369 , 10.5769), Valid Pixels: 49035
+工件 2: worldPoints: (-440.727 , 258.46 , 8.27909), Valid Pixels: 21563
+工件 3: worldPoints: (-941.31 , 277.187 , 5.57975), Valid Pixels: 22294
+
+图片序号 18
+工件 1: worldPoints: (-274.216 , 160.556 , 10.0334), Valid Pixels: 48180
+工件 2: worldPoints: (-1045 , 273.186 , 5.09421), Valid Pixels: 22108
+工件 3: worldPoints: (-543.953 , 260.068 , 7.74351), Valid Pixels: 22092
+
+图片序号 19
+工件 1: worldPoints: (-642.979 , 257.464 , 7.26845), Valid Pixels: 21954
+工件 2: worldPoints: (-377.313 , 161.571 , 9.50396), Valid Pixels: 47015
+工件 3: worldPoints: (-1111.57 , 278.26 , 4.71114), Valid Pixels: 17348
+
+图片序号 20
+工件 1: worldPoints: (-472.892 , 167.435 , 8.96719), Valid Pixels: 47542
+工件 2: worldPoints: (-747.954 , 261.806 , 6.69851), Valid Pixels: 21680
+工件 3: worldPoints: (-1165.09 , 283.347 , 4.39373), Valid Pixels: 12150
+
+图片序号 21
+工件 1: worldPoints: (-852.085 , 261.975 , 6.1718), Valid Pixels: 22659
+工件 2: worldPoints: (-571.186 , 167.048 , 8.47512), Valid Pixels: 47571
+工件 3: worldPoints: (-1215.66 , 280.369 , 4.1665), Valid Pixels: 8071
+
+图片序号 22
+工件 1: worldPoints: (-952.477 , 260.028 , 5.68373), Valid Pixels: 22448
+工件 2: worldPoints: (-675.349 , 164.48 , 7.97382), Valid Pixels: 49127
+
+图片序号 23
+工件 1: worldPoints: (-778.515 , 163.755 , 7.46034), Valid Pixels: 48483
+工件 2: worldPoints: (-1058.21 , 258.034 , 5.16913), Valid Pixels: 22487
+
+图片序号 24
+工件 1: worldPoints: (-1147.11 , 249.977 , 4.79612), Valid Pixels: 20848
+工件 2: worldPoints: (-879.81 , 164.906 , 6.93877), Valid Pixels: 50192
+
+图片序号 25
+工件 1: worldPoints: (-988.444 , 157.852 , 6.45683), Valid Pixels: 51365
+工件 2: worldPoints: (-1239.06 , 254.117 , 4.29371), Valid Pixels: 5381
+
+图片序号 26
+工件 1: worldPoints: (-1088.23 , 156.846 , 5.96302), Valid Pixels: 51680
+
+图片序号 27
+工件 1: worldPoints: (-1176.04 , 156.893 , 5.51975), Valid Pixels: 42913
+
+图片序号 28
+工件 1: worldPoints: (-1239.65 , 154.966 , 5.21697), Valid Pixels: 17452
+
