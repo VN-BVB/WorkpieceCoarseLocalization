@@ -74,14 +74,14 @@ private:
     cv::Mat distCoeffs;
     std::vector<double> plane;
     cv::Mat extrinsicMatrix;
-    const int pixelRow = 10000;  // 画布高度
-    const int pixelCol =/* 10000*/3000; // 画布宽度
+    const int pixelRow = 5000;  // 画布高度
+    const int pixelCol =1800; // 画布宽度
     cv::Mat railMap;//长画布
     // cv::Mat canvasMat = (cv::Mat_<double>(3, 3) <<  1, 0, pixelCol / 2,
     //                      0, -1, pixelRow / 2,
     //                      0, 0, 1); //画布坐标系偏移
-    cv::Mat canvasMat = (cv::Mat_<double>(3, 3) <<  1, 0, pixelCol / 2,
-                         0, -1, pixelRow / 2,
+    cv::Mat canvasMat = (cv::Mat_<double>(3, 3) <<  1, 0, pixelCol-100,
+                         0, -1, 500,
                          0, 0, 1); //画布坐标系偏移
     std::vector<std::vector<ObjectInfo>> categorizedObjects; // 存储分类结果
     std::vector<cv::Point3d> categoryWorldCenters; //存储人工筛选前世界坐标下的中心点

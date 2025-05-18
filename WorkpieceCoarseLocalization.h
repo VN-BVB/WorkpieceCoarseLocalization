@@ -23,7 +23,7 @@ extern std::string calibCameraNum;
 extern std::string configFilePath;//配置保存路径
 extern std::string trackFilePath;
 struct workpieceBoxInWorld{
-    std::vector<cv::Rect_<double>> workpieceAreaRect;//工件世界位置
+    std::vector<std::pair<cv::Point3d, cv::Point3d>> workpieceAreaRect; // <center, topleft>
     std::vector<std::vector<cv::Rect_<double>>> weldAreaRect;//工件焊缝区域信息
     cv::Mat TrackDirection; // 地轨方向向量
 };
@@ -32,6 +32,7 @@ class WorkpieceCoarseLocalization : public QWidget  {
 public:
     WorkpieceCoarseLocalization(QWidget *parent = nullptr);
     ~WorkpieceCoarseLocalization();
+
 private:
     Ui::WorkpieceCoarseLocalization *ui;
 
@@ -56,6 +57,7 @@ private:
 
     QGraphicsScene* scene = new QGraphicsScene;  // 创建一个 QGraphicsScene
     bool detectionEnabled;
+    void sortWorkpieceBoxInfoByY(workpieceBoxInWorld &boxInfo);
 private slots:
     void on_btnConnectCamera_clicked();
 
@@ -87,11 +89,13 @@ public slots:
     void whenAppendLog(const QString message);
     void whenGetImage(cv::Mat res);
     void whenGetWorkpieceResult(cv::Mat res);
-    void whenGetWorkpieceResult1(cv::Mat res);
+    void whenGetWorkpieceRailMap(cv::Mat res);
     void whenUpdateComboBox(const std::vector<std::string> &SerialNumbers);
     void whenViewWorldCoordinateLabel(int x, int y);
     void whenGetWeldBoxInfo(const std::vector<std::vector<std::array<double, 4>>> &boxInfos);
     void whenGetResultInfo(const std::vector<cv::Point3d> resultCenters, const std::vector<cv::Point3d> resultLeftTop);
+    std::shared_ptr<workpieceBoxInWorld> getLocalizationResult();
+
 signals:
     void sendCommandToInferPath(std::string path);
     void sendDisconnectCamera();

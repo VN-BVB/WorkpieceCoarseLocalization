@@ -382,49 +382,42 @@ void FittingWorkpieceCoordinate::drawGridAndAxes(cv::Mat& railMap)
     const int pixelRow = railMap.rows;
     const int pixelCol = railMap.cols;
 
-    // 可配置参数
-    const int axisOffsetX = 0; // X轴偏移量
-    const int axisOffsetY = 0; // Y轴偏移量
-    const cv::Scalar axisColor(0, 0, 0); // 坐标轴颜色
-    const int axisThickness = 2; // 坐标轴线宽
-    const int gridSpacingX = 100; // 网格间距
-    const int gridSpacingY = 100; // 网格间距
-    // 坐标系的原点在图像中心
-    const int originX = pixelCol / 2;
-    const int originY = pixelRow / 2;
-    // 绘制坐标系
-    cv::line(railMap, cv::Point(axisOffsetX, pixelRow / 2),
-             cv::Point(pixelCol - axisOffsetX, pixelRow / 2), axisColor, axisThickness); // X 轴
-    cv::line(railMap, cv::Point(pixelCol / 2, axisOffsetY),
-             cv::Point(pixelCol / 2, pixelRow - axisOffsetY), axisColor, axisThickness); // Y 轴
+    // 设置 canvasMat 中定义的原点位置
+    const int originX = pixelCol - 100;
+    const int originY = 500;
 
-    // 绘制网格线
-    for (int i = gridSpacingX; i < railMap.cols; i += gridSpacingX) {
-        cv::line(railMap, cv::Point(i, 0), cv::Point(i, railMap.rows),
-                 cv::Scalar(200, 200, 200), 1); // 竖线
+    const int gridSpacingX = 100;//间距
+    const int gridSpacingY = 100;
+
+    const cv::Scalar axisColor(0, 0, 0);
+    const int axisThickness = 2;
+
+    // 绘制 X 轴（水平线）
+    cv::line(railMap, cv::Point(0, originY), cv::Point(pixelCol, originY), axisColor, axisThickness);
+    // 绘制 Y 轴（竖直线，注意 y 轴反向）
+    cv::line(railMap, cv::Point(originX, 0), cv::Point(originX, pixelRow), axisColor, axisThickness);
+
+    // 绘制竖直网格线（x方向）
+    for (int x = originX % gridSpacingX; x < pixelCol; x += gridSpacingX) {
+        cv::line(railMap, cv::Point(x, 0), cv::Point(x, pixelRow), cv::Scalar(200, 200, 200), 1);
     }
-    for (int j = gridSpacingY; j < railMap.rows; j += gridSpacingY) {
-        cv::line(railMap, cv::Point(0, j), cv::Point(railMap.cols, j),
-                 cv::Scalar(200, 200, 200), 1); // 横线
+
+    // 绘制水平网格线（y方向反转）
+    for (int y = originY % gridSpacingY; y < pixelRow; y += gridSpacingY) {
+        cv::line(railMap, cv::Point(0, y), cv::Point(pixelCol, y), cv::Scalar(200, 200, 200), 1);
     }
 
     // 添加坐标标签
-    for (int i = gridSpacingX; i <= railMap.cols; i += gridSpacingX) {
-        cv::putText(railMap, std::to_string(i - originX), // X轴标签
-                    cv::Point(i, originY - 10), cv::FONT_HERSHEY_SIMPLEX,
-                    0.5, axisColor, 1);
-        cv::putText(railMap, std::to_string(-(i - originX)), // 负X轴标签
-                    cv::Point(pixelCol - i, originY - 10), cv::FONT_HERSHEY_SIMPLEX,
-                    0.5, axisColor, 1);
+    for (int x = originX % gridSpacingX; x < pixelCol; x += gridSpacingX) {
+        int label = x - originX;
+        cv::putText(railMap, std::to_string(label), cv::Point(x + 2, originY - 5),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.4, axisColor, 1);
     }
 
-    for (int j = gridSpacingY; j <= railMap.rows; j += gridSpacingY) {
-        cv::putText(railMap, std::to_string(-(j - originY)), // 负Y轴标签
-                    cv::Point(originX + 10, j), cv::FONT_HERSHEY_SIMPLEX,
-                    0.5, axisColor, 1);
-        cv::putText(railMap, std::to_string(j - originY), // 正Y轴标签
-                    cv::Point(originX + 10, pixelRow - j), cv::FONT_HERSHEY_SIMPLEX,
-                    0.5, axisColor, 1);
+    for (int y = originY % gridSpacingY; y < pixelRow; y += gridSpacingY) {
+        int label = originY - y;  // 注意 y 轴是反的
+        cv::putText(railMap, std::to_string(label), cv::Point(originX + 5, y),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.4, axisColor, 1);
     }
 }
 // 绘制工件图像
@@ -674,6 +667,8 @@ void FittingWorkpieceCoordinate::handleClickEvent(int x, int y){
 }
 void FittingWorkpieceCoordinate::whenVerifyWorkpieceCoordinates()
 {
+    filteredWorldCenters.clear();
+    filteredWorldTopLeftPoints.clear();
     std::vector<cv::Mat>resultWorkpieceMasks;
     for (size_t i = 0; i < categorizedObjects.size(); ++i) {
         if (std::find(selectedWorkpieces.begin(), selectedWorkpieces.end(), i) == selectedWorkpieces.end()) {

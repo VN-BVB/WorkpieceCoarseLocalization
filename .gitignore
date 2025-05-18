@@ -1,5 +1,17 @@
 
 /release
 /debug
+/build
 *.bmp
 *.jpg
+*.png
+*.idb
+*.pdb
+*.ilk
+*.user
+*.debug
+*.release
+*.exe
+*.opt
+*.bat
+
