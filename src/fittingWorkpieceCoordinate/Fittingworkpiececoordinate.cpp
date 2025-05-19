@@ -379,22 +379,23 @@ void FittingWorkpieceCoordinate::loadCalibrationParameters(const std::string& fi
 }
 void FittingWorkpieceCoordinate::drawGridAndAxes(cv::Mat& railMap)
 {
+    railMapRotated(railMap, railMapRotationAngle);
     const int pixelRow = railMap.rows;
     const int pixelCol = railMap.cols;
 
     // 设置 canvasMat 中定义的原点位置
-    const int originX = pixelCol - 100;
-    const int originY = 500;
+    int originX = static_cast<int>(canvasMat.at<double>(0, 2));  // tx
+    int originY = static_cast<int>(canvasMat.at<double>(1, 2));  // ty
+    int scaleX  = static_cast<int>(canvasMat.at<double>(0, 0));  // a
+    int scaleY  = static_cast<int>(canvasMat.at<double>(1, 1));  // d
 
-    const int gridSpacingX = 100;//间距
-    const int gridSpacingY = 100;
-
-    const cv::Scalar axisColor(0, 0, 0);
-    const int axisThickness = 2;
-
+    if(scaleX == 0 || scaleY == 0){
+        scaleX = canvasMat.at<double>(0, 1);
+        scaleY = canvasMat.at<double>(1, 0);
+    }
     // 绘制 X 轴（水平线）
     cv::line(railMap, cv::Point(0, originY), cv::Point(pixelCol, originY), axisColor, axisThickness);
-    // 绘制 Y 轴（竖直线，注意 y 轴反向）
+    // 绘制 Y 轴
     cv::line(railMap, cv::Point(originX, 0), cv::Point(originX, pixelRow), axisColor, axisThickness);
 
     // 绘制竖直网格线（x方向）
@@ -402,23 +403,25 @@ void FittingWorkpieceCoordinate::drawGridAndAxes(cv::Mat& railMap)
         cv::line(railMap, cv::Point(x, 0), cv::Point(x, pixelRow), cv::Scalar(200, 200, 200), 1);
     }
 
-    // 绘制水平网格线（y方向反转）
+    // 绘制水平网格线
     for (int y = originY % gridSpacingY; y < pixelRow; y += gridSpacingY) {
         cv::line(railMap, cv::Point(0, y), cv::Point(pixelCol, y), cv::Scalar(200, 200, 200), 1);
     }
 
+
     // 添加坐标标签
     for (int x = originX % gridSpacingX; x < pixelCol; x += gridSpacingX) {
-        int label = x - originX;
+        int label =((x - originX) / scaleX);
         cv::putText(railMap, std::to_string(label), cv::Point(x + 2, originY - 5),
                     cv::FONT_HERSHEY_SIMPLEX, 0.4, axisColor, 1);
     }
 
     for (int y = originY % gridSpacingY; y < pixelRow; y += gridSpacingY) {
-        int label = originY - y;  // 注意 y 轴是反的
+        int label = ((y - originY) / scaleY);
         cv::putText(railMap, std::to_string(label), cv::Point(originX + 5, y),
                     cv::FONT_HERSHEY_SIMPLEX, 0.4, axisColor, 1);
     }
+    railMapRotated(railMap, 360-railMapRotationAngle);
 }
 // 绘制工件图像
 void FittingWorkpieceCoordinate::drawDetectedWorkpieces(cv::Mat& railMap, const cv::Mat& resizedImage,
@@ -426,12 +429,7 @@ void FittingWorkpieceCoordinate::drawDetectedWorkpieces(cv::Mat& railMap, const 
                                                         int categoryIdx)
 {
 
-    const cv::Scalar correctColor(0, 255, 0);
-    const cv::Scalar warningColor(255, 255, 125); // 警告颜色
-    const cv::Scalar deleteColor(255, 0, 0); // 删除颜色
-    const int correctLineThickness = 3; // 正常线厚度
-    const int warningLineThickness = 3; // 警告线厚度
-    const int deleteLineThickness = 3; // 删除线厚度
+
     //1300
     cv::Mat centerPoint = (cv::Mat_<double>(3, 1) << worldCenter.x, worldCenter.y, 1);
     cv::Mat centerResult = canvasMat * centerPoint;
@@ -627,7 +625,9 @@ void FittingWorkpieceCoordinate::displayDetectedWorkpieces(const std::vector<std
     //     cv::putText(railMap, text, textPosition, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 1);
     // }*/
     drawGridAndAxes(railMap);
-    emit sendWorkpieceResultToMainWindow(railMap);
+    cv::Mat railMapDisplay = railMap.clone();
+    railMapRotated(railMapDisplay, railMapRotationAngle);
+    emit sendWorkpieceResultToMainWindow(railMapDisplay);
     //emit sendWorkpieceMaskImageInWorld(categoryCenters3d,worldMaskImages); //发送为筛选前的工件在世界坐标系下的中心点和工件掩膜图像
     cv::Mat railMapRGB;
     cv::cvtColor(railMap, railMapRGB, cv::COLOR_BGR2RGB);
@@ -735,7 +735,9 @@ void FittingWorkpieceCoordinate::whenDisplayWeldSeamArea(const std::vector<std::
         }
     }
     // 发送更新后的 railMap 到主窗口
-    emit sendWorkpieceResultToMainWindow(railMap);
+    cv::Mat railMapDisplay = railMap.clone();
+    railMapRotated(railMapDisplay, railMapRotationAngle);
+    emit sendWorkpieceResultToMainWindow(railMapDisplay);
     cv::Mat railMapRGB;
     cv::cvtColor(railMap, railMapRGB, cv::COLOR_BGR2RGB);
     cv::imwrite("./data/workpieceCoaLoc/FinalRailMap/detected_weldSeam.jpg", railMapRGB);
@@ -748,4 +750,21 @@ float FittingWorkpieceCoordinate::computeIoU(const cv::Rect_<float>& rect1, cons
 
     if (unionArea == 0) return 0.0f; // 防止除零错误
     return intersection.area() / unionArea;
+}
+void FittingWorkpieceCoordinate::railMapRotated(cv::Mat& image, int angle) {
+    switch (angle% 360) {
+    case 90:
+        cv::rotate(image, image, cv::ROTATE_90_CLOCKWISE);
+        break;
+    case 180:
+        cv::rotate(image, image, cv::ROTATE_180);
+        break;
+    case 270:
+        cv::rotate(image, image, cv::ROTATE_90_COUNTERCLOCKWISE);
+        break;
+    case 0:
+        break;
+    default:
+        throw std::invalid_argument("Unsupported rotation angle. Use 0, 90, 180, or 270.");
+    }
 }

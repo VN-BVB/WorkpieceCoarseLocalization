@@ -39,7 +39,11 @@ void ScalableGraphicsView::wheelEvent(QWheelEvent *event)
 
     event->accept();  // 接受事件，防止其他处理
 }
-
+void ScalableGraphicsView::setOriginalImageInfo(int width, int height,int angle) {
+    originalImageWidth = width;
+    originalImageHeight = height;
+    rotationAngle = angle % 360;  // 保证在 0~359 范围内
+}
 void ScalableGraphicsView::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
@@ -51,12 +55,35 @@ void ScalableGraphicsView::mousePressEvent(QMouseEvent *event)
     QPointF scenePos = mapToScene(event->pos());  // 局部变为全局
 
     // 获取对应的像素坐标
-    int x = static_cast<int>(scenePos.x());
-    int y = static_cast<int>(scenePos.y());  // 浮点变为整数
+    int x_rotated = static_cast<int>(scenePos.x());
+    int y_rotated = static_cast<int>(scenePos.y());
+    int x_original = 0;
+    int y_original = 0;
+    switch (rotationAngle) {
+    case 0:
+        x_original = x_rotated;
+        y_original = y_rotated;
+        break;
+    case 90:
+        x_original = y_rotated;
+        y_original = originalImageWidth - x_rotated - 1;
+        break;
+    case 180:
+        x_original = originalImageWidth - x_rotated - 1;
+        y_original = originalImageHeight - y_rotated - 1;
+        break;
+    case 270:
+        x_original = originalImageHeight - y_rotated - 1;
+        y_original = x_rotated;
+        break;
+    default:
+        // 非法角度处理，可选择输出错误信息
+        x_original = x_rotated;
+        y_original = y_rotated;
+        break;
+    }
 
-    // 打印像素坐标
-    //qDebug() << "Clicked on image at pixel coordinates: (" << x << ", " << y << ")";
-    emit senderSignalPixelCoordinates(x,y);
+    emit senderSignalPixelCoordinates(x_original,y_original);
 
     // 如果需要，调用父类的事件处理
     QGraphicsView::mousePressEvent(event);
@@ -88,3 +115,4 @@ void ScalableGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 
     QGraphicsView::mouseReleaseEvent(event);  // 调用父类的事件处理
 }
+

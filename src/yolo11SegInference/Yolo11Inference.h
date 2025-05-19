@@ -10,7 +10,7 @@
 #include <QObject>
 #include "src/yolo11SegNormal/yolo11-seg.h"
 #include "src/yolov11WeldSeamArea/yolov11-rect.h"
-
+#include "maskImageProcessConfig.hpp"
 const std::vector<std::string> CLASS_NAMES = {"back_corner", "front_corner", "back_beam", "front_beam", "other_type"};
 const std::vector<std::vector<unsigned int>> COLORS = {
     {0,   128, 255},
@@ -102,11 +102,6 @@ public:
     float iou_thres = 0.45f;    // 交并比
     double inferTime;      // 推理用时
     int imgNum;
-    // 定义扩展后的画布大小(粗定位焊缝推理)
-    int expandedWidth = 1024;
-    int expandedHeight = 1024;
-    int AdjustWorkpieceResolution = 1;//调整工件掩膜分辨率倍数
-    int rotationAngle =90;//90 180 270 //旋转工件提高召回率
     std::vector<det::Object> objs_det;
     std::vector<cv::Point3d> maskWorldCenters;
 

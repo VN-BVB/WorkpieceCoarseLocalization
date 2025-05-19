@@ -1,13 +1,14 @@
 ﻿#ifndef FITTINGWORKPIECECOORDINATE_H
 #define FITTINGWORKPIECECOORDINATE_H
 #include <vector>
-#include "src/yolo11SegNormal/yolo11-seg.h"
 #include <QObject>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <algorithm>
-#include <src/camera_and_laser_plane_calibration/CalibratateCamera.h>
+#include "maskImageProcessConfig.hpp"
+#include "src/yolo11SegNormal/yolo11-seg.h"
+#include "src/camera_and_laser_plane_calibration/CalibratateCamera.h"
 // #pragma execution_character_set("utf-8")
 extern std::string inferencePath ;//推理路径
 extern std::vector<cv::Mat> cvImagesInferring;
@@ -74,15 +75,11 @@ private:
     cv::Mat distCoeffs;
     std::vector<double> plane;
     cv::Mat extrinsicMatrix;
-    const int pixelRow = 5000;  // 画布高度
-    const int pixelCol =1800; // 画布宽度
+
     cv::Mat railMap;//长画布
     // cv::Mat canvasMat = (cv::Mat_<double>(3, 3) <<  1, 0, pixelCol / 2,
     //                      0, -1, pixelRow / 2,
     //                      0, 0, 1); //画布坐标系偏移
-    cv::Mat canvasMat = (cv::Mat_<double>(3, 3) <<  1, 0, pixelCol-100,
-                         0, -1, 500,
-                         0, 0, 1); //画布坐标系偏移
     std::vector<std::vector<ObjectInfo>> categorizedObjects; // 存储分类结果
     std::vector<cv::Point3d> categoryWorldCenters; //存储人工筛选前世界坐标下的中心点
     std::vector<cv::Point3d> categoryWorldLeftTopCenters; //存储人工筛选前世界坐标下的左上角点
@@ -95,6 +92,7 @@ private:
     std::vector<cv::Mat>worldMaskImages; //存储世界坐标系下的工作掩膜图像
     std::vector<std::pair<cv::Rect, int>> workpieceROIs; // 存储每个roi和它对应的类别索引
     float computeIoU(const cv::Rect_<float> &rect1, const cv::Rect_<float> &rect2);
+    void railMapRotated(cv::Mat &image,  int angle);
 signals:
     /**
      * @brief 日志信号

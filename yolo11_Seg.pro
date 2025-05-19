@@ -37,6 +37,7 @@ SOURCES += \
 
 HEADERS += \
     WorkpieceCoarseLocalization.h \
+    maskImageProcessConfig.hpp \
     src/Aubo/include/aubo_control.h \
     src/Aubo/include/aubo_example.h \
     src/Aubo/include/aubo_myMove.h \

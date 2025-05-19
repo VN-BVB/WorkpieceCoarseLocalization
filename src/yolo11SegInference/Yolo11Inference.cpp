@@ -213,7 +213,7 @@ void Yolo11RectInference::whenRecieveWpMaskInWorld(std::vector<cv::Point3d> worl
         // 将原图粘贴到画布的中心
         resizedImage.copyTo(canvas(cv::Rect(xOffset, yOffset, imageWidth, imageHeight)));
         // 顺时针旋转90°
-        switch (rotationAngle) {
+        switch (rectRotationAngle) {
         case 0: // 不旋转
             break;
         case 90:
@@ -226,7 +226,7 @@ void Yolo11RectInference::whenRecieveWpMaskInWorld(std::vector<cv::Point3d> worl
             cv::rotate(canvas, canvas, cv::ROTATE_90_COUNTERCLOCKWISE);
             break;
         default:
-            std::cerr << "Unsupported rotation angle: " << rotationAngle << ". Must be 0, 90, 180 or 270." << std::endl;
+            std::cerr << "Unsupported rotation angle: " << rectRotationAngle << ". Must be 0, 90, 180 or 270." << std::endl;
             break;
         }
         // 保存合成后的图像
@@ -306,7 +306,7 @@ void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<c
             double origX = 0.0, origY = 0.0;
             double w = 0.0, h = 0.0;
 
-            switch (rotationAngle) {
+            switch (rectRotationAngle) {
             case 0:
                 origX = cx;
                 origY = cy;
@@ -332,7 +332,7 @@ void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<c
                 h = rect.width;
                 break;
             default:
-                std::cerr << "Unsupported rotation angle: " << rotationAngle << std::endl;
+                std::cerr << "Unsupported rotation angle: " << rectRotationAngle << std::endl;
                 continue;
             }
 

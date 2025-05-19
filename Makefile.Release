@@ -117,6 +117,7 @@ OBJECTS       = release\WorkpieceCoarseLocalization.obj \
 		release\moc_Yolo11Inference.obj
 
 DIST          =  WorkpieceCoarseLocalization.h \
+		maskImageProcessConfig.hpp \
 		src\Aubo\include\aubo_control.h \
 		src\Aubo\include\aubo_example.h \
 		src\Aubo\include\aubo_myMove.h \
@@ -447,7 +448,7 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist:
-	$(ZIP) yolo11_Seg.zip $(SOURCES) $(DIST) yolo11_Seg.pro ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\spec_pre.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\common\angle.conf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\common\windows-desktop.conf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\win32\windows_vulkan_sdk.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\common\windows-vulkan.conf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\common\msvc-desktop.conf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\qconfig.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3danimation.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3danimation_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dcore.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dcore_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dextras.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dextras_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dinput.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dinput_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dlogic.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dlogic_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquick.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquick_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickanimation.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickanimation_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickextras.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickextras_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickinput.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickinput_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickrender.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickrender_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickscene2d.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickscene2d_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3drender.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3drender_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_accessibility_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_axbase.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_axbase_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_axcontainer.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_axcontainer_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_axserver.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_axserver_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_bluetooth.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_bluetooth_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_bodymovin_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_bootstrap_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_charts.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_charts_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_concurrent.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_core.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_core_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_datavisualization.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_datavisualization_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_dbus.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_dbus_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_designer.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_designer_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_edid_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_egl_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_fb_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_fontdatabase_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_gamepad.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_gamepad_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_gui.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_gui_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_help.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_help_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_location.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_location_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_multimedia.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_multimedia_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_multimediawidgets.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_network.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_network_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_networkauth.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_networkauth_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_nfc.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_nfc_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_opengl.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_opengl_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_openglextensions.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_openglextensions_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_packetprotocol_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_platformcompositor_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_positioning.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_positioning_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_positioningquick.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_positioningquick_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_printsupport.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_purchasing.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_purchasing_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qml.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qml_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmldebug_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmlmodels.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmlmodels_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmltest.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmlworkerscript.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmlworkerscript_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3d.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3d_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3dassetimport.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3dassetimport_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3drender.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3drender_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3druntimerender.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3druntimerender_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3dutils.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3dutils_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quickcontrols2.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quickshapes_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quicktemplates2.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quickwidgets.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quickwidgets_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_remoteobjects.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_remoteobjects_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_repparser.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_repparser_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_script.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_script_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_scripttools.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_scripttools_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_scxml.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_scxml_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_sensors.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_sensors_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_serialbus.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_serialbus_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_serialport.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_serialport_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_sql.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_sql_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_svg.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_svg_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_testlib.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_testlib_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_texttospeech.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_texttospeech_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_theme_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_uiplugin.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_uitools.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_uitools_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_virtualkeyboard.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_virtualkeyboard_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_vulkan_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webchannel.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webchannel_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webengine.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webengine_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webenginecore.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webenginecore_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webenginecoreheaders_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webenginewidgets.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webenginewidgets_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_websockets.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_websockets_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webview.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webview_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_widgets.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_widgets_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_windowsuiautomation_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_winextras.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_winextras_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_xml.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_xml_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_xmlpatterns.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_zlib_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qt_functions.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qt_config.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\win32-msvc\qmake.conf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\spec_post.prf .qmake.stash ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\exclusive_builds.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\common\msvc-version.conf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\toolchain.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\default_pre.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\win32\default_pre.prf ..\..\qt\PCL1.9.1\pcl191.pri 3rdparty\3rdpartyLi.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\resolve_config.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\exclusive_builds_post.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\default_post.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\build_pass.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\resources_functions.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qtquickcompiler.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\precompile_header.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\warn_on.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qt.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\resources.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\moc.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\win32\opengl.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\uic.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qmake_use.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\file_copies.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\win32\windows.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\testcase_targets.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\exceptions.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\yacc.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\lex.prf yolo11_Seg.pro ..\..\qt5.14.2\5.14.2\msvc2017_64\lib\Qt5Widgets.prl ..\..\qt5.14.2\5.14.2\msvc2017_64\lib\Qt5Gui.prl ..\..\qt5.14.2\5.14.2\msvc2017_64\lib\Qt5Core.prl ..\..\qt5.14.2\5.14.2\msvc2017_64\lib\qtmain.prl      ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\data\dummy.cpp WorkpieceCoarseLocalization.h src\Aubo\include\aubo_control.h src\Aubo\include\aubo_example.h src\Aubo\include\aubo_myMove.h src\Aubo\include\stdafx.h src\Aubo\robot_control.h src\Calibrate_HandToEye\include\Camera_Calibration.h src\Calibrate_HandToEye\include\calibration.h src\Calibrate_HandToEye\include\handEyeCalibration.h src\Calibrate_HandToEye\include\others.h src\Calibrate_HandToEye\Calibrate_handeye.h src\camera_and_laser_plane_calibration\CalibratateCamera.h src\camera_and_laser_plane_calibration\CameraAndLaserPlaneCalibration.h src\camera_and_laser_plane_calibration\LibDetect.h src\camera_and_laser_plane_calibration\MyMatrix.h src\camera_control\basler\BaslerControl.h src\fittingWorkpieceCoordinate\Fittingworkpiececoordinate.h src\utils\image_widget\QImageWidget.h src\utils\image_widget\ScalableGraphicsView.h src\yolo11SegInference\Yolo11Inference.h src\yolo11SegNormal\yolo11-seg.h src\yolo11SegNormal\common.hpp src\yolov11WeldSeamArea\yolov11-rect.h test.h  WorkpieceCoarseLocalization.cpp main.cpp src\Aubo\robot_contorl.cpp src\Aubo\src\aubo_contorl.cpp src\Aubo\src\aubo_example.cpp src\Aubo\src\aubo_myMove.cpp src\Aubo\src\stdafx.cpp src\Calibrate_HandToEye\Calibrate_handeye.cpp src\Calibrate_HandToEye\src\calibration.cpp src\Calibrate_HandToEye\src\handEyeCalibration.cpp src\Calibrate_HandToEye\src\others.cpp src\camera_and_laser_plane_calibration\CalibratateCamera.cpp src\camera_and_laser_plane_calibration\CameraAndLaserPlaneCalibration.cpp src\camera_and_laser_plane_calibration\LibDetect.cpp src\camera_control\basler\BaslerControl.cpp src\fittingWorkpieceCoordinate\Fittingworkpiececoordinate.cpp src\utils\image_widget\QImageWidget.cpp src\utils\image_widget\ScalableGraphicsView.cpp src\yolo11SegInference\Yolo11Inference.cpp src\yolo11SegNormal\yolo11-seg.cpp src\yolov11WeldSeamArea\yolov11-rect.cpp test.cpp WorkpieceCoarseLocalization.ui    
+	$(ZIP) yolo11_Seg.zip $(SOURCES) $(DIST) yolo11_Seg.pro ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\spec_pre.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\common\angle.conf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\common\windows-desktop.conf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\win32\windows_vulkan_sdk.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\common\windows-vulkan.conf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\common\msvc-desktop.conf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\qconfig.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3danimation.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3danimation_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dcore.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dcore_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dextras.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dextras_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dinput.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dinput_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dlogic.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dlogic_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquick.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquick_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickanimation.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickanimation_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickextras.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickextras_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickinput.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickinput_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickrender.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickrender_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickscene2d.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3dquickscene2d_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3drender.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_3drender_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_accessibility_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_axbase.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_axbase_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_axcontainer.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_axcontainer_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_axserver.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_axserver_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_bluetooth.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_bluetooth_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_bodymovin_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_bootstrap_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_charts.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_charts_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_concurrent.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_core.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_core_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_datavisualization.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_datavisualization_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_dbus.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_dbus_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_designer.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_designer_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_edid_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_egl_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_fb_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_fontdatabase_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_gamepad.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_gamepad_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_gui.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_gui_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_help.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_help_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_location.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_location_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_multimedia.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_multimedia_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_multimediawidgets.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_network.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_network_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_networkauth.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_networkauth_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_nfc.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_nfc_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_opengl.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_opengl_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_openglextensions.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_openglextensions_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_packetprotocol_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_platformcompositor_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_positioning.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_positioning_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_positioningquick.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_positioningquick_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_printsupport.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_purchasing.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_purchasing_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qml.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qml_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmldebug_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmlmodels.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmlmodels_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmltest.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmlworkerscript.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qmlworkerscript_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3d.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3d_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3dassetimport.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3dassetimport_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3drender.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3drender_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3druntimerender.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3druntimerender_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3dutils.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick3dutils_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quick_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quickcontrols2.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quickshapes_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quicktemplates2.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quickwidgets.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_quickwidgets_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_remoteobjects.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_remoteobjects_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_repparser.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_repparser_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_script.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_script_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_scripttools.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_scripttools_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_scxml.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_scxml_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_sensors.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_sensors_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_serialbus.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_serialbus_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_serialport.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_serialport_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_sql.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_sql_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_svg.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_svg_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_testlib.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_testlib_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_texttospeech.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_texttospeech_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_theme_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_uiplugin.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_uitools.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_uitools_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_virtualkeyboard.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_virtualkeyboard_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_vulkan_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webchannel.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webchannel_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webengine.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webengine_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webenginecore.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webenginecore_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webenginecoreheaders_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webenginewidgets.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webenginewidgets_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_websockets.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_websockets_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webview.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_webview_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_widgets.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_widgets_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_windowsuiautomation_support_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_winextras.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_winextras_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_xml.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_xml_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_xmlpatterns.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\modules\qt_lib_zlib_private.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qt_functions.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qt_config.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\win32-msvc\qmake.conf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\spec_post.prf .qmake.stash ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\exclusive_builds.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\common\msvc-version.conf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\toolchain.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\default_pre.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\win32\default_pre.prf ..\..\qt\PCL1.9.1\pcl191.pri 3rdparty\3rdpartyLi.pri ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\resolve_config.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\exclusive_builds_post.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\default_post.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\build_pass.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\resources_functions.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qtquickcompiler.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\precompile_header.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\warn_on.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qt.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\resources.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\moc.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\win32\opengl.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\uic.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qmake_use.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\file_copies.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\win32\windows.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\testcase_targets.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\exceptions.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\yacc.prf ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\lex.prf yolo11_Seg.pro ..\..\qt5.14.2\5.14.2\msvc2017_64\lib\Qt5Widgets.prl ..\..\qt5.14.2\5.14.2\msvc2017_64\lib\Qt5Gui.prl ..\..\qt5.14.2\5.14.2\msvc2017_64\lib\Qt5Core.prl ..\..\qt5.14.2\5.14.2\msvc2017_64\lib\qtmain.prl      ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\data\dummy.cpp WorkpieceCoarseLocalization.h maskImageProcessConfig.hpp src\Aubo\include\aubo_control.h src\Aubo\include\aubo_example.h src\Aubo\include\aubo_myMove.h src\Aubo\include\stdafx.h src\Aubo\robot_control.h src\Calibrate_HandToEye\include\Camera_Calibration.h src\Calibrate_HandToEye\include\calibration.h src\Calibrate_HandToEye\include\handEyeCalibration.h src\Calibrate_HandToEye\include\others.h src\Calibrate_HandToEye\Calibrate_handeye.h src\camera_and_laser_plane_calibration\CalibratateCamera.h src\camera_and_laser_plane_calibration\CameraAndLaserPlaneCalibration.h src\camera_and_laser_plane_calibration\LibDetect.h src\camera_and_laser_plane_calibration\MyMatrix.h src\camera_control\basler\BaslerControl.h src\fittingWorkpieceCoordinate\Fittingworkpiececoordinate.h src\utils\image_widget\QImageWidget.h src\utils\image_widget\ScalableGraphicsView.h src\yolo11SegInference\Yolo11Inference.h src\yolo11SegNormal\yolo11-seg.h src\yolo11SegNormal\common.hpp src\yolov11WeldSeamArea\yolov11-rect.h test.h  WorkpieceCoarseLocalization.cpp main.cpp src\Aubo\robot_contorl.cpp src\Aubo\src\aubo_contorl.cpp src\Aubo\src\aubo_example.cpp src\Aubo\src\aubo_myMove.cpp src\Aubo\src\stdafx.cpp src\Calibrate_HandToEye\Calibrate_handeye.cpp src\Calibrate_HandToEye\src\calibration.cpp src\Calibrate_HandToEye\src\handEyeCalibration.cpp src\Calibrate_HandToEye\src\others.cpp src\camera_and_laser_plane_calibration\CalibratateCamera.cpp src\camera_and_laser_plane_calibration\CameraAndLaserPlaneCalibration.cpp src\camera_and_laser_plane_calibration\LibDetect.cpp src\camera_control\basler\BaslerControl.cpp src\fittingWorkpieceCoordinate\Fittingworkpiececoordinate.cpp src\utils\image_widget\QImageWidget.cpp src\utils\image_widget\ScalableGraphicsView.cpp src\yolo11SegInference\Yolo11Inference.cpp src\yolo11SegNormal\yolo11-seg.cpp src\yolov11WeldSeamArea\yolov11-rect.cpp test.cpp WorkpieceCoarseLocalization.ui    
 
 clean: compiler_clean 
 	-$(DEL_FILE) release\WorkpieceCoarseLocalization.obj release\main.obj release\robot_contorl.obj release\aubo_contorl.obj release\aubo_example.obj release\aubo_myMove.obj release\stdafx.obj release\Calibrate_handeye.obj release\calibration.obj release\handEyeCalibration.obj release\others.obj release\CalibratateCamera.obj release\CameraAndLaserPlaneCalibration.obj release\LibDetect.obj release\BaslerControl.obj release\Fittingworkpiececoordinate.obj release\QImageWidget.obj release\ScalableGraphicsView.obj release\Yolo11Inference.obj release\yolo11-seg.obj release\yolov11-rect.obj release\test.obj release\moc_WorkpieceCoarseLocalization.obj release\moc_aubo_control.obj release\moc_robot_control.obj release\moc_Calibrate_handeye.obj release\moc_CalibratateCamera.obj release\moc_LibDetect.obj release\moc_BaslerControl.obj release\moc_Fittingworkpiececoordinate.obj release\moc_QImageWidget.obj release\moc_ScalableGraphicsView.obj release\moc_Yolo11Inference.obj
@@ -3116,6 +3117,7 @@ release\moc_WorkpieceCoarseLocalization.cpp: WorkpieceCoarseLocalization.h \
 		..\..\Basler\pylon7\Development\include\pylon\gige\_BaslerGigECameraParams.h \
 		src\yolo11SegInference\Yolo11Inference.h \
 		src\fittingWorkpieceCoordinate\FittingWorkpieceCoordinate.h \
+		maskImageProcessConfig.hpp \
 		src\yolo11SegNormal\yolo11-seg.h \
 		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
 		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
@@ -4785,6 +4787,7 @@ release\moc_Calibrate_handeye.cpp: src\Calibrate_HandToEye\Calibrate_handeye.h \
 		..\..\qt\vtkmsvc\include\vtk-8.2\vtkTuple.h \
 		..\..\qt\PCL1.9.1\include\pcl-1.9\pcl\visualization\impl\pcl_plotter.hpp \
 		src\fittingWorkpieceCoordinate\Fittingworkpiececoordinate.h \
+		maskImageProcessConfig.hpp \
 		src\yolo11SegNormal\yolo11-seg.h \
 		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
 		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
@@ -8777,27 +8780,7 @@ release\moc_BaslerControl.cpp: src\camera_control\basler\BaslerControl.h \
 		..\..\Basler\pylon7\Development\include\pylon\gige\_BaslerGigECameraParams.h \
 		src\yolo11SegInference\Yolo11Inference.h \
 		src\fittingWorkpieceCoordinate\FittingWorkpieceCoordinate.h \
-		src\yolo11SegNormal\yolo11-seg.h \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferLegacyDims.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeCommon.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeBase.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferVersion.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_runtime_api.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\crt\host_defines.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\builtin_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\device_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\driver_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\vector_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\surface_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\texture_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_device_runtime_api.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimePlugin.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntime.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferImpl.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPluginUtils.h" \
-		src\yolo11SegNormal\common.hpp \
+		maskImageProcessConfig.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\opencv.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\opencv_modules.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\core.hpp \
@@ -9004,6 +8987,27 @@ release\moc_BaslerControl.cpp: src\camera_control\basler\BaslerControl.h \
 		..\..\qt\opencv\opencv\build\include\opencv2\video.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\video\tracking.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\video\background_segm.hpp \
+		src\yolo11SegNormal\yolo11-seg.h \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferLegacyDims.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeCommon.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeBase.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferVersion.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_runtime_api.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\crt\host_defines.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\builtin_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\device_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\driver_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\vector_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\surface_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\texture_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_device_runtime_api.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimePlugin.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntime.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferImpl.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPluginUtils.h" \
+		src\yolo11SegNormal\common.hpp \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QDebug \
 		src\camera_and_laser_plane_calibration\CalibratateCamera.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QApplication \
@@ -11074,27 +11078,60 @@ release\moc_BaslerControl.cpp: src\camera_control\basler\BaslerControl.h \
 	D:\qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include D:/YOLO/yolo11_Seg_C++/release/moc_predefs.h @release/mocinclude.opt src\camera_control\basler\BaslerControl.h -o release\moc_BaslerControl.cpp
 
 release\moc_Fittingworkpiececoordinate.cpp: src\fittingWorkpieceCoordinate\Fittingworkpiececoordinate.h \
-		src\yolo11SegNormal\yolo11-seg.h \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferLegacyDims.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeCommon.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeBase.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferVersion.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_runtime_api.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\crt\host_defines.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\builtin_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\device_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\driver_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\vector_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\surface_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\texture_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_device_runtime_api.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimePlugin.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntime.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferImpl.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPluginUtils.h" \
-		src\yolo11SegNormal\common.hpp \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QObject \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnamespace.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobal.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtcore-config.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsystemdetection.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qprocessordetection.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcompilerdetection.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtypeinfo.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsysinfo.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlogging.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qflags.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbasicatomic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qgenericatomic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_cxx11.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_msvc.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobalstatic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmutex.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnumeric.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qversiontagging.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstring.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qchar.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearray.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qrefcount.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qarraydata.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringliteral.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringalgorithms.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringview.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringbuilder.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlist.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qalgorithms.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiterator.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhashfunctions.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpair.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvector.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainertools_impl.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpoint.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearraylist.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringlist.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qregexp.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringmatcher.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcoreevent.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qscopedpointer.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmetatype.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvarlengtharray.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainerfwd.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject_impl.h \
+		maskImageProcessConfig.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\opencv.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\opencv_modules.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\core.hpp \
@@ -11301,64 +11338,33 @@ release\moc_Fittingworkpiececoordinate.cpp: src\fittingWorkpieceCoordinate\Fitti
 		..\..\qt\opencv\opencv\build\include\opencv2\video.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\video\tracking.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\video\background_segm.hpp \
+		src\yolo11SegNormal\yolo11-seg.h \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferLegacyDims.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeCommon.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeBase.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferVersion.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_runtime_api.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\crt\host_defines.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\builtin_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\device_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\driver_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\vector_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\surface_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\texture_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_device_runtime_api.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimePlugin.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntime.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferImpl.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPluginUtils.h" \
+		src\yolo11SegNormal\common.hpp \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QDebug \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qdebug.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qalgorithms.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobal.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtcore-config.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsystemdetection.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qprocessordetection.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcompilerdetection.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtypeinfo.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsysinfo.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlogging.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qflags.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbasicatomic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qgenericatomic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_cxx11.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_msvc.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobalstatic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmutex.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnumeric.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qversiontagging.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhash.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qchar.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiterator.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlist.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qrefcount.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qarraydata.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhashfunctions.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstring.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearray.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnamespace.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringliteral.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringalgorithms.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringview.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringbuilder.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpair.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvector.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainertools_impl.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpoint.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearraylist.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringlist.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qregexp.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringmatcher.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmap.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtextstream.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiodevice.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcoreevent.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qscopedpointer.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmetatype.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvarlengtharray.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainerfwd.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject_impl.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlocale.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvariant.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qshareddata.h \
@@ -11366,7 +11372,6 @@ release\moc_Fittingworkpiececoordinate.cpp: src\fittingWorkpieceCoordinate\Fitti
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontiguouscache.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsharedpointer.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsharedpointer_impl.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QObject \
 		src\camera_and_laser_plane_calibration\CalibratateCamera.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QApplication \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qapplication.h \
@@ -13979,27 +13984,60 @@ release\moc_Yolo11Inference.cpp: src\yolo11SegInference\Yolo11Inference.h \
 		3rdparty\plog\include\plog\Formatters\CsvFormatter.h \
 		3rdparty\plog\include\plog\Log.h \
 		src\fittingWorkpieceCoordinate\FittingWorkpieceCoordinate.h \
-		src\yolo11SegNormal\yolo11-seg.h \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferLegacyDims.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeCommon.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeBase.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferVersion.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_runtime_api.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\crt\host_defines.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\builtin_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\device_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\driver_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\vector_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\surface_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\texture_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_device_runtime_api.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimePlugin.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntime.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferImpl.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPluginUtils.h" \
-		src\yolo11SegNormal\common.hpp \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QObject \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnamespace.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobal.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtcore-config.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsystemdetection.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qprocessordetection.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcompilerdetection.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtypeinfo.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsysinfo.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlogging.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qflags.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbasicatomic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qgenericatomic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_cxx11.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_msvc.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobalstatic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmutex.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnumeric.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qversiontagging.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstring.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qchar.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearray.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qrefcount.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qarraydata.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringliteral.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringalgorithms.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringview.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringbuilder.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlist.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qalgorithms.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiterator.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhashfunctions.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpair.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvector.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainertools_impl.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpoint.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearraylist.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringlist.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qregexp.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringmatcher.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcoreevent.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qscopedpointer.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmetatype.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvarlengtharray.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainerfwd.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject_impl.h \
+		maskImageProcessConfig.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\opencv.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\opencv_modules.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\core.hpp \
@@ -14206,64 +14244,33 @@ release\moc_Yolo11Inference.cpp: src\yolo11SegInference\Yolo11Inference.h \
 		..\..\qt\opencv\opencv\build\include\opencv2\video.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\video\tracking.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\video\background_segm.hpp \
+		src\yolo11SegNormal\yolo11-seg.h \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferLegacyDims.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeCommon.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeBase.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferVersion.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_runtime_api.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\crt\host_defines.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\builtin_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\device_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\driver_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\vector_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\surface_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\texture_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_device_runtime_api.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimePlugin.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntime.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferImpl.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPluginUtils.h" \
+		src\yolo11SegNormal\common.hpp \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QDebug \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qdebug.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qalgorithms.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobal.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtcore-config.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsystemdetection.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qprocessordetection.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcompilerdetection.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtypeinfo.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsysinfo.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlogging.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qflags.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbasicatomic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qgenericatomic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_cxx11.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_msvc.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobalstatic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmutex.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnumeric.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qversiontagging.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhash.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qchar.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiterator.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlist.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qrefcount.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qarraydata.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhashfunctions.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstring.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearray.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnamespace.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringliteral.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringalgorithms.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringview.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringbuilder.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpair.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvector.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainertools_impl.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpoint.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearraylist.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringlist.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qregexp.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringmatcher.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmap.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtextstream.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiodevice.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcoreevent.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qscopedpointer.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmetatype.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvarlengtharray.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainerfwd.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject_impl.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlocale.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvariant.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qshareddata.h \
@@ -14271,7 +14278,6 @@ release\moc_Yolo11Inference.cpp: src\yolo11SegInference\Yolo11Inference.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontiguouscache.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsharedpointer.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsharedpointer_impl.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QObject \
 		src\camera_and_laser_plane_calibration\CalibratateCamera.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QApplication \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qapplication.h \
@@ -19516,6 +19522,7 @@ release\WorkpieceCoarseLocalization.obj: WorkpieceCoarseLocalization.cpp Workpie
 		..\..\Basler\pylon7\Development\include\pylon\gige\_BaslerGigECameraParams.h \
 		src\yolo11SegInference\Yolo11Inference.h \
 		src\fittingWorkpieceCoordinate\FittingWorkpieceCoordinate.h \
+		maskImageProcessConfig.hpp \
 		src\yolo11SegNormal\yolo11-seg.h \
 		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
 		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
@@ -19592,7 +19599,56 @@ release\WorkpieceCoarseLocalization.obj: WorkpieceCoarseLocalization.cpp Workpie
 		3rdparty\auboi5\inc\AuboRobotMetaType.h \
 		src\Aubo\include\aubo_example.h \
 		src\Aubo\include\aubo_myMove.h \
-		ui_WorkpieceCoarseLocalization.h
+		ui_WorkpieceCoarseLocalization.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QVariant \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QComboBox \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qcombobox.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qabstractitemdelegate.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qstyleoption.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qabstractspinbox.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qvalidator.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qregularexpression.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qslider.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qstyle.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qtabbar.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qrubberband.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qabstractitemmodel.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QGridLayout \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qgridlayout.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qlayout.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qlayoutitem.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qboxlayout.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QPushButton \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qpushbutton.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qabstractbutton.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QTabWidget \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QTextBrowser \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qtextbrowser.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qtextedit.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtextdocument.h \
+		src\utils\image_widget\QImageWidget.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QMutexLocker \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\QOpenGLFunctions \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qopenglfunctions.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qopengl.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qt_windows.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtANGLE\GLES3\gl3.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtANGLE\GLES3\gl3platform.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtANGLE\KHR\khrplatform.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtANGLE\GLES2\gl2.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtANGLE\GLES2\gl2platform.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qopengles2ext.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qopenglext.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qopenglcontext.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QScopedPointer \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\QSurfaceFormat \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qsurfaceformat.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qopenglversionfunctions.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QOpenGLWidget \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qopenglwidget.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\QPainter \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\QPixmap \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtGui\QRgb
 
 release\main.obj: main.cpp WorkpieceCoarseLocalization.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QMainWindow \
@@ -22227,6 +22283,7 @@ release\main.obj: main.cpp WorkpieceCoarseLocalization.h \
 		..\..\Basler\pylon7\Development\include\pylon\gige\_BaslerGigECameraParams.h \
 		src\yolo11SegInference\Yolo11Inference.h \
 		src\fittingWorkpieceCoordinate\FittingWorkpieceCoordinate.h \
+		maskImageProcessConfig.hpp \
 		src\yolo11SegNormal\yolo11-seg.h \
 		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
 		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
@@ -23899,6 +23956,7 @@ release\Calibrate_handeye.obj: src\Calibrate_HandToEye\Calibrate_handeye.cpp src
 		..\..\qt\vtkmsvc\include\vtk-8.2\vtkTuple.h \
 		..\..\qt\PCL1.9.1\include\pcl-1.9\pcl\visualization\impl\pcl_plotter.hpp \
 		src\fittingWorkpieceCoordinate\Fittingworkpiececoordinate.h \
+		maskImageProcessConfig.hpp \
 		src\yolo11SegNormal\yolo11-seg.h \
 		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
 		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
@@ -31454,27 +31512,7 @@ release\BaslerControl.obj: src\camera_control\basler\BaslerControl.cpp ..\..\qt5
 		..\..\Basler\pylon7\Development\include\pylon\gige\_BaslerGigECameraParams.h \
 		src\yolo11SegInference\Yolo11Inference.h \
 		src\fittingWorkpieceCoordinate\FittingWorkpieceCoordinate.h \
-		src\yolo11SegNormal\yolo11-seg.h \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferLegacyDims.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeCommon.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeBase.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferVersion.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_runtime_api.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\crt\host_defines.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\builtin_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\device_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\driver_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\vector_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\surface_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\texture_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_device_runtime_api.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimePlugin.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntime.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferImpl.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPluginUtils.h" \
-		src\yolo11SegNormal\common.hpp \
+		maskImageProcessConfig.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\opencv.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\opencv_modules.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\core.hpp \
@@ -31681,6 +31719,27 @@ release\BaslerControl.obj: src\camera_control\basler\BaslerControl.cpp ..\..\qt5
 		..\..\qt\opencv\opencv\build\include\opencv2\video.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\video\tracking.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\video\background_segm.hpp \
+		src\yolo11SegNormal\yolo11-seg.h \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferLegacyDims.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeCommon.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeBase.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferVersion.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_runtime_api.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\crt\host_defines.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\builtin_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\device_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\driver_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\vector_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\surface_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\texture_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_device_runtime_api.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimePlugin.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntime.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferImpl.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPluginUtils.h" \
+		src\yolo11SegNormal\common.hpp \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QDebug \
 		src\camera_and_laser_plane_calibration\CalibratateCamera.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QApplication \
@@ -33747,27 +33806,60 @@ release\BaslerControl.obj: src\camera_control\basler\BaslerControl.cpp ..\..\qt5
 		src\utils\StateLight.h
 
 release\Fittingworkpiececoordinate.obj: src\fittingWorkpieceCoordinate\Fittingworkpiececoordinate.cpp src\fittingWorkpieceCoordinate\FittingWorkpieceCoordinate.h \
-		src\yolo11SegNormal\yolo11-seg.h \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferLegacyDims.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeCommon.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeBase.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferVersion.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_runtime_api.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\crt\host_defines.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\builtin_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\device_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\driver_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\vector_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\surface_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\texture_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_device_runtime_api.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimePlugin.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntime.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferImpl.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPluginUtils.h" \
-		src\yolo11SegNormal\common.hpp \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QObject \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnamespace.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobal.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtcore-config.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsystemdetection.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qprocessordetection.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcompilerdetection.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtypeinfo.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsysinfo.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlogging.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qflags.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbasicatomic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qgenericatomic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_cxx11.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_msvc.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobalstatic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmutex.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnumeric.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qversiontagging.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstring.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qchar.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearray.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qrefcount.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qarraydata.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringliteral.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringalgorithms.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringview.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringbuilder.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlist.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qalgorithms.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiterator.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhashfunctions.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpair.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvector.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainertools_impl.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpoint.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearraylist.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringlist.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qregexp.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringmatcher.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcoreevent.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qscopedpointer.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmetatype.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvarlengtharray.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainerfwd.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject_impl.h \
+		maskImageProcessConfig.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\opencv.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\opencv_modules.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\core.hpp \
@@ -33974,64 +34066,33 @@ release\Fittingworkpiececoordinate.obj: src\fittingWorkpieceCoordinate\Fittingwo
 		..\..\qt\opencv\opencv\build\include\opencv2\video.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\video\tracking.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\video\background_segm.hpp \
+		src\yolo11SegNormal\yolo11-seg.h \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferLegacyDims.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeCommon.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeBase.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferVersion.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_runtime_api.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\crt\host_defines.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\builtin_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\device_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\driver_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\vector_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\surface_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\texture_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_device_runtime_api.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimePlugin.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntime.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferImpl.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPluginUtils.h" \
+		src\yolo11SegNormal\common.hpp \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QDebug \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qdebug.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qalgorithms.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobal.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtcore-config.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsystemdetection.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qprocessordetection.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcompilerdetection.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtypeinfo.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsysinfo.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlogging.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qflags.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbasicatomic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qgenericatomic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_cxx11.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_msvc.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobalstatic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmutex.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnumeric.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qversiontagging.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhash.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qchar.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiterator.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlist.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qrefcount.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qarraydata.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhashfunctions.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstring.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearray.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnamespace.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringliteral.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringalgorithms.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringview.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringbuilder.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpair.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvector.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainertools_impl.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpoint.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearraylist.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringlist.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qregexp.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringmatcher.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmap.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtextstream.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiodevice.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcoreevent.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qscopedpointer.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmetatype.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvarlengtharray.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainerfwd.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject_impl.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlocale.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvariant.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qshareddata.h \
@@ -34039,7 +34100,6 @@ release\Fittingworkpiececoordinate.obj: src\fittingWorkpieceCoordinate\Fittingwo
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontiguouscache.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsharedpointer.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsharedpointer_impl.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QObject \
 		src\camera_and_laser_plane_calibration\CalibratateCamera.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QApplication \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qapplication.h \
@@ -36641,27 +36701,60 @@ release\Yolo11Inference.obj: src\yolo11SegInference\Yolo11Inference.cpp src\yolo
 		3rdparty\plog\include\plog\Formatters\CsvFormatter.h \
 		3rdparty\plog\include\plog\Log.h \
 		src\fittingWorkpieceCoordinate\FittingWorkpieceCoordinate.h \
-		src\yolo11SegNormal\yolo11-seg.h \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferLegacyDims.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeCommon.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeBase.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferVersion.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_runtime_api.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\crt\host_defines.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\builtin_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\device_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\driver_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\vector_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\surface_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\texture_types.h" \
-		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_device_runtime_api.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimePlugin.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntime.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferImpl.h" \
-		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPluginUtils.h" \
-		src\yolo11SegNormal\common.hpp \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QObject \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnamespace.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobal.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtcore-config.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsystemdetection.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qprocessordetection.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcompilerdetection.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtypeinfo.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsysinfo.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlogging.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qflags.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbasicatomic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qgenericatomic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_cxx11.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_msvc.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobalstatic.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmutex.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnumeric.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qversiontagging.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstring.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qchar.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearray.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qrefcount.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qarraydata.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringliteral.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringalgorithms.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringview.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringbuilder.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlist.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qalgorithms.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiterator.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhashfunctions.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpair.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvector.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainertools_impl.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpoint.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearraylist.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringlist.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qregexp.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringmatcher.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcoreevent.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qscopedpointer.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmetatype.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvarlengtharray.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainerfwd.h \
+		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject_impl.h \
+		maskImageProcessConfig.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\opencv.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\opencv_modules.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\core.hpp \
@@ -36868,64 +36961,33 @@ release\Yolo11Inference.obj: src\yolo11SegInference\Yolo11Inference.cpp src\yolo
 		..\..\qt\opencv\opencv\build\include\opencv2\video.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\video\tracking.hpp \
 		..\..\qt\opencv\opencv\build\include\opencv2\video\background_segm.hpp \
+		src\yolo11SegNormal\yolo11-seg.h \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferLegacyDims.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeCommon.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimeBase.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferVersion.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_runtime_api.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\crt\host_defines.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\builtin_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\device_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\driver_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\vector_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\surface_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\texture_types.h" \
+		"..\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include\cuda_device_runtime_api.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntimePlugin.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferRuntime.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferImpl.h" \
+		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPluginUtils.h" \
+		src\yolo11SegNormal\common.hpp \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QDebug \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qdebug.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qalgorithms.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobal.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtcore-config.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsystemdetection.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qprocessordetection.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcompilerdetection.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtypeinfo.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsysinfo.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlogging.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qflags.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbasicatomic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qgenericatomic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_cxx11.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_msvc.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobalstatic.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmutex.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnumeric.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qversiontagging.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhash.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qchar.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiterator.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlist.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qrefcount.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qarraydata.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhashfunctions.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstring.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearray.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnamespace.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringliteral.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringalgorithms.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringview.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringbuilder.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpair.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvector.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainertools_impl.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpoint.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearraylist.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringlist.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qregexp.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringmatcher.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmap.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtextstream.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiodevice.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcoreevent.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qscopedpointer.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmetatype.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvarlengtharray.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainerfwd.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject_impl.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlocale.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvariant.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qshareddata.h \
@@ -36933,7 +36995,6 @@ release\Yolo11Inference.obj: src\yolo11SegInference\Yolo11Inference.cpp src\yolo
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontiguouscache.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsharedpointer.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsharedpointer_impl.h \
-		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QObject \
 		src\camera_and_laser_plane_calibration\CalibratateCamera.h \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QApplication \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qapplication.h \
@@ -42287,6 +42348,7 @@ release\test.obj: test.cpp test.h \
 		..\..\Basler\pylon7\Development\include\pylon\gige\_BaslerGigECameraParams.h \
 		src\yolo11SegInference\Yolo11Inference.h \
 		src\fittingWorkpieceCoordinate\FittingWorkpieceCoordinate.h \
+		maskImageProcessConfig.hpp \
 		src\yolo11SegNormal\yolo11-seg.h \
 		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInferPlugin.h" \
 		"..\NVIDIA GPU Computing Toolkit\TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8\TensorRT-8.6.1.6\include\NvInfer.h" \

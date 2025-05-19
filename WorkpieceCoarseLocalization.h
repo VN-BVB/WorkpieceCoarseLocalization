@@ -15,7 +15,7 @@
 #pragma execution_character_set("utf-8")
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class WorkpieceCoarseLocalization;
+class MainWindow;
 }
 QT_END_NAMESPACE
 extern std::string inferencePath ;//推理路径
@@ -34,7 +34,7 @@ public:
     ~WorkpieceCoarseLocalization();
 
 private:
-    Ui::WorkpieceCoarseLocalization *ui;
+    Ui::MainWindow *ui;
 
     //世界坐标系下工件信息
 

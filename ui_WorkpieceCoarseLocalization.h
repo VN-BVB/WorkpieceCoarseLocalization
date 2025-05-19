@@ -1,4 +1,4 @@
-﻿/********************************************************************************
+/********************************************************************************
 ** Form generated from reading UI file 'WorkpieceCoarseLocalization.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.14.2
@@ -296,37 +296,37 @@ public:
 
     void retranslateUi(QWidget *WorkpieceCoarseLocalization)
     {
-        WorkpieceCoarseLocalization->setWindowTitle(QCoreApplication::translate("WorkpieceCoarseLocalization", "WorkpieceCoarseLocalization", nullptr));
-        btnRobotDisConnect->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\346\226\255\345\274\200\346\234\272\345\231\250\344\272\272", nullptr));
-        comboSaveImage->setItemText(0, QCoreApplication::translate("WorkpieceCoarseLocalization", "\347\233\270\346\234\272\346\211\213\347\234\274\346\240\207\345\256\232", nullptr));
-        comboSaveImage->setItemText(1, QCoreApplication::translate("WorkpieceCoarseLocalization", "\345\271\263\351\235\242\346\213\237\345\220\210", nullptr));
-        comboSaveImage->setItemText(2, QCoreApplication::translate("WorkpieceCoarseLocalization", "\345\234\260\350\275\250\346\240\207\345\256\232", nullptr));
-        comboSaveImage->setItemText(3, QCoreApplication::translate("WorkpieceCoarseLocalization", "\344\277\235\345\255\230\345\233\276\345\203\217", nullptr));
+        WorkpieceCoarseLocalization->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        btnRobotDisConnect->setText(QCoreApplication::translate("MainWindow", "\346\226\255\345\274\200\346\234\272\345\231\250\344\272\272", nullptr));
+        comboSaveImage->setItemText(0, QCoreApplication::translate("MainWindow", "\347\233\270\346\234\272\346\211\213\347\234\274\346\240\207\345\256\232", nullptr));
+        comboSaveImage->setItemText(1, QCoreApplication::translate("MainWindow", "\345\271\263\351\235\242\346\213\237\345\220\210", nullptr));
+        comboSaveImage->setItemText(2, QCoreApplication::translate("MainWindow", "\345\234\260\350\275\250\346\240\207\345\256\232", nullptr));
+        comboSaveImage->setItemText(3, QCoreApplication::translate("MainWindow", "\344\277\235\345\255\230\345\233\276\345\203\217", nullptr));
         comboSaveImage->setItemText(4, QString());
 
-        btnDisconnectCamera->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\346\226\255\345\274\200\350\277\236\346\216\245", nullptr));
-        label->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\346\216\250\347\220\206\347\224\250\346\227\266", nullptr));
-        btnInferPath->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\346\216\250\347\220\206\346\226\207\344\273\266\345\244\271", nullptr));
-        label_2->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\347\233\270\346\234\272\351\200\211\346\213\251", nullptr));
-        btnRobotConnect->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\350\277\236\346\216\245\346\234\272\345\231\250\344\272\272", nullptr));
-        btnStartInfer->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\345\274\200\345\247\213\346\216\250\347\220\206", nullptr));
-        btnConnectCamera->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\350\277\236\346\216\245\347\233\270\346\234\272", nullptr));
-        btnSaveImage->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\344\277\235\345\255\230\345\233\276\345\203\217", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("WorkpieceCoarseLocalization", "\346\213\215\346\221\204\346\216\250\347\220\206", nullptr));
-        btnCalibratateCamera->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\347\233\270\346\234\272\346\240\207\345\256\232", nullptr));
-        btn_calibEyetoHand->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\346\211\213\347\234\274\346\240\207\345\256\232", nullptr));
-        btn_calibTrack->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\345\234\260\350\275\250\346\240\207\345\256\232", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_4), QCoreApplication::translate("WorkpieceCoarseLocalization", "\346\240\207\345\256\232", nullptr));
-        coordinateLabel->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "coordinateLabel", nullptr));
-        btn_VerifyCoordinates->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\347\241\256\350\256\244\345\267\245\344\273\266\345\235\220\346\240\207", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("WorkpieceCoarseLocalization", "\345\205\250\345\261\200\346\243\200\346\237\245", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("WorkpieceCoarseLocalization", "\345\215\225\345\274\240\346\243\200\346\237\245", nullptr));
+        btnDisconnectCamera->setText(QCoreApplication::translate("MainWindow", "\346\226\255\345\274\200\350\277\236\346\216\245", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "\346\216\250\347\220\206\347\224\250\346\227\266", nullptr));
+        btnInferPath->setText(QCoreApplication::translate("MainWindow", "\346\216\250\347\220\206\346\226\207\344\273\266\345\244\271", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "\347\233\270\346\234\272\351\200\211\346\213\251", nullptr));
+        btnRobotConnect->setText(QCoreApplication::translate("MainWindow", "\350\277\236\346\216\245\346\234\272\345\231\250\344\272\272", nullptr));
+        btnStartInfer->setText(QCoreApplication::translate("MainWindow", "\345\274\200\345\247\213\346\216\250\347\220\206", nullptr));
+        btnConnectCamera->setText(QCoreApplication::translate("MainWindow", "\350\277\236\346\216\245\347\233\270\346\234\272", nullptr));
+        btnSaveImage->setText(QCoreApplication::translate("MainWindow", "\344\277\235\345\255\230\345\233\276\345\203\217", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("MainWindow", "\346\213\215\346\221\204\346\216\250\347\220\206", nullptr));
+        btnCalibratateCamera->setText(QCoreApplication::translate("MainWindow", "\347\233\270\346\234\272\346\240\207\345\256\232", nullptr));
+        btn_calibEyetoHand->setText(QCoreApplication::translate("MainWindow", "\346\211\213\347\234\274\346\240\207\345\256\232", nullptr));
+        btn_calibTrack->setText(QCoreApplication::translate("MainWindow", "\345\234\260\350\275\250\346\240\207\345\256\232", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_4), QCoreApplication::translate("MainWindow", "\346\240\207\345\256\232", nullptr));
+        coordinateLabel->setText(QCoreApplication::translate("MainWindow", "coordinateLabel", nullptr));
+        btn_VerifyCoordinates->setText(QCoreApplication::translate("MainWindow", "\347\241\256\350\256\244\345\267\245\344\273\266\345\235\220\346\240\207", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("MainWindow", "\345\205\250\345\261\200\346\243\200\346\237\245", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("MainWindow", "\345\215\225\345\274\240\346\243\200\346\237\245", nullptr));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class WorkpieceCoarseLocalization: public Ui_MainWindow {};
+    class MainWindow: public Ui_MainWindow {};
 } // namespace Ui
 
 QT_END_NAMESPACE

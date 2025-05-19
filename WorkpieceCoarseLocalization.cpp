@@ -8,7 +8,7 @@ std::string trackFilePath = "./data/config/getTrackDirection.json";//地轨单�
 std::string configFilePath = "./data/config/workpiece_localization_calib.json";//相机参数保存路径
 
 WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget *parent) : QWidget(parent),
-    ui(new Ui::WorkpieceCoarseLocalization){
+    ui(new Ui::MainWindow){
     ui->setupUi(this);
 
     // 初始化PLOG
@@ -128,6 +128,7 @@ void WorkpieceCoarseLocalization::whenGetWorkpieceRailMap(cv::Mat res) {
     // 清空场景并添加新的图像项到场景
     scene->clear();  // 清空场景上的所有项
     scene->addItem(pixmapItem);  // 添加图像项到场景
+    ui->mapView->setOriginalImageInfo(res.cols, res.rows, railMapRotationAngle);
 
     // 更新视图（如果没有立即显示，尝试刷新视图）
     ui->mapView->setScene(scene);  // 确保场景设置正确
