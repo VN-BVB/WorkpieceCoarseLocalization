@@ -239,3 +239,85 @@ void Test::checkTensorRTEngine(){
         std::cerr << "yes" << std::endl;
     }
 }//createExecutionContext
+// void WorkpieceCoarseLocalization::computeIOUsWithOverlap(workpieceBoxInWorld& boxInfo)
+// {
+//     const auto& rects = boxInfo.workpieceAreaRect;
+//     const auto& welds = boxInfo.weldAreaRect;
+//     size_t n = rects.size();
+
+//     std::vector<bool> mergedFlags(n, false);
+//     std::vector<std::pair<cv::Point3d, cv::Point3d>> mergedRects;
+//     std::vector<std::vector<cv::Rect_<double>>> mergedWelds;
+
+//     for (size_t i = 0; i < n; ++i) {
+//         if (mergedFlags[i]) continue;
+
+//         const auto& boxA = rects[i];
+//         const cv::Point3d& centerA = boxA.first;
+//         const cv::Point3d& topleftA = boxA.second;
+
+//         double widthA  = std::abs(centerA.x - topleftA.x) * 2.0;
+//         double heightA = std::abs(centerA.y - topleftA.y) * 2.0;
+//         double xA = centerA.x - widthA / 2.0;
+//         double yA = centerA.y - heightA / 2.0;
+//         cv::Rect2d rectA(xA, yA, widthA, heightA);
+
+//         bool merged = false;
+
+//         for (size_t j = 1; j < 5 && (i + j) < n; ++j) {
+//             if (mergedFlags[i + j]) continue;
+
+//             const auto& boxB = rects[i + j];
+//             const cv::Point3d& centerB = boxB.first;
+//             const cv::Point3d& topleftB = boxB.second;
+
+//             double widthB  = std::abs(centerB.x - topleftB.x) * 2.0;
+//             double heightB = std::abs(centerB.y - topleftB.y) * 2.0;
+//             double xB = centerB.x - widthB / 2.0;
+//             double yB = centerB.y - heightB / 2.0;
+//             cv::Rect2d rectB(xB, yB, widthB, heightB);
+
+//             double areaA = rectA.area();
+//             double areaB = rectB.area();
+//             double interArea = (rectA & rectB).area();
+//             double unionArea = areaA + areaB - interArea;
+
+//             if (unionArea > 0.0) {
+//                 double iou = interArea / unionArea;
+//                 std::cout << "IOU between " << i << " and " << i + j << ": " << iou << std::endl;
+
+//                 if (iou > 0.0) {
+//                     // 合并两个 Rect
+//                     cv::Rect2d mergedRect = rectA | rectB;
+//                     cv::Point3d newCenter(mergedRect.x + mergedRect.width / 2.0,
+//                                           mergedRect.y + mergedRect.height / 2.0,
+//                                           0.0);
+//                     cv::Point3d newTopLeft(mergedRect.x, mergedRect.y, 0.0);
+
+//                     mergedRects.emplace_back(newCenter, newTopLeft);
+
+//                     // 合并 weld 区域
+//                     std::vector<cv::Rect_<double>> newWelds = welds[i];
+//                     newWelds.insert(newWelds.end(), welds[i + j].begin(), welds[i + j].end());
+//                     mergedWelds.emplace_back(std::move(newWelds));
+
+//                     mergedFlags[i] = true;
+//                     mergedFlags[i + j] = true;
+
+//                     merged = true;
+//                     break; // 一个 box 只合并一次
+//                 }
+//             }
+//         }
+
+//         if (!merged) {
+//             // 没有被合并，原样保留
+//             mergedRects.push_back(rects[i]);
+//             mergedWelds.push_back(welds[i]);
+//         }
+//     }
+
+//     // 替换原始数据
+//     boxInfo.workpieceAreaRect = std::move(mergedRects);
+//     boxInfo.weldAreaRect = std::move(mergedWelds);
+// }

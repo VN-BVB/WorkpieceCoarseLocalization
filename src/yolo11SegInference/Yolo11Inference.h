@@ -11,6 +11,7 @@
 #include "src/yolo11SegNormal/yolo11-seg.h"
 #include "src/yolov11WeldSeamArea/yolov11-rect.h"
 #include "maskImageProcessConfig.hpp"
+using namespace MaskTransformConfig;
 const std::vector<std::string> CLASS_NAMES = {"back_corner", "front_corner", "back_beam", "front_beam", "other_type"};
 const std::vector<std::vector<unsigned int>> COLORS = {
     {0,   128, 255},

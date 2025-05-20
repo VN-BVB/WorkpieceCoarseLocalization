@@ -18,7 +18,14 @@ struct cameraConfig{
     std::vector<double> globalPlane;
     cv::Mat extrinsicMatrix;
 };
+struct ObjectInfo {
+    Object object;       ///< 检测到的物体
+    cv::Point3d pt3d;    ///< 物体左上角的3D坐标
+    int validPixel;      ///< 物体的有效像素数量
+    int cameraIndex;     ///< 相机序号
+};
 extern std::array<cameraConfig, 3> cameraParameters; //相机参数数量
+using namespace CanvasDrawingConfig;
 
 
 /**
@@ -37,12 +44,6 @@ public slots:
 public:
 
     FittingWorkpieceCoordinate();
-    struct ObjectInfo {
-        Object object;       ///< 检测到的物体
-        cv::Point3d pt3d;    ///< 物体左上角的3D坐标
-        int validPixel;      ///< 物体的有效像素数量
-        int cameraIndex;     ///< 相机序号
-    };
     std::vector<ObjectInfo> allObjects;
 
 
@@ -91,7 +92,6 @@ private:
     std::vector<int> selectedWorkpieces;  // 存储被删除的工件索引
     std::vector<cv::Mat>worldMaskImages; //存储世界坐标系下的工作掩膜图像
     std::vector<std::pair<cv::Rect, int>> workpieceROIs; // 存储每个roi和它对应的类别索引
-    float computeIoU(const cv::Rect_<float> &rect1, const cv::Rect_<float> &rect2);
     void railMapRotated(cv::Mat &image,  int angle);
 signals:
     /**

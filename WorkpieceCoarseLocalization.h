@@ -22,11 +22,7 @@ extern std::string inferencePath ;//推理路径
 extern std::string calibCameraNum;
 extern std::string configFilePath;//配置保存路径
 extern std::string trackFilePath;
-struct workpieceBoxInWorld{
-    std::vector<std::pair<cv::Point3d, cv::Point3d>> workpieceAreaRect; // <center, topleft>
-    std::vector<std::vector<cv::Rect_<double>>> weldAreaRect;//工件焊缝区域信息
-    cv::Mat TrackDirection; // 地轨方向向量
-};
+
 class WorkpieceCoarseLocalization : public QWidget  {
     Q_OBJECT
 public:
@@ -35,11 +31,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-
     //世界坐标系下工件信息
-
     workpieceBoxInWorld workpieceBoxInfoInWorld;
-
     Yolo11SegInference *yolo11SegInference = new Yolo11SegInference;  // 分割类
     Yolo11RectInference *yolo11RectInference = new Yolo11RectInference;// 目标检测类
     FittingWorkpieceCoordinate *fittingWorkpieceCoordinate = new FittingWorkpieceCoordinate;//工件拟合
@@ -57,7 +50,9 @@ private:
 
     QGraphicsScene* scene = new QGraphicsScene;  // 创建一个 QGraphicsScene
     bool detectionEnabled;
-    void sortWorkpieceBoxInfoByY(workpieceBoxInWorld &boxInfo);
+
+    void sortWorkpieceBoxInfo(workpieceBoxInWorld &boxInfo);
+    void computeIOUsWithOverlap(workpieceBoxInWorld& boxInfo);
 private slots:
     void on_btnConnectCamera_clicked();
 
@@ -99,7 +94,7 @@ public slots:
 signals:
     void sendCommandToInferPath(std::string path);
     void sendDisconnectCamera();
-    void initCameraThread();
+    void sendOpenCamera();
     void sendSignalToCalibratate();
     void sendSignalToSaveCalibPara();
     void sendVerifyCoordinatesInManual();

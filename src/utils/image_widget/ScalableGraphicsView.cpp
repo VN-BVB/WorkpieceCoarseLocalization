@@ -39,7 +39,7 @@ void ScalableGraphicsView::wheelEvent(QWheelEvent *event)
 
     event->accept();  // 接受事件，防止其他处理
 }
-void ScalableGraphicsView::setOriginalImageInfo(int width, int height,int angle) {
+void ScalableGraphicsView::setOriginalImageInfo(int width, int height,int angle) {//列、行
     originalImageWidth = width;
     originalImageHeight = height;
     rotationAngle = angle % 360;  // 保证在 0~359 范围内

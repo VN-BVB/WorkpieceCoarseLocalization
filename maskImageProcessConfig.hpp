@@ -2,6 +2,7 @@
 #define MASKIMAGEPROCESSCONFIG_H
 #include <opencv2/opencv.hpp>
 //------------------------------画布绘制参数---------------------------------------
+namespace CanvasDrawingConfig {
 //长画布参数
 const int pixelRow = 6000;  // 原始画布高度
 const int pixelCol =1800; // 原始画布宽度
@@ -15,14 +16,24 @@ const int gridSpacingX = 100;//坐标轴X间距
 const int gridSpacingY = 100;//坐标轴Y间距
 const cv::Scalar axisColor(0, 0, 0);//坐标轴颜色
 const int axisThickness = 2;//坐标轴厚度
-const cv::Mat canvasMat = (cv::Mat_<double>(3, 3) <<   1, 0, pixelCol-100,
+const cv::Mat canvasMat = (cv::Mat_<double>(3, 3) <<
+                                                 1, 0, pixelCol-100,
                                                  0, -1, 500,
                                                  0, 0, 1); //绘制坐标系偏移
-const int railMapRotationAngle = 180;// 0 90 180 270  画布最后可视化的角度
+const int railMapRotationAngle = 270;// 0 90 180 270  画布最后可视化的角度
+}
+
 //------------------------------推理掩膜变换---------------------------------------
+namespace MaskTransformConfig {
 // 定义扩展后的画布大小(粗定位焊缝推理)
 const int expandedWidth = 1024;
 const int expandedHeight = 1024;
 const int AdjustWorkpieceResolution = 1;//调整工件掩膜分辨率倍数
 const int rectRotationAngle =90;//90 180 270 //旋转工件提高召回率
+}
+struct workpieceBoxInWorld{
+    std::vector<std::pair<cv::Point3d, cv::Point3d>> workpieceAreaRect; // <center, topleft>
+    std::vector<std::vector<cv::Rect_<double>>> weldAreaRect;//工件焊缝区域信息
+    cv::Mat TrackDirection; // 地轨方向向量
+};
 #endif // MASKIMAGEPROCESSCONFIG_H

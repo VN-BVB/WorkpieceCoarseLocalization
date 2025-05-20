@@ -196,7 +196,7 @@ cv::Point3d FittingWorkpieceCoordinate::computeCentroid(const std::vector<Object
     return cv::Point3d(sumX / n, sumY / n, sumZ / n);
 }
 // 进行工件分类
-std::vector<std::vector<FittingWorkpieceCoordinate::ObjectInfo> >
+std::vector<std::vector<ObjectInfo>>
 FittingWorkpieceCoordinate::classifyWorkpieces(const std::vector<ObjectInfo> &allObjects, double threshold)
 {
     std::vector<cv::Point3d> categoryLeftPts; // 记录每个类别的左上角代表点（动态更新）
@@ -380,12 +380,30 @@ void FittingWorkpieceCoordinate::loadCalibrationParameters(const std::string& fi
 void FittingWorkpieceCoordinate::drawGridAndAxes(cv::Mat& railMap)
 {
     railMapRotated(railMap, railMapRotationAngle);
-    const int pixelRow = railMap.rows;
-    const int pixelCol = railMap.cols;
-
+    int roPixelRow = railMap.rows;
+    int roPixelCol = railMap.cols;
+    int originX = 0;
+    int originY = 0;
     // 设置 canvasMat 中定义的原点位置
-    int originX = static_cast<int>(canvasMat.at<double>(0, 2));  // tx
-    int originY = static_cast<int>(canvasMat.at<double>(1, 2));  // ty
+    switch(railMapRotationAngle){
+    case 0 :
+        originX = static_cast<int>(canvasMat.at<double>(0, 2));// tx
+        originY = static_cast<int>(canvasMat.at<double>(1, 2));// ty
+        break;
+    case 90 :
+        originX = roPixelCol-static_cast<int>(canvasMat.at<double>(1, 2))-1;  
+        originY = static_cast<int>(canvasMat.at<double>(0, 2));  
+        break;
+    case 180 :
+        originX = roPixelCol-static_cast<int>(canvasMat.at<double>(0, 2))-1;
+        originY = roPixelRow-static_cast<int>(canvasMat.at<double>(1, 2))-1;
+        break;
+    case 270 :
+        originX = static_cast<int>(canvasMat.at<double>(1, 2));
+        originY = roPixelRow-static_cast<int>(canvasMat.at<double>(0, 2))-1;
+    }
+
+    
     int scaleX  = static_cast<int>(canvasMat.at<double>(0, 0));  // a
     int scaleY  = static_cast<int>(canvasMat.at<double>(1, 1));  // d
 
@@ -394,29 +412,29 @@ void FittingWorkpieceCoordinate::drawGridAndAxes(cv::Mat& railMap)
         scaleY = canvasMat.at<double>(1, 0);
     }
     // 绘制 X 轴（水平线）
-    cv::line(railMap, cv::Point(0, originY), cv::Point(pixelCol, originY), axisColor, axisThickness);
+    cv::line(railMap, cv::Point(0, originY), cv::Point(roPixelCol, originY), axisColor, axisThickness);
     // 绘制 Y 轴
-    cv::line(railMap, cv::Point(originX, 0), cv::Point(originX, pixelRow), axisColor, axisThickness);
+    cv::line(railMap, cv::Point(originX, 0), cv::Point(originX, roPixelRow), axisColor, axisThickness);
 
     // 绘制竖直网格线（x方向）
-    for (int x = originX % gridSpacingX; x < pixelCol; x += gridSpacingX) {
-        cv::line(railMap, cv::Point(x, 0), cv::Point(x, pixelRow), cv::Scalar(200, 200, 200), 1);
+    for (int x = originX % gridSpacingX; x < roPixelCol; x += gridSpacingX) {
+        cv::line(railMap, cv::Point(x, 0), cv::Point(x, roPixelRow), cv::Scalar(200, 200, 200), 1);
     }
 
     // 绘制水平网格线
-    for (int y = originY % gridSpacingY; y < pixelRow; y += gridSpacingY) {
-        cv::line(railMap, cv::Point(0, y), cv::Point(pixelCol, y), cv::Scalar(200, 200, 200), 1);
+    for (int y = originY % gridSpacingY; y < roPixelRow; y += gridSpacingY) {
+        cv::line(railMap, cv::Point(0, y), cv::Point(roPixelCol, y), cv::Scalar(200, 200, 200), 1);
     }
 
 
     // 添加坐标标签
-    for (int x = originX % gridSpacingX; x < pixelCol; x += gridSpacingX) {
+    for (int x = originX % gridSpacingX; x < roPixelCol; x += gridSpacingX) {
         int label =((x - originX) / scaleX);
         cv::putText(railMap, std::to_string(label), cv::Point(x + 2, originY - 5),
                     cv::FONT_HERSHEY_SIMPLEX, 0.4, axisColor, 1);
     }
 
-    for (int y = originY % gridSpacingY; y < pixelRow; y += gridSpacingY) {
+    for (int y = originY % gridSpacingY; y < roPixelRow; y += gridSpacingY) {
         int label = ((y - originY) / scaleY);
         cv::putText(railMap, std::to_string(label), cv::Point(originX + 5, y),
                     cv::FONT_HERSHEY_SIMPLEX, 0.4, axisColor, 1);
@@ -578,52 +596,6 @@ void FittingWorkpieceCoordinate::displayDetectedWorkpieces(const std::vector<std
             drawDetectedWorkpieces(railMap, rotatedImage, worldCenter, categoryIdx);
         }
     }
-    /* for (size_t categoryIdx = 0; categoryIdx < workpieceROIs.size(); ++categoryIdx) {
-    //     const auto& [rect, category] = workpieceROIs[categoryIdx];
-
-    //     // 计算当前物体的中心坐标
-    //     cv::Point2f center = (rect.br() + rect.tl()) * 0.5; // 中心点：矩形的左上角和右下角的平均
-
-    //     // 获取当前物体的 worldCenter
-    //     cv::Point3d worldCenter = categoryCenters3d[categoryIdx]; // 假设 categoryCenters3d 存储了每个类别的世界坐标
-
-    //     // 存储前后类别的中心点
-    //     cv::Point2f avgCenter = center; // 默认当前物体的中心点为平均中心点
-
-    //     // 计算与前一个类别的物体的 IoU
-    //     if (categoryIdx > 0) { // 如果当前类别不是第一个类别
-    //         const auto& [prevRect, prevCategory] = workpieceROIs[categoryIdx - 1];
-    //         float iou = computeIoU(rect, prevRect); // 计算当前物体与前一个物体的 IoU
-
-    //         if (iou > 0.1) {
-    //             // 如果 IoU 大于 0.1，则计算前后物体的中心点平均
-    //             const cv::Point2f prevCenter = (prevRect.br() + prevRect.tl()) * 0.5;
-    //             avgCenter = (center + prevCenter) * 0.5; // 计算平均中心点
-    //             worldCenter = (categoryCenters3d[categoryIdx] + categoryCenters3d[categoryIdx - 1]) * 0.5; // 更新 worldCenter
-    //         }
-    //     }
-
-    //     // 计算与后一个类别的物体的 IoU
-    //     if (categoryIdx < workpieceROIs.size() - 1) { // 如果当前类别不是最后一个类别
-    //         const auto& [nextRect, nextCategory] = workpieceROIs[categoryIdx + 1];
-    //         float iou = computeIoU(rect, nextRect); // 计算当前物体与后一个物体的 IoU
-
-    //         if (iou > 0.1) {
-    //             // 如果 IoU 大于 0.1，则计算前后物体的中心点平均
-    //             const cv::Point2f nextCenter = (nextRect.br() + nextRect.tl()) * 0.5;
-    //             avgCenter = (avgCenter + nextCenter) * 0.5; // 再计算新的平均中心点
-    //             worldCenter = (categoryCenters3d[categoryIdx] + categoryCenters3d[categoryIdx + 1]) * 0.5; // 更新 worldCenter
-    //         }
-    //     }
-
-    //     // 绘制平均的中心点
-    //     cv::circle(railMap, avgCenter, 4, cv::Scalar(255, 0, 0), -1); // 绘制红色圆点表示中心位置
-
-    //     // 构建文本
-    //     std::string text = "(" + std::to_string(worldCenter.x) + ", " + std::to_string(worldCenter.y) + ", " + std::to_string(worldCenter.z) + ")";
-    //     cv::Point textPosition = cv::Point(static_cast<int>(avgCenter.x) - 30, static_cast<int>(avgCenter.y) + 30);
-    //     cv::putText(railMap, text, textPosition, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 1);
-    // }*/
     drawGridAndAxes(railMap);
     cv::Mat railMapDisplay = railMap.clone();
     railMapRotated(railMapDisplay, railMapRotationAngle);
@@ -741,15 +713,6 @@ void FittingWorkpieceCoordinate::whenDisplayWeldSeamArea(const std::vector<std::
     cv::Mat railMapRGB;
     cv::cvtColor(railMap, railMapRGB, cv::COLOR_BGR2RGB);
     cv::imwrite("./data/workpieceCoaLoc/FinalRailMap/detected_weldSeam.jpg", railMapRGB);
-}
-float FittingWorkpieceCoordinate::computeIoU(const cv::Rect_<float>& rect1, const cv::Rect_<float>& rect2) {
-    // 计算交集
-    cv::Rect_<float> intersection = rect1 & rect2;
-    // 计算并集
-    float unionArea = rect1.area() + rect2.area() - intersection.area();
-
-    if (unionArea == 0) return 0.0f; // 防止除零错误
-    return intersection.area() / unionArea;
 }
 void FittingWorkpieceCoordinate::railMapRotated(cv::Mat& image, int angle) {
     switch (angle% 360) {
