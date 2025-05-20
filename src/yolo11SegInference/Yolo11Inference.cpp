@@ -340,8 +340,13 @@ void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<c
             cv::Point2d rel((origX - canvasCenter.x) / AdjustWorkpieceResolution,
                             (origY - canvasCenter.y) / AdjustWorkpieceResolution);
 
-            double offsetX = rel.x + worldCenters[i].x;
-            double offsetY = rel.y + worldCenters[i].y;
+            cv::Point2d worldCenter2d(worldCenters[i].x, worldCenters[i].y);
+
+            cv::Point2d offset = CoordinateMapper::mapToCoord(rel,
+                                                              worldCenter2d,
+                                                              CoordinateMapper::CoordMappingType::X_NegY);
+            double offsetX = offset.x;
+            double offsetY = offset.y;
             double normW = w / AdjustWorkpieceResolution;
             double normH = h / AdjustWorkpieceResolution;
 

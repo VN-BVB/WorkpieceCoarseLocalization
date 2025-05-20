@@ -28,6 +28,7 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget *parent) : QWid
     qRegisterMetaType<std::vector<cv::Mat>>("std::vector<cv::Mat>");
     qRegisterMetaType<std::vector<cv::Point3d>>("std::vector<cv::Point3d>");
     qRegisterMetaType<std::vector<std::vector<std::array<double, 4>>>> ("std::vector<std::vector<std::array<double, 4>>>");
+    qRegisterMetaType<workpieceBoxInWorld>("workpieceBoxInWorld");
     // 深度学习与主线程
     yolo11SegInference->moveToThread(inferenceSubThread);
     yolo11RectInference->moveToThread(inferenceSubThread);
@@ -43,10 +44,9 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget *parent) : QWid
     connect(fittingWorkpieceCoordinate, &FittingWorkpieceCoordinate::sendWorkpieceResultToMainWindow, this, &WorkpieceCoarseLocalization::whenGetWorkpieceRailMap);
     connect(fittingWorkpieceCoordinate, &FittingWorkpieceCoordinate::appendFittingLog,this, &WorkpieceCoarseLocalization::whenAppendLog);
     connect(this,&WorkpieceCoarseLocalization::sendVerifyCoordinatesInManual,fittingWorkpieceCoordinate,&FittingWorkpieceCoordinate::whenVerifyWorkpieceCoordinates);
-    connect(fittingWorkpieceCoordinate, &FittingWorkpieceCoordinate::sendFinalInfoToMain,this, &WorkpieceCoarseLocalization::whenGetResultInfo);
+    connect(fittingWorkpieceCoordinate, &FittingWorkpieceCoordinate::sendFinalInfoToMain,this, &WorkpieceCoarseLocalization::getLocalizationResult);
     connect(fittingWorkpieceCoordinate, &FittingWorkpieceCoordinate::sendWorkpieceMaskImageInWorld,yolo11RectInference, &Yolo11RectInference::whenRecieveWpMaskInWorld);
-    connect(yolo11RectInference, &Yolo11RectInference::sendBoxInfoToDisplay, fittingWorkpieceCoordinate, &FittingWorkpieceCoordinate::whenDisplayWeldSeamArea);
-    connect(yolo11RectInference, &Yolo11RectInference::sendBoxInfoToDisplay,this,&WorkpieceCoarseLocalization::whenGetWeldBoxInfo);
+    connect(yolo11RectInference, &Yolo11RectInference::sendBoxInfoToDisplay,fittingWorkpieceCoordinate,&FittingWorkpieceCoordinate::whenGetWeldBoxInfo);
 
     //相机
     baslerControl->moveToThread(cameraControlSubThread);
@@ -136,196 +136,35 @@ void WorkpieceCoarseLocalization::whenGetWorkpieceRailMap(cv::Mat res) {
 void WorkpieceCoarseLocalization::whenViewWorldCoordinateLabel(int x,int y){
     ui->coordinateLabel->setText(QString("X: %1, Y: %2").arg(x).arg(y));
 }
+void WorkpieceCoarseLocalization::getLocalizationResult (workpieceBoxInWorld workpieceBoxInfoInWorld) {
+    MyMatrixTrackDirection Track;
+    workpieceBoxInfoInWorld.TrackDirection = Track.readTrackDirectionFromJsonFile(trackFilePath);
+    std::cout <<    "TrackDirection"
+              <<    workpieceBoxInfoInWorld.TrackDirection  <<std::endl;
+    auto resultPtr = std::make_shared<workpieceBoxInWorld>(workpieceBoxInfoInWorld);//std::shared_ptr<workpieceBoxInWorld>
 
-void WorkpieceCoarseLocalization::whenGetResultInfo(const std::vector<cv::Point3d> resultCenters,
-                                                    const std::vector<cv::Point3d> resultLeftTop){
-    workpieceBoxInfoInWorld.workpieceAreaRect.clear();
-    // MyMatrixTrackDirection Track;
-    // workpieceBoxInfoInWorld.TrackDirection = Track.readTrackDirectionFromJsonFile(configFilePath);
-    // std::cout <<    "TrackDirection"
-    //           <<    workpieceBoxInfoInWorld.TrackDirection  <<std::endl;
-    for (size_t i = 0; i < resultCenters.size() && i < resultLeftTop.size(); ++i) {
-        const cv::Point3d& center = resultCenters[i];
-        const cv::Point3d& topLeft = resultLeftTop[i];
-
-        //std::cout << "center: " << center << ", topLeft: " << topLeft << std::endl;
-
-        workpieceBoxInfoInWorld.workpieceAreaRect.emplace_back(center, topLeft);
-    }
-}
-void WorkpieceCoarseLocalization::whenGetWeldBoxInfo(const std::vector<std::vector<std::array<double, 4> > > &boxInfos){
-    workpieceBoxInfoInWorld.weldAreaRect.clear();
-    int i =0;
-    for (const auto& objBoxes : boxInfos) {
-        std::vector<cv::Rect_<double>> weldRectsForOneObj;
-        //std::cout << "Object " << i++ << " boxes"<<std::endl;
-        int j = 0 ;
-        for (const auto& box : objBoxes) {
-            // box 格式为 {centerX, centerY, width, height}
-            double cx = box[0];
-            double cy = box[1];
-            double w  = box[2];
-            double h  = box[3];
-
-            double x = cx - w / 2.0;
-            double y = cy - h / 2.0;
-
-            cv::Rect_<double> weldRect(x, y, w, h);
-            weldRectsForOneObj.push_back(weldRect);
-            // std::cout << "  Box " << j++ << ": center=(" << cx << ", " << cy
-            //           << "), size=(" << w << ", " << h << "), Rect=("
-            //           << x << ", " << y << ", " << w << ", " << h << std::endl;
-        }
-
-        workpieceBoxInfoInWorld.weldAreaRect.push_back(weldRectsForOneObj);
-    }
-    if(workpieceBoxInfoInWorld.workpieceAreaRect.size() != 0){
-        // 排序
-        sortWorkpieceBoxInfo(workpieceBoxInfoInWorld);
-    }
-    auto b = getLocalizationResult();
-    computeIOUsWithOverlap(workpieceBoxInfoInWorld);
-    sortWorkpieceBoxInfo(workpieceBoxInfoInWorld);
-
-    auto a = getLocalizationResult();
-}
-void WorkpieceCoarseLocalization::sortWorkpieceBoxInfo(workpieceBoxInWorld& boxInfo) {
-    size_t n = boxInfo.workpieceAreaRect.size();
-    if (n != boxInfo.weldAreaRect.size()) {
-        throw std::runtime_error("workpieceAreaRect 与 weldAreaRect 长度不一致");
-    }
-
-    // 构造索引数组
-    std::vector<size_t> indices(n);
-    for (size_t i = 0; i < n; ++i)
-        indices[i] = i;
-
-    // 根据 center.y 从大到小排序 indices
-    std::sort(indices.begin(), indices.end(),
-              [&](size_t a, size_t b) {
-                  return boxInfo.workpieceAreaRect[a].first.y > boxInfo.workpieceAreaRect[b].first.y;
-              });
-
-    // 根据排序索引重排两个 vector
-    std::vector<std::pair<cv::Point3d, cv::Point3d>> sortedWorkpieceAreaRect(n);
-    std::vector<std::vector<cv::Rect_<double>>> sortedWeldAreaRect(n);
-
-    for (size_t i = 0; i < n; ++i) {
-        sortedWorkpieceAreaRect[i] = boxInfo.workpieceAreaRect[indices[i]];
-        sortedWeldAreaRect[i] = boxInfo.weldAreaRect[indices[i]];
-    }
-
-    // 写回原数据
-    boxInfo.workpieceAreaRect = std::move(sortedWorkpieceAreaRect);
-    boxInfo.weldAreaRect = std::move(sortedWeldAreaRect);
-
-}
-void WorkpieceCoarseLocalization::computeIOUsWithOverlap(workpieceBoxInWorld& boxInfo)
-{
-    const auto& rects = boxInfo.workpieceAreaRect;
-    const auto& welds = boxInfo.weldAreaRect;
-    size_t n = rects.size();
-
-    std::vector<bool> mergedFlags(n, false);
-    std::vector<std::pair<cv::Point3d,cv::Point3d>> mergedRects;
-    std::vector<std::vector<cv::Rect_<double>>> mergedWelds;
-
-    for (size_t i = 0; i < n; ++i) {
-        if(mergedFlags[i]) continue;
-
-        const auto& boxA = rects[i];
-        const cv::Point3d& centerA = boxA.first;
-        const cv::Point3d& topleftA = boxA.second;
-
-        double widthA  = std::abs(centerA.x - topleftA.x) * 2.0;
-        double heightA = std::abs(centerA.y - topleftA.y) * 2.0;
-        double xA = centerA.x - widthA / 2.0;
-        double yA = centerA.y - heightA / 2.0;
-        cv::Rect2d rectA(xA, yA, widthA, heightA);
-
-        bool merged = false;
-
-        for (size_t j = 1; j < 5 && (i + j) < n  ; ++j) {
-
-            const auto& boxB = rects[i + j];
-            const cv::Point3d& centerB = boxB.first;
-            const cv::Point3d& topleftB = boxB.second;
-
-            double widthB  = std::abs(centerB.x - topleftB.x) * 2.0;
-            double heightB = std::abs(centerB.y - topleftB.y) * 2.0;
-            double xB = centerB.x - widthB / 2.0;
-            double yB = centerB.y - heightB / 2.0;
-            cv::Rect2d rectB(xB, yB, widthB, heightB);
-
-            // IOU
-            double areaA = rectA.area();
-            double areaB = rectB.area();
-            double interArea = (rectA & rectB).area();
-            double unionArea = areaA + areaB - interArea;
-            if (unionArea > 0.0) {
-                double iou = interArea / unionArea;
-                std::cout << "IOU between " << i << " and " << i + j << ": " << iou << std::endl;
-
-                if (iou > 0.0) {
-                    cv::Rect2d mergedRect = rectA | rectB;
-                    cv::Point3d newCenter(mergedRect.x + mergedRect.width / 2.0,
-                                          mergedRect.y + mergedRect.height / 2.0,
-                                          0.0);
-                    cv::Point3d newTopLeft(mergedRect.x , mergedRect.y, 0.0);
-                    mergedRects.emplace_back(newCenter , newTopLeft);
-
-                    //合并weld区域
-                    std::vector<cv::Rect_<double>> newWelds = welds[i];
-                    newWelds.insert(newWelds.end(), welds[i + j].begin(), welds[i + j].end());
-                    mergedWelds.emplace_back(std::move(newWelds));
-
-                    mergedFlags[i] = true;
-                    mergedFlags[i + j] = true;
-
-                    merged = true;
-                    break; // 一个 box 只合并一次
-                }
-            }
-        }
-        if (!merged) {
-            // 没有被合并，原样保留
-            mergedRects.push_back(rects[i]);
-            mergedWelds.push_back(welds[i]);
-        }
-    }
-    // 替换原始数据
-    boxInfo.workpieceAreaRect = std::move(mergedRects);
-    boxInfo.weldAreaRect = std::move(mergedWelds);
-}
-std::shared_ptr<workpieceBoxInWorld> WorkpieceCoarseLocalization::getLocalizationResult () {
-    auto resultPtr = std::make_shared<workpieceBoxInWorld>(workpieceBoxInfoInWorld);
-
-
-
-    // 打印排序后的工件中心坐标
-
-    std::cout << "Sorted workpieceAreaRect centers:\n";
+    std::cout << "Sorted workpiece and weld centers:"<<std::endl;;
     for (size_t i = 0; i < resultPtr->workpieceAreaRect.size(); ++i) {
         const auto& center = resultPtr->workpieceAreaRect[i].first;
-        std::cout << "  Rect " << i << ": center=("
+        std::cout << "Object " << i << std::endl;
+        std::cout << "  Workpiece Center: ("
                   << center.x << ", " << center.y << ", " << center.z << std::endl;
-    }
 
-    // 打印排序后对应的焊缝区域中心坐标
-    std::cout << "Sorted weldAreaRect centers:\n";
-    for (size_t i = 0; i < resultPtr->weldAreaRect.size(); ++i) {
-        const auto& weldRects = resultPtr->weldAreaRect[i];
-        std::cout << " Object " << i << ":\n";
-        for (size_t j = 0; j < weldRects.size(); ++j) {
-            const auto& rect = weldRects[j];
-            double center_x = rect.x + rect.width / 2.0;
-            double center_y = rect.y + rect.height / 2.0;
-            std::cout << "   Weld Rect " << j << ": center=("
-                      << center_x << ", " << center_y << std::endl;
+        if (i < resultPtr->weldAreaRect.size()) {
+            const auto& weldRects = resultPtr->weldAreaRect[i];
+            for (size_t j = 0; j < weldRects.size(); ++j) {
+                const auto& rect = weldRects[j];
+                double center_x = rect.x + rect.width / 2.0;
+                double center_y = rect.y + rect.height / 2.0;
+                std::cout << "   Weld Rect " << j << " Center: ("
+                          << center_x << ", " << center_y << std::endl;
+            }
+        } else {
+            std::cout << "   [No weld area data for this workpiece]"<<std::endl;;
         }
     }
 
-    return resultPtr;
+    //return resultPtr;
 }
 void WorkpieceCoarseLocalization::whenAppendLog(const QString message) {
     ui->textCalibratation->append(message);

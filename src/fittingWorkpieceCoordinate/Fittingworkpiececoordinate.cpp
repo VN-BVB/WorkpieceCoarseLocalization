@@ -649,7 +649,7 @@ void FittingWorkpieceCoordinate::whenVerifyWorkpieceCoordinates()
             resultWorkpieceMasks.push_back(worldMaskImages[i]);
         }
     }
-    emit sendFinalInfoToMain(filteredWorldCenters,filteredWorldTopLeftPoints);
+    whenGetResultInfo(filteredWorldCenters,filteredWorldTopLeftPoints);
     emit sendWorkpieceMaskImageInWorld(filteredWorldCenters,resultWorkpieceMasks);//发送筛选后的
 
     // std::string filePath = "./data/result/FittingWorkpieceCoordinate/object_finalWorldPointsInManual.txt";
@@ -670,46 +670,58 @@ void FittingWorkpieceCoordinate::whenVerifyWorkpieceCoordinates()
     //     std::cerr << "Failed to open file for writing!" << std::endl;
     // }
 }
-void FittingWorkpieceCoordinate::whenDisplayWeldSeamArea(const std::vector<std::vector<std::array<double, 4>>> &boxInfos){
+void FittingWorkpieceCoordinate::whenDisplayWeldSeamArea(const workpieceBoxInWorld& boxInfo)
+{
+    const auto& workpieceCenters = boxInfo.workpieceAreaRect;
+    const auto& weldRects = boxInfo.weldAreaRect;
 
-    for (size_t i = 0; i < boxInfos.size(); ++i) {
+    for (size_t i = 0; i < workpieceCenters.size(); ++i) {
+        const cv::Point3d& center3d = workpieceCenters[i].first;
 
-        cv::Mat centerPointOrigin = (cv::Mat_<double>(3, 1) << filteredWorldCenters[i].x, filteredWorldCenters[i].y, 1);
-        cv::Mat resultCenter = canvasMat * centerPointOrigin;
+        // 映射中心点
+        cv::Mat centerPointOrigin = (cv::Mat_<double>(3, 1) << center3d.x, center3d.y, 1);
+        cv::Mat drawresultCenter = canvasMat * centerPointOrigin;
 
-        double centerPointX = resultCenter.at<double>(0, 0);
-        double centerPointY = resultCenter.at<double>(1, 0);
-        for (size_t j = 0; j < boxInfos[i].size(); ++j) {
-            // 获取每个方框的信息
-            const std::array<double, 4>& box = boxInfos[i][j];//中心和宽高
-            double offsetX = box[0]; // 焊缝区域中心点
-            double offsetY = box[1];
-            double width = box[2];
-            double height = box[3];
+        cv::Point2d drawCenter2d(drawresultCenter.at<double>(0, 0), drawresultCenter.at<double>(1, 0));
+        // qDebug() << "======== Weld Seam Area for Workpiece " << i << " ========";
+        // qDebug() << "Original Center3D: " << center3d.x << center3d.y;
+        // qDebug() << "canvas mapped center: " << drawCenter2d.x << drawCenter2d.y;
 
-            // offsetX +=1300;
-            double relativeX = offsetX - filteredWorldCenters[i].x;
-            double relativeY = offsetY - filteredWorldCenters[i].y;
-            double railMapX = relativeX+ centerPointX;
-            double railMapY = relativeY+ centerPointY;
+        for (const auto& rect : weldRects[i]) {
 
+            double width = rect.width;
+            double height = rect.height;
+            // 由左上角坐标 + 宽高 → 计算中心点坐标
+            double offsetX = rect.x + width / 2.0;
+            double offsetY = rect.y + height / 2.0;
 
-            // 计算矩形框的左上角和右下角
+            cv::Point2d rel(offsetX - center3d.x,
+                            offsetY - center3d.y);
+
+            cv::Point2d railMapWeldXY = CoordinateMapper::mapToCoord(rel,
+                                                                     drawCenter2d,
+                                                                     CoordinateMapper::CoordMappingType::X_NegY);
+            double railMapX = railMapWeldXY.x;
+            double railMapY = railMapWeldXY.y;
+            // qDebug() << "Computed Center: " << offsetX << offsetY;
+            // qDebug() << "Relative Offset: " << rel.x << rel.y;
+            // qDebug() << "Mapped Position: " << railMapX << railMapY;
+
             cv::Point topLeft(static_cast<int>(railMapX - width / 2), static_cast<int>(railMapY - height / 2));
             cv::Point bottomRight(static_cast<int>(railMapX + width / 2), static_cast<int>(railMapY + height / 2));
 
-            // 绘制矩形框到 railMap 上
-            cv::rectangle(railMap, topLeft, bottomRight, cv::Scalar(0, 255, 0), 2);  // 绿色框，厚度为2
-
-            // 可以添加额外的处理，比如绘制中心点
+            // 绘制矩形框和中心点
+            cv::rectangle(railMap, topLeft, bottomRight, cv::Scalar(0, 0, 0), 2);
             cv::Point center(static_cast<int>(railMapX), static_cast<int>(railMapY));
-            cv::circle(railMap, center, 5, cv::Scalar(0, 0, 255), -1);  // 绘制中心点，蓝色圆圈
+            cv::circle(railMap, center, 5, cv::Scalar(0, 255, 0), -1);
         }
     }
-    // 发送更新后的 railMap 到主窗口
+
+    // 显示和保存图像
     cv::Mat railMapDisplay = railMap.clone();
     railMapRotated(railMapDisplay, railMapRotationAngle);
     emit sendWorkpieceResultToMainWindow(railMapDisplay);
+
     cv::Mat railMapRGB;
     cv::cvtColor(railMap, railMapRGB, cv::COLOR_BGR2RGB);
     cv::imwrite("./data/workpieceCoaLoc/FinalRailMap/detected_weldSeam.jpg", railMapRGB);
@@ -730,4 +742,164 @@ void FittingWorkpieceCoordinate::railMapRotated(cv::Mat& image, int angle) {
     default:
         throw std::invalid_argument("Unsupported rotation angle. Use 0, 90, 180, or 270.");
     }
+}
+//-----------------------------------------------获取结果----------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------
+void FittingWorkpieceCoordinate::sortWorkpieceBoxInfo(workpieceBoxInWorld& boxInfo) {
+    size_t n = boxInfo.workpieceAreaRect.size();
+    if (n != boxInfo.weldAreaRect.size()) {
+        throw std::runtime_error("workpieceAreaRect 与 weldAreaRect 长度不一致");
+    }
+
+    // 构造索引数组
+    std::vector<size_t> indices(n);
+    for (size_t i = 0; i < n; ++i)
+        indices[i] = i;
+
+    // 根据 center.y 从大到小排序 indices
+    std::sort(indices.begin(), indices.end(),
+              [&](size_t a, size_t b) {
+                  return boxInfo.workpieceAreaRect[a].first.y > boxInfo.workpieceAreaRect[b].first.y;
+              });
+
+    // 根据排序索引重排两个 vector
+    std::vector<std::pair<cv::Point3d, cv::Point3d>> sortedWorkpieceAreaRect(n);
+    std::vector<std::vector<cv::Rect_<double>>> sortedWeldAreaRect(n);
+
+    for (size_t i = 0; i < n; ++i) {
+        sortedWorkpieceAreaRect[i] = boxInfo.workpieceAreaRect[indices[i]];
+        sortedWeldAreaRect[i] = boxInfo.weldAreaRect[indices[i]];
+    }
+
+    // 写回原数据
+    boxInfo.workpieceAreaRect = std::move(sortedWorkpieceAreaRect);
+    boxInfo.weldAreaRect = std::move(sortedWeldAreaRect);
+
+}
+void FittingWorkpieceCoordinate::computeIOUsWithOverlap(workpieceBoxInWorld& boxInfo)
+{
+    const auto& rects = boxInfo.workpieceAreaRect;
+    const auto& welds = boxInfo.weldAreaRect;
+    size_t n = rects.size();
+
+    std::vector<bool> mergedFlags(n, false);
+    std::vector<std::pair<cv::Point3d,cv::Point3d>> mergedRects;
+    std::vector<std::vector<cv::Rect_<double>>> mergedWelds;
+
+    for (size_t i = 0; i < n; ++i) {
+        if(mergedFlags[i]) continue;
+
+        const auto& boxA = rects[i];
+        const cv::Point3d& centerA = boxA.first;
+        const cv::Point3d& topleftA = boxA.second;
+
+        double widthA  = std::abs(centerA.x - topleftA.x) * 2.0;
+        double heightA = std::abs(centerA.y - topleftA.y) * 2.0;
+        double xA = centerA.x - widthA / 2.0;
+        double yA = centerA.y - heightA / 2.0;
+        cv::Rect2d rectA(xA, yA, widthA, heightA);
+
+        bool merged = false;
+
+        for (size_t j = 1; j < 5 && (i + j) < n  ; ++j) {
+
+            const auto& boxB = rects[i + j];
+            const cv::Point3d& centerB = boxB.first;
+            const cv::Point3d& topleftB = boxB.second;
+
+            double widthB  = std::abs(centerB.x - topleftB.x) * 2.0;
+            double heightB = std::abs(centerB.y - topleftB.y) * 2.0;
+            double xB = centerB.x - widthB / 2.0;
+            double yB = centerB.y - heightB / 2.0;
+            cv::Rect2d rectB(xB, yB, widthB, heightB);
+
+            // IOU
+            double areaA = rectA.area();
+            double areaB = rectB.area();
+            double interArea = (rectA & rectB).area();
+            double unionArea = areaA + areaB - interArea;
+            if (unionArea > 0.0) {
+                double iou = interArea / unionArea;
+                std::cout << "IOU between " << i << " and " << i + j << ": " << iou << std::endl;
+
+                if (iou > 0.0) {
+                    cv::Rect2d mergedRect = rectA | rectB;
+                    cv::Point3d newCenter(mergedRect.x + mergedRect.width / 2.0,
+                                          mergedRect.y + mergedRect.height / 2.0,
+                                          0.0);
+                    cv::Point3d newTopLeft(mergedRect.x , mergedRect.y, 0.0);
+                    mergedRects.emplace_back(newCenter , newTopLeft);
+
+                    //合并weld区域
+                    std::vector<cv::Rect_<double>> newWelds = welds[i];
+                    newWelds.insert(newWelds.end(), welds[i + j].begin(), welds[i + j].end());
+                    mergedWelds.emplace_back(std::move(newWelds));
+
+                    mergedFlags[i] = true;
+                    mergedFlags[i + j] = true;
+
+                    merged = true;
+                    break; // 一个 box 只合并一次
+                }
+            }
+        }
+        if (!merged) {
+            // 没有被合并，原样保留
+            mergedRects.push_back(rects[i]);
+            mergedWelds.push_back(welds[i]);
+        }
+    }
+    // 替换原始数据
+    boxInfo.workpieceAreaRect = std::move(mergedRects);
+    boxInfo.weldAreaRect = std::move(mergedWelds);
+}
+
+void FittingWorkpieceCoordinate::whenGetResultInfo(const std::vector<cv::Point3d> resultCenters,
+                                                    const std::vector<cv::Point3d> resultLeftTop){
+    workpieceBoxInfoInWorld.workpieceAreaRect.clear();
+    for (size_t i = 0; i < resultCenters.size() && i < resultLeftTop.size(); ++i) {
+        const cv::Point3d& center = resultCenters[i];
+        const cv::Point3d& topLeft = resultLeftTop[i];
+
+        //std::cout << "center: " << center << ", topLeft: " << topLeft << std::endl;
+
+    workpieceBoxInfoInWorld.workpieceAreaRect.emplace_back(center, topLeft);
+    }
+}
+void FittingWorkpieceCoordinate::whenGetWeldBoxInfo(const std::vector<std::vector<std::array<double, 4> > > &boxInfos){
+    workpieceBoxInfoInWorld.weldAreaRect.clear();
+    int i =0;
+    for (const auto& objBoxes : boxInfos) {
+        std::vector<cv::Rect_<double>> weldRectsForOneObj;
+        //std::cout << "Object " << i++ << " boxes"<<std::endl;
+        int j = 0 ;
+        for (const auto& box : objBoxes) {
+            // box 格式为 {centerX, centerY, width, height}
+            double cx = box[0];
+            double cy = box[1];
+            double w  = box[2];
+            double h  = box[3];
+
+            double x = cx - w / 2.0;
+            double y = cy - h / 2.0;
+
+            cv::Rect_<double> weldRect(x, y, w, h);
+            weldRectsForOneObj.push_back(weldRect);
+            // std::cout << "  Box " << j++ << ": center=(" << cx << ", " << cy
+            //           << "), size=(" << w << ", " << h << "), Rect=("
+            //           << x << ", " << y << ", " << w << ", " << h << std::endl;
+        }
+
+        workpieceBoxInfoInWorld.weldAreaRect.push_back(weldRectsForOneObj);
+    }
+    if(workpieceBoxInfoInWorld.workpieceAreaRect.size() != 0){
+        // 排序
+        sortWorkpieceBoxInfo(workpieceBoxInfoInWorld);
+    }
+    emit sendFinalInfoToMain(workpieceBoxInfoInWorld);
+    computeIOUsWithOverlap(workpieceBoxInfoInWorld);
+    //emit sendFinalInfoToMain(workpieceBoxInfoInWorld);
+    sortWorkpieceBoxInfo(workpieceBoxInfoInWorld);
+    whenDisplayWeldSeamArea(workpieceBoxInfoInWorld);
+    emit sendFinalInfoToMain(workpieceBoxInfoInWorld);
 }

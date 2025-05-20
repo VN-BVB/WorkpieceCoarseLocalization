@@ -40,21 +40,17 @@ public slots:
     void whenFinishInferrence();
     void loadCalibrationParameters(const std::string &filename);
     void handleClickEvent(int x, int y);
-    void whenDisplayWeldSeamArea(const std::vector<std::vector<std::array<double, 4>>> &boxInfos);
 public:
 
     FittingWorkpieceCoordinate();
-    std::vector<ObjectInfo> allObjects;
-
 
     void Point2dto3d(std::vector<double> plane,
                      cv::Mat& cameraMatrix,
                      cv::Mat& distCoeffs,
                      std::vector<cv::Point2d>& Pt2ds,
                      std::vector<cv::Point3d>& Pt3ds);
-    std::vector<cv::Point3d> transformCameraToBase(
-        const std::vector<cv::Point3d>& cameraPoints,
-        const cv::Mat& extrinsicMatrix);
+    std::vector<cv::Point3d> transformCameraToBase( const std::vector<cv::Point3d>& cameraPoints,
+                                                    const cv::Mat& extrinsicMatrix);
     void saveAllObjectsToFile(std::string filePath);
     double calculateDistance(const cv::Point3d& p1, const cv::Point3d& p2);
     cv::Point3d computeCentroid(const std::vector<ObjectInfo>& group);
@@ -71,7 +67,18 @@ public:
     void drawGridAndAxes(cv::Mat &railMap);
     void drawDetectedWorkpieces(cv::Mat &railMap, const cv::Mat &resizedImage,
                                 cv::Point3d &worldCenter, int categoryIdx);
+    void whenDisplayWeldSeamArea(const workpieceBoxInWorld &boxInfo);
+    //获取结果
+    void whenGetResultInfo(const std::vector<cv::Point3d> resultCenters, const std::vector<cv::Point3d> resultLeftTop);
+    void whenGetWeldBoxInfo(const std::vector<std::vector<std::array<double, 4> > > &boxInfos);
+    void computeIOUsWithOverlap(workpieceBoxInWorld &boxInfo);
+    void sortWorkpieceBoxInfo(workpieceBoxInWorld &boxInfo);
+
+
 private:
+    std::vector<ObjectInfo> allObjects;
+    //世界坐标系下工件信息
+    workpieceBoxInWorld workpieceBoxInfoInWorld;
     cv::Mat cameraMatrix;
     cv::Mat distCoeffs;
     std::vector<double> plane;
@@ -93,6 +100,7 @@ private:
     std::vector<cv::Mat>worldMaskImages; //存储世界坐标系下的工作掩膜图像
     std::vector<std::pair<cv::Rect, int>> workpieceROIs; // 存储每个roi和它对应的类别索引
     void railMapRotated(cv::Mat &image,  int angle);
+
 signals:
     /**
      * @brief 日志信号
@@ -100,8 +108,7 @@ signals:
      */
     void appendFittingLog(QString message);
     void sendWorkpieceResultToMainWindow(cv::Mat res);
-    void sendFinalInfoToMain(std::vector<cv::Point3d> resultCenters,
-                             std::vector<cv::Point3d> resultLeftTop);
+    void sendFinalInfoToMain(workpieceBoxInWorld workpieceBoxInfoInWorld);
     void sendWorkpieceMaskImageInWorld(std::vector<cv::Point3d> worldCenters,
                                        std::vector<cv::Mat> worldMaskImages);
 };

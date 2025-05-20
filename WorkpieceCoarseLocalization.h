@@ -31,8 +31,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    //世界坐标系下工件信息
     workpieceBoxInWorld workpieceBoxInfoInWorld;
+
     Yolo11SegInference *yolo11SegInference = new Yolo11SegInference;  // 分割类
     Yolo11RectInference *yolo11RectInference = new Yolo11RectInference;// 目标检测类
     FittingWorkpieceCoordinate *fittingWorkpieceCoordinate = new FittingWorkpieceCoordinate;//工件拟合
@@ -50,9 +50,6 @@ private:
 
     QGraphicsScene* scene = new QGraphicsScene;  // 创建一个 QGraphicsScene
     bool detectionEnabled;
-
-    void sortWorkpieceBoxInfo(workpieceBoxInWorld &boxInfo);
-    void computeIOUsWithOverlap(workpieceBoxInWorld& boxInfo);
 private slots:
     void on_btnConnectCamera_clicked();
 
@@ -87,9 +84,7 @@ public slots:
     void whenGetWorkpieceRailMap(cv::Mat res);
     void whenUpdateComboBox(const std::vector<std::string> &SerialNumbers);
     void whenViewWorldCoordinateLabel(int x, int y);
-    void whenGetWeldBoxInfo(const std::vector<std::vector<std::array<double, 4>>> &boxInfos);
-    void whenGetResultInfo(const std::vector<cv::Point3d> resultCenters, const std::vector<cv::Point3d> resultLeftTop);
-    std::shared_ptr<workpieceBoxInWorld> getLocalizationResult();
+    void getLocalizationResult(workpieceBoxInWorld workpieceBoxInfoInWorld);
 
 signals:
     void sendCommandToInferPath(std::string path);
