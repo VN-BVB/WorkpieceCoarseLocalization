@@ -55,35 +55,12 @@ void ScalableGraphicsView::mousePressEvent(QMouseEvent *event)
     QPointF scenePos = mapToScene(event->pos());  // 局部变为全局
 
     // 获取对应的像素坐标
-    int x_rotated = static_cast<int>(scenePos.x());
-    int y_rotated = static_cast<int>(scenePos.y());
-    int x_original = 0;
-    int y_original = 0;
-    switch (rotationAngle) {
-    case 0:
-        x_original = x_rotated;
-        y_original = y_rotated;
-        break;
-    case 90:
-        x_original = y_rotated;
-        y_original = originalImageWidth - x_rotated - 1;
-        break;
-    case 180:
-        x_original = originalImageWidth - x_rotated - 1;
-        y_original = originalImageHeight - y_rotated - 1;
-        break;
-    case 270:
-        x_original = originalImageHeight - y_rotated - 1;
-        y_original = x_rotated;
-        break;
-    default:
-        // 非法角度处理，可选择输出错误信息
-        x_original = x_rotated;
-        y_original = y_rotated;
-        break;
-    }
+    cv::Point2i rotatedXY(static_cast<int>(scenePos.x()),static_cast<int>(scenePos.y()));
 
-    emit senderSignalPixelCoordinates(x_original,y_original);
+    cv::Point2i originalXY = CoordinateMapper::rotateToOriginal(rotatedXY,originalImageWidth,originalImageHeight
+                                                              ,rotationAngle);
+
+    emit senderSignalPixelCoordinates(originalXY.x,originalXY.y);
 
     // 如果需要，调用父类的事件处理
     QGraphicsView::mousePressEvent(event);

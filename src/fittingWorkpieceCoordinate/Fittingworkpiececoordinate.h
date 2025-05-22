@@ -68,6 +68,8 @@ public:
     void drawDetectedWorkpieces(cv::Mat &railMap, const cv::Mat &resizedImage,
                                 cv::Point3d &worldCenter, int categoryIdx);
     void whenDisplayWeldSeamArea(const workpieceBoxInWorld &boxInfo);
+    void railMapRotated(cv::Mat &image,  int angle);
+    cv::Point2d projectAndRotateCenter(const cv::Point3d &center3d, const cv::Mat &canvasMat, int imageRows, int imageCols, int rotationAngle);
     //获取结果
     void whenGetResultInfo(const std::vector<cv::Point3d> resultCenters, const std::vector<cv::Point3d> resultLeftTop);
     void whenGetWeldBoxInfo(const std::vector<std::vector<std::array<double, 4> > > &boxInfos);
@@ -83,7 +85,6 @@ private:
     cv::Mat distCoeffs;
     std::vector<double> plane;
     cv::Mat extrinsicMatrix;
-
     cv::Mat railMap;//长画布
     // cv::Mat canvasMat = (cv::Mat_<double>(3, 3) <<  1, 0, pixelCol / 2,
     //                      0, -1, pixelRow / 2,
@@ -99,7 +100,6 @@ private:
     std::vector<int> selectedWorkpieces;  // 存储被删除的工件索引
     std::vector<cv::Mat>worldMaskImages; //存储世界坐标系下的工作掩膜图像
     std::vector<std::pair<cv::Rect, int>> workpieceROIs; // 存储每个roi和它对应的类别索引
-    void railMapRotated(cv::Mat &image,  int angle);
 
 signals:
     /**

@@ -342,7 +342,7 @@ void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<c
 
             cv::Point2d worldCenter2d(worldCenters[i].x, worldCenters[i].y);
 
-            cv::Point2d offset = CoordinateMapper::mapToCoord(rel,
+            cv::Point2d offset = CoordinateMapper::relativeMapToCoord(rel,
                                                               worldCenter2d,
                                                               CoordinateMapper::CoordMappingType::X_NegY);
             double offsetX = offset.x;

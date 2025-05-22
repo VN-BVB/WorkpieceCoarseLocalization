@@ -139,16 +139,16 @@ void WorkpieceCoarseLocalization::whenViewWorldCoordinateLabel(int x,int y){
 void WorkpieceCoarseLocalization::getLocalizationResult (workpieceBoxInWorld workpieceBoxInfoInWorld) {
     MyMatrixTrackDirection Track;
     workpieceBoxInfoInWorld.TrackDirection = Track.readTrackDirectionFromJsonFile(trackFilePath);
-    std::cout <<    "TrackDirection"
-              <<    workpieceBoxInfoInWorld.TrackDirection  <<std::endl;
+    // std::cout <<    "TrackDirection"
+    //           <<    workpieceBoxInfoInWorld.TrackDirection  <<std::endl;
     auto resultPtr = std::make_shared<workpieceBoxInWorld>(workpieceBoxInfoInWorld);//std::shared_ptr<workpieceBoxInWorld>
 
-    std::cout << "Sorted workpiece and weld centers:"<<std::endl;;
+    //std::cout << "Sorted workpiece and weld centers:"<<std::endl;;
     for (size_t i = 0; i < resultPtr->workpieceAreaRect.size(); ++i) {
         const auto& center = resultPtr->workpieceAreaRect[i].first;
-        std::cout << "Object " << i << std::endl;
-        std::cout << "  Workpiece Center: ("
-                  << center.x << ", " << center.y << ", " << center.z << std::endl;
+        // std::cout << "Object " << i << std::endl;
+        // std::cout << "  Workpiece Center: ("
+        //           << center.x << ", " << center.y << ", " << center.z << std::endl;
 
         if (i < resultPtr->weldAreaRect.size()) {
             const auto& weldRects = resultPtr->weldAreaRect[i];
@@ -156,8 +156,8 @@ void WorkpieceCoarseLocalization::getLocalizationResult (workpieceBoxInWorld wor
                 const auto& rect = weldRects[j];
                 double center_x = rect.x + rect.width / 2.0;
                 double center_y = rect.y + rect.height / 2.0;
-                std::cout << "   Weld Rect " << j << " Center: ("
-                          << center_x << ", " << center_y << std::endl;
+                // std::cout << "   Weld Rect " << j << " Center: ("
+                //           << center_x << ", " << center_y << std::endl;
             }
         } else {
             std::cout << "   [No weld area data for this workpiece]"<<std::endl;;

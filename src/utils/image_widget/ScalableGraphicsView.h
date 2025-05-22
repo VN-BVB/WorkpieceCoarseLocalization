@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QGraphicsPixmapItem>
 #include <QScrollBar>
+#include "maskImageProcessConfig.hpp"
 class ScalableGraphicsView : public QGraphicsView
 {
     Q_OBJECT

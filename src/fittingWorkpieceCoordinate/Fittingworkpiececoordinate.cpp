@@ -478,9 +478,9 @@ void FittingWorkpieceCoordinate::drawDetectedWorkpieces(cv::Mat& railMap, const 
     workpieceROIs.push_back(std::make_pair(roi, categoryIdx));
     // 标注工件中心点
     cv::circle(railMap, cv::Point(static_cast<int>(railMapX), static_cast<int>(railMapY)), 4, cv::Scalar(255, 0, 0), -1);
-    std::string text = "(" + std::to_string(worldCenter.x) + ", " + std::to_string(worldCenter.y) + ", " + std::to_string(worldCenter.z) + ")";
-    cv::Point textPosition = cv::Point(static_cast<int>(railMapX) - resizedImage.cols / 2, static_cast<int>(railMapY) + resizedImage.rows / 2 + 30);
-    cv::putText(railMap, text, textPosition, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 1);
+    // std::string text = "(" + std::to_string(worldCenter.x) + ", " + std::to_string(worldCenter.y) + ", " + std::to_string(worldCenter.z) + ")";
+    // cv::Point textPosition = cv::Point(static_cast<int>(railMapX) - resizedImage.cols / 2, static_cast<int>(railMapY) + resizedImage.rows / 2 + 30);
+    // cv::putText(railMap, text, textPosition, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 1);
     if (std::find(selectedWorkpieces.begin(), selectedWorkpieces.end(), categoryIdx) != selectedWorkpieces.end()) {
         cv::rectangle(railMap, roi, deleteColor, deleteLineThickness); // 红色边框
     }
@@ -674,15 +674,20 @@ void FittingWorkpieceCoordinate::whenDisplayWeldSeamArea(const workpieceBoxInWor
 {
     const auto& workpieceCenters = boxInfo.workpieceAreaRect;
     const auto& weldRects = boxInfo.weldAreaRect;
-
+    // std::string text = "(" + std::to_string(worldCenter.x) + ", " + std::to_string(worldCenter.y) + ", " + std::to_string(worldCenter.z) + ")";
+    // cv::Point textPosition = cv::Point(static_cast<int>(railMapX) - resizedImage.cols / 2, static_cast<int>(railMapY) + resizedImage.rows / 2 + 30);
+    // cv::putText(railMap, text, textPosition, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 0, 0), 1);
     for (size_t i = 0; i < workpieceCenters.size(); ++i) {
         const cv::Point3d& center3d = workpieceCenters[i].first;
 
         // 映射中心点
-        cv::Mat centerPointOrigin = (cv::Mat_<double>(3, 1) << center3d.x, center3d.y, 1);
-        cv::Mat drawresultCenter = canvasMat * centerPointOrigin;
+        // cv::Mat centerPointOrigin = (cv::Mat_<double>(3, 1) << center3d.x, center3d.y, 1);
+        // cv::Mat drawresultCenter = canvasMat * centerPointOrigin;
 
-        cv::Point2d drawCenter2d(drawresultCenter.at<double>(0, 0), drawresultCenter.at<double>(1, 0));
+        // cv::Point2d drawCenter2d(drawresultCenter.at<double>(0, 0), drawresultCenter.at<double>(1, 0));
+        cv::Point2d drawCenter2d = projectAndRotateCenter(center3d, canvasMat,
+                                                       railMap.rows, railMap.cols,
+                                                       0);
         // qDebug() << "======== Weld Seam Area for Workpiece " << i << " ========";
         // qDebug() << "Original Center3D: " << center3d.x << center3d.y;
         // qDebug() << "canvas mapped center: " << drawCenter2d.x << drawCenter2d.y;
@@ -698,7 +703,7 @@ void FittingWorkpieceCoordinate::whenDisplayWeldSeamArea(const workpieceBoxInWor
             cv::Point2d rel(offsetX - center3d.x,
                             offsetY - center3d.y);
 
-            cv::Point2d railMapWeldXY = CoordinateMapper::mapToCoord(rel,
+            cv::Point2d railMapWeldXY = CoordinateMapper::relativeMapToCoord(rel,
                                                                      drawCenter2d,
                                                                      CoordinateMapper::CoordMappingType::X_NegY);
             double railMapX = railMapWeldXY.x;
@@ -720,11 +725,47 @@ void FittingWorkpieceCoordinate::whenDisplayWeldSeamArea(const workpieceBoxInWor
     // 显示和保存图像
     cv::Mat railMapDisplay = railMap.clone();
     railMapRotated(railMapDisplay, railMapRotationAngle);
+    for (size_t i = 0; i < workpieceCenters.size(); ++i) {
+        const cv::Point3d& center3d = workpieceCenters[i].first;
+
+        const cv::Point3d& rectTopLeftOriginal = workpieceCenters[i].second;
+        double width = abs(rectTopLeftOriginal.x - center3d.x)*2;
+        double hight = abs(rectTopLeftOriginal.y - center3d.y)*2;
+        cv::Point2d drawCenterRotated = projectAndRotateCenter(center3d, canvasMat,
+                                                           railMap.rows, railMap.cols,
+                                                           railMapRotationAngle);
+        cv::circle(railMapDisplay, drawCenterRotated, 5, cv::Scalar(255, 0, 0), -1);
+        std::ostringstream oss;
+        oss << "(" << std::fixed << std::setprecision(1)
+            << center3d.x << ", " << center3d.y << ", " << center3d.z << ")";
+        std::string text = oss.str();
+        cv::Point textPosition(static_cast<int>(drawCenterRotated.x - hight/2),
+                               static_cast<int>(drawCenterRotated.y + width/2 + 30));
+        cv::putText(railMapDisplay, text, textPosition,
+                    cv::FONT_HERSHEY_SIMPLEX, 0.45, cv::Scalar(0, 0, 255), 1);
+    }
+
     emit sendWorkpieceResultToMainWindow(railMapDisplay);
 
     cv::Mat railMapRGB;
     cv::cvtColor(railMap, railMapRGB, cv::COLOR_BGR2RGB);
     cv::imwrite("./data/workpieceCoaLoc/FinalRailMap/detected_weldSeam.jpg", railMapRGB);
+}
+cv::Point2d FittingWorkpieceCoordinate::projectAndRotateCenter(const cv::Point3d& center3d,
+                                   const cv::Mat& canvasMat,
+                                   int imageRows,
+                                   int imageCols,
+                                   int rotationAngle)
+{
+    // 将 3D 点投影到 2D
+    cv::Mat centerPointOrigin = (cv::Mat_<double>(3, 1) << center3d.x, center3d.y, 1);
+    cv::Mat drawresultCenter = canvasMat * centerPointOrigin;
+    cv::Point2d drawCenter2d(drawresultCenter.at<double>(0, 0),
+                             drawresultCenter.at<double>(1, 0));
+
+    // 将投影点根据角度进行旋转
+    return CoordinateMapper::originalToRotated(
+        drawCenter2d, imageRows, imageCols, rotationAngle);
 }
 void FittingWorkpieceCoordinate::railMapRotated(cv::Mat& image, int angle) {
     switch (angle% 360) {
@@ -820,14 +861,14 @@ void FittingWorkpieceCoordinate::computeIOUsWithOverlap(workpieceBoxInWorld& box
             double unionArea = areaA + areaB - interArea;
             if (unionArea > 0.0) {
                 double iou = interArea / unionArea;
-                std::cout << "IOU between " << i << " and " << i + j << ": " << iou << std::endl;
+                //std::cout << "IOU between " << i << " and " << i + j << ": " << iou << std::endl;
 
                 if (iou > 0.0) {
                     cv::Rect2d mergedRect = rectA | rectB;
                     cv::Point3d newCenter(mergedRect.x + mergedRect.width / 2.0,
                                           mergedRect.y + mergedRect.height / 2.0,
-                                          0.0);
-                    cv::Point3d newTopLeft(mergedRect.x , mergedRect.y, 0.0);
+                                          (centerA.z + centerB.z)/2);
+                    cv::Point3d newTopLeft(mergedRect.x , mergedRect.y, (topleftA.z+topleftB.z)/2);
                     mergedRects.emplace_back(newCenter , newTopLeft);
 
                     //合并weld区域
@@ -839,6 +880,20 @@ void FittingWorkpieceCoordinate::computeIOUsWithOverlap(workpieceBoxInWorld& box
                     mergedFlags[i + j] = true;
 
                     merged = true;
+                    // ================= 可视化线段 ====================
+                    cv::Point2d ptA = projectAndRotateCenter(centerA, canvasMat,
+                                                         railMap.rows, railMap.cols,
+                                                         0);
+                    cv::Point2d ptB = projectAndRotateCenter(centerB, canvasMat,
+                                                         railMap.rows, railMap.cols,
+                                                         0);
+                    cv::Point2d ptNew = projectAndRotateCenter(newCenter, canvasMat,
+                                                           railMap.rows, railMap.cols,
+                                                           0);
+
+                    // 在 railMapDisplay 上画出线段
+                    cv::line(railMap, ptA, ptNew, cv::Scalar(255, 0, 0), 1);
+                    cv::line(railMap, ptB, ptNew, cv::Scalar(255, 0, 0), 1);
                     break; // 一个 box 只合并一次
                 }
             }

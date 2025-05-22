@@ -25,7 +25,7 @@ const cv::Mat canvasMat = (cv::Mat_<double>(3, 3) <<
                                                  1, 0, pixelCol-100,
                                                  0, -1, 500,
                                                  0, 0, 1); //绘制坐标系偏移
-const int railMapRotationAngle = 0;// 0 90 180 270  画布最后可视化的角度
+const int railMapRotationAngle = 90;// 0 90 180 270  画布最后可视化的角度
 }
 
 //------------------------------推理掩膜变换---------------------------------------
@@ -51,7 +51,7 @@ public:
     };
 
     // 映射函数：将 rel 从像素坐标变换到世界坐标系
-    static cv::Point2d mapToCoord(
+    static cv::Point2d relativeMapToCoord(
         const cv::Point2d& rel,
         const cv::Point2d& worldCenter,
         CoordMappingType type
@@ -81,6 +81,80 @@ public:
         default:
             return {x + dx, y + dy};  // 默认情况：不做变换
         }
+    }
+    template<typename T>
+    static cv::Point_<T> rotateToOriginal(
+        const cv::Point_<T>& rotatedPoint,
+        int originalImageWidth,
+        int originalImageHeight,
+        int rotationAngle
+        ) {
+        T x_rotated = rotatedPoint.x;
+        T y_rotated = rotatedPoint.y;
+        T x_original = 0;
+        T y_original = 0;
+
+        switch (rotationAngle) {
+        case 0:
+            x_original = x_rotated;
+            y_original = y_rotated;
+            break;
+        case 90:
+            x_original = y_rotated;
+            y_original = static_cast<T>(originalImageWidth - x_rotated - 1);
+            break;
+        case 180:
+            x_original = static_cast<T>(originalImageWidth - x_rotated - 1);
+            y_original = static_cast<T>(originalImageHeight - y_rotated - 1);
+            break;
+        case 270:
+            x_original = static_cast<T>(originalImageHeight - y_rotated - 1);
+            y_original = x_rotated;
+            break;
+        default:
+            x_original = x_rotated;
+            y_original = y_rotated;
+            break;
+        }
+
+        return cv::Point_<T>(x_original, y_original);
+    }
+    template<typename T>
+    static cv::Point_<T> originalToRotated(
+        const cv::Point_<T>& originalPoint,
+        int originalImageWidth,
+        int originalImageHeight,
+        int rotationAngle
+        ) {
+        T x_original = originalPoint.x;
+        T y_original = originalPoint.y;
+        T x_rotated = 0;
+        T y_rotated = 0;
+
+        switch (rotationAngle) {
+        case 0:
+            x_rotated = x_original;
+            y_rotated = y_original;
+            break;
+        case 90:
+            x_rotated = static_cast<T>(originalImageWidth - y_original - 1);
+            y_rotated = x_original;
+            break;
+        case 180:
+            x_rotated = static_cast<T>(originalImageWidth - x_original - 1);
+            y_rotated = static_cast<T>(originalImageHeight - y_original - 1);
+            break;
+        case 270:
+            x_rotated = y_original;
+            y_rotated = static_cast<T>(originalImageHeight - x_original - 1);
+            break;
+        default:
+            x_rotated = x_original;
+            y_rotated = y_original;
+            break;
+        }
+
+        return cv::Point_<T>(x_rotated, y_rotated);
     }
 };
 #endif // MASKIMAGEPROCESSCONFIG_H
