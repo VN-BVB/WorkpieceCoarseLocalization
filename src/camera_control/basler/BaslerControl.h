@@ -50,7 +50,7 @@ signals:
     void sendGetCurrentWaypoint();
 
 private:
-    double exposure =80000;  // 相机曝光率
+    double exposure =40000;  // 相机曝光率
     int savedCalibImages = 0;      // 已经保存的图像数
     int savedPlaneImages = 0;
     int savedTrackImages = 0;

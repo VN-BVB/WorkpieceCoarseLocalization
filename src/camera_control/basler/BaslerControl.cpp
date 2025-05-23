@@ -46,7 +46,8 @@ void BaslerControl::openCamera() {
     for (size_t i = 0; i < device.size(); ++i) {
         std::string devSerial = device[i].GetSerialNumber();
 
-        if(std::find(serialNum.begin(), serialNum.end(), devSerial) != serialNum.end()){
+        if(/*std::find(serialNum.begin(), serialNum.end(), devSerial) != serialNum.end()*/
+            1){
             PLOGD << L"尝试连接第" << i + 1 << L"台相机...";
             // 创建并连接相机
             //Pylon::CBaslerUniversalInstantCamera& camera = camerasa[i];

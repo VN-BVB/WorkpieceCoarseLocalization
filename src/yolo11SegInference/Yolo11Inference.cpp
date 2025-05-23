@@ -3,19 +3,14 @@ std::vector<cv::Mat> cvImagesInferring;
 Yolo11SegInference::Yolo11SegInference() {
     cudaSetDevice(0);
     yolo11_seg->make_pipe(true);
-
 }
 
-Yolo11SegInference::~Yolo11SegInference()
-{
-
+Yolo11SegInference::~Yolo11SegInference() {
     if (yolo11_seg) {
         delete yolo11_seg;
         yolo11_seg = nullptr;
     }
 }
-
-
 
 void Yolo11SegInference::whenPathNeedToInfer(std::string path) {
     imgNum = 0;
@@ -29,6 +24,7 @@ void Yolo11SegInference::whenPathNeedToInfer(std::string path) {
         inferSegAndCalcTime();  // 推理并计算结果
         emit sendInferResultToMainWindow(res);
         cv::imwrite("./data/result/result" + std::to_string(imgNum++) + ".bmp", res);
+        workpieceFinalInfoInWorld.cameraSegMat.push_back(res);
     }
 
     cv::glob(path + "/*.bmp", imagePathList);
@@ -39,10 +35,11 @@ void Yolo11SegInference::whenPathNeedToInfer(std::string path) {
         inferSegAndCalcTime();  // 推理并计算结果
         emit sendInferResultToMainWindow(res);
         cv::imwrite("./data/result/result" + std::to_string(imgNum++) + ".bmp", res);
+        workpieceFinalInfoInWorld.cameraSegMat.push_back(res);
     }
     cvImagesInferring = cvImages;
-    emit sendAppendInferLog(QString("共检测工件数量:%1").
-                            arg(detectedWp));
+    workpieceFinalInfoInWorld.cameraOriginalMat = cvImagesInferring;
+    emit sendAppendInferLog(QString("共检测工件数量:%1").arg(detectedWp));
     emit sendSignalTocalculate();
 }
 
@@ -51,7 +48,7 @@ void Yolo11SegInference::whenImageNeedToInfer(std::vector<cv::Mat> cvImages) {
     detectedWp = 0;
     // 对传入的 cvImages 进行深拷贝，防止后续操作影响到原始图像
     cvImagesInferring.clear();
-    for (const auto& cvimage : cvImages) {
+    for (const auto &cvimage : cvImages) {
         cvImagesInferring.push_back(cvimage.clone());  // 深拷贝
     }
 
@@ -59,22 +56,25 @@ void Yolo11SegInference::whenImageNeedToInfer(std::vector<cv::Mat> cvImages) {
         image = cvimage;
         inferSegAndCalcTime();
         emit sendInferResultToMainWindow(res);
-        whenImageNeedToSave(cvimage,res);
+        whenImageNeedToSave(cvimage, res);
+        workpieceFinalInfoInWorld.cameraSegMat.push_back(res);
     }
-    emit sendAppendInferLog(QString("共检测工件数量:%1").
-                            arg(detectedWp));
+    workpieceFinalInfoInWorld.cameraOriginalMat = cvImagesInferring;
+    emit sendAppendInferLog(QString("共检测工件数量:%1").arg(detectedWp));
     emit sendSignalTocalculate();
 }
-void Yolo11SegInference::whenImageNeedToSave(cv::Mat cvimage, cv::Mat cvImagesInference){
+void Yolo11SegInference::whenImageNeedToSave(cv::Mat cvimage, cv::Mat cvImagesInference) {
     std::time_t now = std::time(nullptr);
     std::tm *localTime = std::localtime(&now);
     std::ostringstream dateTimeStream;
     dateTimeStream << std::put_time(localTime, "%Y%m%d_%H%M%S");
     // cv::imwrite("./data/workpieceCoaLoc/camera_" +std::to_string(imgNum) +"_"+ dateTimeStream.str() + ".bmp", cvimage);
-    cv::imwrite("./data/workpieceCoaLoc/infer/camera_" +std::to_string(imgNum++) +"_"+ dateTimeStream.str() +"_result.bmp", cvImagesInference);
+    cv::imwrite(
+        "./data/workpieceCoaLoc/infer/camera_" + std::to_string(imgNum++) + "_" + dateTimeStream.str() + "_result.bmp",
+        cvImagesInference);
     // cv::imshow("Chessboard Image with Subpixel Corners", cvImagesInference);  // 显示处理后的图像
     // cv::waitKey(0);  // 防止采图卡顿
-    std::cout << "camera"+std::to_string(imgNum)+" Save image in workpieceCoaLoc succ." << std::endl;
+    std::cout << "camera" + std::to_string(imgNum) + " Save image in workpieceCoaLoc succ." << std::endl;
 }
 
 void Yolo11SegInference::inferSegAndCalcTime() {
@@ -86,16 +86,34 @@ void Yolo11SegInference::inferSegAndCalcTime() {
     yolo11_seg->postprocess(objs, score_thres, iou_thres, topk, num_channels, seg_h, seg_w);
     yolo11_seg->draw_objects(image, res, objs, CLASS_NAMES, COLORS, MASK_COLORS);
     inferTime = (double)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.;
-    emit sendAppendInferLog(QString("相机%1检测工件数量:%2").arg(imgNum+1).
-                            arg(objs.size()));
+    emit sendAppendInferLog(QString("相机%1检测工件数量:%2").arg(imgNum + 1).arg(objs.size()));
     detectedWp += objs.size();
     this->mask = yolo11_seg->maskOnly.clone();
+    sortSegObjects(objs, "X", "up");  // 按 x 坐标升序
     for (auto &obj : objs) {
         colorizeAndDisplayConnectedComponents(obj.boxMask);
+        workpieceFinalInfoInWorld.workpiece_weld_Obj.push_back({obj, {}});  // 添加 seg 对象，初始化空 det 向量
     }
-    emit sendCoordinateTofit (objs,imgNum);
+
+    emit sendCoordinateTofit(objs, imgNum);
 }
-void Yolo11SegInference::colorizeAndDisplayConnectedComponents(cv::Mat& mask) {
+void Yolo11SegInference::sortSegObjects(std::vector<seg::Object> &objs, const std::string &axis, const std::string &order) {
+    auto getCoord = [&](const seg::Object &obj) -> int {
+        if (axis == "X" || axis == "x")
+            return obj.rect.x;
+        else if (axis == "Y" || axis == "y")
+            return obj.rect.y;
+        else
+            throw std::invalid_argument("Invalid axis: must be 'X' or 'Y'");
+    };
+
+    bool ascending = (order == "up" || order == "UP");
+
+    std::sort(objs.begin(), objs.end(), [&](const seg::Object &a, const seg::Object &b) {
+        return ascending ? getCoord(a) < getCoord(b) : getCoord(a) > getCoord(b);
+    });
+}
+void Yolo11SegInference::colorizeAndDisplayConnectedComponents(cv::Mat &mask) {
     // 确保掩膜是二值图像（0 或 255）
     cv::Mat binarizedMask;
     if (mask.channels() > 1) {
@@ -120,12 +138,12 @@ void Yolo11SegInference::colorizeAndDisplayConnectedComponents(cv::Mat& mask) {
     // 计算每个外部连通域的像素数（排除内部孔洞）
     for (int i = 0; i < contours.size(); ++i) {
         // 如果这是外部连通域
-        if (hierarchy[i][3] == -1) {  // 如果父轮廓为 -1，表示这是一个外部轮廓
+        if (hierarchy[i][3] == -1) {                         // 如果父轮廓为 -1，表示这是一个外部轮廓
             externalArea[i] = cv::contourArea(contours[i]);  // 计算外部连通域的像素数
 
             // 查找该外部轮廓内部的所有孔洞，并减去这些孔洞的面积
             for (int j = 0; j < contours.size(); ++j) {
-                if (hierarchy[j][3] == i) {  // 如果是外部连通域的子轮廓，即孔洞
+                if (hierarchy[j][3] == i) {                           // 如果是外部连通域的子轮廓，即孔洞
                     externalArea[i] -= cv::contourArea(contours[j]);  // 减去孔洞的像素数
                 }
             }
@@ -160,20 +178,16 @@ void Yolo11SegInference::colorizeAndDisplayConnectedComponents(cv::Mat& mask) {
 Yolo11RectInference::Yolo11RectInference() {
     cudaSetDevice(0);
     yolo11_rect->make_pipe(true);
-
 }
 
-Yolo11RectInference::~Yolo11RectInference()
-{
-
+Yolo11RectInference::~Yolo11RectInference() {
     if (yolo11_rect) {
         delete yolo11_rect;
         yolo11_rect = nullptr;
     }
 }
 void Yolo11RectInference::whenRecieveWpMaskInWorld(std::vector<cv::Point3d> worldCenters,
-                                                   std::vector<cv::Mat> worldMaskImages){
-
+                                                   std::vector<cv::Mat> worldMaskImages) {
     // 检查两个向量的大小是否一致
     if (worldCenters.size() != worldMaskImages.size()) {
         std::cerr << "Error: worldCenters and worldMaskImages sizes do not match!" << std::endl;
@@ -195,9 +209,9 @@ void Yolo11RectInference::whenRecieveWpMaskInWorld(std::vector<cv::Point3d> worl
         // cv::resize(image, resizedImage, cv::Size(imageWidth * AdjustWorkpieceResolution,
         //                                          imageHeight * AdjustWorkpieceResolution),
         //                                          0, 0, cv::INTER_LANCZOS4);
-        cv::resize(image, resizedImage, cv::Size(imageWidth * AdjustWorkpieceResolution,
-                                                 imageHeight * AdjustWorkpieceResolution),
-                   0, 0, cv::INTER_CUBIC);
+        cv::resize(image, resizedImage,
+                   cv::Size(imageWidth * AdjustWorkpieceResolution, imageHeight * AdjustWorkpieceResolution), 0, 0,
+                   cv::INTER_CUBIC);
 
         // 获取放大后的图像大小
         imageWidth = resizedImage.cols;
@@ -214,23 +228,24 @@ void Yolo11RectInference::whenRecieveWpMaskInWorld(std::vector<cv::Point3d> worl
         resizedImage.copyTo(canvas(cv::Rect(xOffset, yOffset, imageWidth, imageHeight)));
         // 顺时针旋转90°
         switch (rectRotationAngle) {
-        case 0: // 不旋转
-            break;
-        case 90:
-            cv::rotate(canvas, canvas, cv::ROTATE_90_CLOCKWISE);
-            break;
-        case 180:
-            cv::rotate(canvas, canvas, cv::ROTATE_180);
-            break;
-        case 270:
-            cv::rotate(canvas, canvas, cv::ROTATE_90_COUNTERCLOCKWISE);
-            break;
-        default:
-            std::cerr << "Unsupported rotation angle: " << rectRotationAngle << ". Must be 0, 90, 180 or 270." << std::endl;
-            break;
+            case 0:  // 不旋转
+                break;
+            case 90:
+                cv::rotate(canvas, canvas, cv::ROTATE_90_CLOCKWISE);
+                break;
+            case 180:
+                cv::rotate(canvas, canvas, cv::ROTATE_180);
+                break;
+            case 270:
+                cv::rotate(canvas, canvas, cv::ROTATE_90_COUNTERCLOCKWISE);
+                break;
+            default:
+                std::cerr << "Unsupported rotation angle: " << rectRotationAngle << ". Must be 0, 90, 180 or 270."
+                          << std::endl;
+                break;
         }
         // 保存合成后的图像
-        //cv::imwrite("./data/test/camera_" + std::to_string(i) + ".bmp", canvas);
+        // cv::imwrite("./data/test/camera_" + std::to_string(i) + ".bmp", canvas);
 
         // 将扩展后的图像添加到 expandedImages 向量中
         expandedImages.push_back(canvas);
@@ -239,26 +254,27 @@ void Yolo11RectInference::whenRecieveWpMaskInWorld(std::vector<cv::Point3d> worl
     // 调用 whenImageNeedToInfer()，传递扩展后的图像
     whenImageNeedToInfer(expandedImages);
 
-    //emit sendInferResultToMainWindow(res);
+    // emit sendInferResultToMainWindow(res);
 }
-
 
 void Yolo11RectInference::whenImageNeedToInfer(std::vector<cv::Mat> cvImages) {
     imgNum = 0;
     cvImagesInferring_Rect = cvImages;
-    //std::cout<<"cvImagesInferring_Rect.size()"<<cvImagesInferring_Rect.size()<<std::endl;
-    // emit sendAppendInferLog(QString("已检测工件数量:%1").arg(cvImagesInferring_Rect.size()));
-    std::vector<std::vector< cv::Rect_<float>>> rect_Dets;
+    // std::cout<<"cvImagesInferring_Rect.size()"<<cvImagesInferring_Rect.size()<<std::endl;
+    //  emit sendAppendInferLog(QString("已检测工件数量:%1").arg(cvImagesInferring_Rect.size()));
+    std::vector<std::vector<cv::Rect_<float>>> rect_Dets;
     int i = 0;
     for (auto &cvimage : cvImagesInferring_Rect) {
         image = cvimage;
         std::vector<cv::Rect_<float>> rect_Det;
         inferSegAndCalcTime();
-        for (auto& obj : objs_det) {
+        for (auto &obj : objs_det) {
             rect_Det.push_back(obj.rect);
         }
         rect_Dets.push_back(rect_Det);
         inferedImages.push_back(res);
+        // 把当前原图和结果掩膜图一起保存
+        workpieceFinalInfoInWorld.workpiece_weld_Mask.emplace_back(cvimage.clone(), res.clone());
         // 在每次迭代时显示掩模图像
         // cv::imshow("Mask Image ", res);  // 显示掩模图像
         cv::imwrite("./data/roughWeldArea/" + std::to_string(i++) + ".bmp", res);
@@ -267,8 +283,9 @@ void Yolo11RectInference::whenImageNeedToInfer(std::vector<cv::Mat> cvImages) {
     }
     whenCoordinatesNeedToProceed(rect_Dets, maskWorldCenters);
 }
-//推理画图，结果为画出来的res和objs_det。
+// 推理画图，结果为画出来的res和objs_det。
 void Yolo11RectInference::inferSegAndCalcTime() {
+    static int wpNum = 0;
     objs_det.clear();
 
     yolo11_rect->copy_from_Mat(image, size);
@@ -279,15 +296,17 @@ void Yolo11RectInference::inferSegAndCalcTime() {
 
     yolo11_rect->draw_objects(image, res, objs_det, CLASS_NAMES, COLORS);
     inferTime = (double)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.;
-    //emit sendCoordinateTofit (objs_Rect,imgNum);
-    //cv::imshow("result", res);
-    //cv::imwrite("D:/YOLO/yolo11_Seg_C++/data/roughWeldArea/camera_" +std::to_string(imgNum++)+"_result" + ".bmp", res);
-    //cv::waitKey(0);
+    // 按顺序将 det 对象分配到对应 pair 的第二项中
+    workpieceFinalInfoInWorld.workpiece_weld_Obj[wpNum++].second = objs_det;
+
+    // emit sendCoordinateTofit (objs_Rect,imgNum);
+    // cv::imshow("result", res);
+    // cv::imwrite("D:/YOLO/yolo11_Seg_C++/data/roughWeldArea/camera_" +std::to_string(imgNum++)+"_result" + ".bmp", res);
+    // cv::waitKey(0);
 }
 void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<cv::Rect_<float>>> rect_Dets,
-                                                        std::vector<cv::Point3d> worldCenters) {
-
-        // 计算画布的中心，使用 double 类型
+                                                       std::vector<cv::Point3d> worldCenters) {
+    // 计算画布的中心，使用 double 类型
     const double canvasW = static_cast<double>(expandedWidth);
     const double canvasH = static_cast<double>(expandedHeight);
     const cv::Point2d canvasCenter(canvasW / 2.0, canvasH / 2.0);
@@ -295,10 +314,10 @@ void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<c
     std::vector<std::vector<std::array<double, 4>>> boxInfos;
 
     for (size_t i = 0; i < rect_Dets.size(); ++i) {
-        const auto& rects = rect_Dets[i];
+        const auto &rects = rect_Dets[i];
         std::vector<std::array<double, 4>> infos;
 
-        for (const auto& rect : rects) {
+        for (const auto &rect : rects) {
             // 检测框中心点（旋转后图像）
             double cx = static_cast<double>(rect.x) + rect.width * 0.5;
             double cy = static_cast<double>(rect.y) + rect.height * 0.5;
@@ -307,33 +326,33 @@ void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<c
             double w = 0.0, h = 0.0;
 
             switch (rectRotationAngle) {
-            case 0:
-                origX = cx;
-                origY = cy;
-                w = rect.width;
-                h = rect.height;
-                break;
-            case 90:
-                origX = cy;
-                origY = canvasW - cx;
-                w = rect.height;
-                h = rect.width;
-                break;
-            case 180:
-                origX = canvasW - cx;
-                origY = canvasH - cy;
-                w = rect.width;
-                h = rect.height;
-                break;
-            case 270:
-                origX = canvasH - cy;
-                origY = cx;
-                w = rect.height;
-                h = rect.width;
-                break;
-            default:
-                std::cerr << "Unsupported rotation angle: " << rectRotationAngle << std::endl;
-                continue;
+                case 0:
+                    origX = cx;
+                    origY = cy;
+                    w = rect.width;
+                    h = rect.height;
+                    break;
+                case 90:
+                    origX = cy;
+                    origY = canvasW - cx;
+                    w = rect.height;
+                    h = rect.width;
+                    break;
+                case 180:
+                    origX = canvasW - cx;
+                    origY = canvasH - cy;
+                    w = rect.width;
+                    h = rect.height;
+                    break;
+                case 270:
+                    origX = canvasH - cy;
+                    origY = cx;
+                    w = rect.height;
+                    h = rect.width;
+                    break;
+                default:
+                    std::cerr << "Unsupported rotation angle: " << rectRotationAngle << std::endl;
+                    continue;
             }
 
             // 计算相对位置（除以分辨率）
@@ -342,15 +361,14 @@ void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<c
 
             cv::Point2d worldCenter2d(worldCenters[i].x, worldCenters[i].y);
 
-            cv::Point2d offset = CoordinateMapper::relativeMapToCoord(rel,
-                                                              worldCenter2d,
-                                                              CoordinateMapper::CoordMappingType::X_NegY);
+            cv::Point2d offset =
+                CoordinateMapper::relativeMapToCoord(rel, worldCenter2d, CoordinateMapper::CoordMappingType::X_NegY);
             double offsetX = offset.x;
             double offsetY = offset.y;
             double normW = w / AdjustWorkpieceResolution;
             double normH = h / AdjustWorkpieceResolution;
 
-            infos.push_back({ offsetX, offsetY, normW, normH });
+            infos.push_back({offsetX, offsetY, normW, normH});
         }
 
         boxInfos.push_back(std::move(infos));

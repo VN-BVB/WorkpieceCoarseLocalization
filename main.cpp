@@ -1,9 +1,9 @@
-﻿#include "WorkpieceCoarseLocalization.h"
-#include <QApplication>
-#include <test.h>
-int main(int argc, char *argv[])
-{
+﻿#include <test.h>
 
+#include <QApplication>
+
+#include "WorkpieceCoarseLocalization.h"
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     WorkpieceCoarseLocalization w;
@@ -13,3 +13,5 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
+// clang-format off
+// clang-format on
