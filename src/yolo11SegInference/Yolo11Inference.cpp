@@ -16,15 +16,24 @@ void Yolo11SegInference::whenPathNeedToInfer(std::string path) {
     imgNum = 0;
     detectedWp = 0;
     std::vector<cv::Mat> cvImages;
+    workpieceFinalInfoInWorld = workpieceBoxInWorld{};
     cv::glob(path + "/*.jpg", imagePathList);
 
     for (auto &path : imagePathList) {
         image = cv::imread(path);
         cvImages.push_back(image);
         inferSegAndCalcTime();  // 推理并计算结果
+        for (const auto &obj : objs) {
+            workpieceInfo info;
+            info.cameraOriginalMat = image.clone();                                     // 原图
+            info.cameraSegMat = res.clone();                                            // 分割图
+            info.workpiece_weld_Obj = std::make_pair(obj, std::vector<det::Object>());  // seg 对象 + 空 det 列表
+            // 你可以在之后更新 info.workpiece_weld_Mask.second（焊缝检测后）
+
+            workpieceFinalInfoInWorld.workpieceInfoInWorld.push_back(info);
+        }
         emit sendInferResultToMainWindow(res);
         cv::imwrite("./data/result/result" + std::to_string(imgNum++) + ".bmp", res);
-        workpieceFinalInfoInWorld.cameraSegMat.push_back(res);
     }
 
     cv::glob(path + "/*.bmp", imagePathList);
@@ -33,12 +42,19 @@ void Yolo11SegInference::whenPathNeedToInfer(std::string path) {
         image = cv::imread(path);
         cvImages.push_back(image);
         inferSegAndCalcTime();  // 推理并计算结果
+        for (const auto &obj : objs) {
+            workpieceInfo info;
+            info.cameraOriginalMat = image.clone();                                     // 原图
+            info.cameraSegMat = res.clone();                                            // 分割图
+            info.workpiece_weld_Obj = std::make_pair(obj, std::vector<det::Object>());  // seg 对象 + 空 det 列表
+            // 你可以在之后更新 info.workpiece_weld_Mask.second（焊缝检测后）
+
+            workpieceFinalInfoInWorld.workpieceInfoInWorld.push_back(info);
+        }
         emit sendInferResultToMainWindow(res);
         cv::imwrite("./data/result/result" + std::to_string(imgNum++) + ".bmp", res);
-        workpieceFinalInfoInWorld.cameraSegMat.push_back(res);
     }
     cvImagesInferring = cvImages;
-    workpieceFinalInfoInWorld.cameraOriginalMat = cvImagesInferring;
     emit sendAppendInferLog(QString("共检测工件数量:%1").arg(detectedWp));
     emit sendSignalTocalculate();
 }
@@ -48,6 +64,7 @@ void Yolo11SegInference::whenImageNeedToInfer(std::vector<cv::Mat> cvImages) {
     detectedWp = 0;
     // 对传入的 cvImages 进行深拷贝，防止后续操作影响到原始图像
     cvImagesInferring.clear();
+    workpieceFinalInfoInWorld = workpieceBoxInWorld{};
     for (const auto &cvimage : cvImages) {
         cvImagesInferring.push_back(cvimage.clone());  // 深拷贝
     }
@@ -55,11 +72,19 @@ void Yolo11SegInference::whenImageNeedToInfer(std::vector<cv::Mat> cvImages) {
     for (auto &cvimage : cvImagesInferring) {
         image = cvimage;
         inferSegAndCalcTime();
+        // 对排序后的 objs 创建对应的 workpieceInfo
+        for (const auto &obj : objs) {
+            workpieceInfo info;
+            info.cameraOriginalMat = cvimage.clone();                                   // 原图
+            info.cameraSegMat = res.clone();                                            // 分割图
+            info.workpiece_weld_Obj = std::make_pair(obj, std::vector<det::Object>());  // seg 对象 + 空 det 列表
+            // 你可以在之后更新 info.workpiece_weld_Mask.second（焊缝检测后）
+
+            workpieceFinalInfoInWorld.workpieceInfoInWorld.push_back(info);
+        }
         emit sendInferResultToMainWindow(res);
         whenImageNeedToSave(cvimage, res);
-        workpieceFinalInfoInWorld.cameraSegMat.push_back(res);
     }
-    workpieceFinalInfoInWorld.cameraOriginalMat = cvImagesInferring;
     emit sendAppendInferLog(QString("共检测工件数量:%1").arg(detectedWp));
     emit sendSignalTocalculate();
 }
@@ -69,9 +94,8 @@ void Yolo11SegInference::whenImageNeedToSave(cv::Mat cvimage, cv::Mat cvImagesIn
     std::ostringstream dateTimeStream;
     dateTimeStream << std::put_time(localTime, "%Y%m%d_%H%M%S");
     // cv::imwrite("./data/workpieceCoaLoc/camera_" +std::to_string(imgNum) +"_"+ dateTimeStream.str() + ".bmp", cvimage);
-    cv::imwrite(
-        "./data/workpieceCoaLoc/infer/camera_" + std::to_string(imgNum++) + "_" + dateTimeStream.str() + "_result.bmp",
-        cvImagesInference);
+    cv::imwrite("./data/workpieceCoaLoc/infer/camera_" + std::to_string(imgNum++) + "_" + dateTimeStream.str() + "_result.bmp",
+                cvImagesInference);
     // cv::imshow("Chessboard Image with Subpixel Corners", cvImagesInference);  // 显示处理后的图像
     // cv::waitKey(0);  // 防止采图卡顿
     std::cout << "camera" + std::to_string(imgNum) + " Save image in workpieceCoaLoc succ." << std::endl;
@@ -89,10 +113,9 @@ void Yolo11SegInference::inferSegAndCalcTime() {
     emit sendAppendInferLog(QString("相机%1检测工件数量:%2").arg(imgNum + 1).arg(objs.size()));
     detectedWp += objs.size();
     this->mask = yolo11_seg->maskOnly.clone();
-    sortSegObjects(objs, "X", "up");  // 按 x 坐标升序
+    sortSegObjects(objs, sortAxis, sortOrder);
     for (auto &obj : objs) {
         colorizeAndDisplayConnectedComponents(obj.boxMask);
-        workpieceFinalInfoInWorld.workpiece_weld_Obj.push_back({obj, {}});  // 添加 seg 对象，初始化空 det 向量
     }
 
     emit sendCoordinateTofit(objs, imgNum);
@@ -165,7 +188,7 @@ void Yolo11SegInference::colorizeAndDisplayConnectedComponents(cv::Mat &mask) {
 
     // 删除面积较小的连通域，只保留最大的外部连通域
     for (int i = 0; i < contours.size(); ++i) {
-        if (i != maxAreaIndex && hierarchy[i][3] == -1) {  // 如果不是最大面积的外部连通域
+        if (i != maxAreaIndex && hierarchy[i][3] == -1) {                            // 如果不是最大面积的外部连通域
             cv::drawContours(filteredMask, contours, i, cv::Scalar(0), cv::FILLED);  // 删除该连通域
         }
     }
@@ -186,8 +209,7 @@ Yolo11RectInference::~Yolo11RectInference() {
         yolo11_rect = nullptr;
     }
 }
-void Yolo11RectInference::whenRecieveWpMaskInWorld(std::vector<cv::Point3d> worldCenters,
-                                                   std::vector<cv::Mat> worldMaskImages) {
+void Yolo11RectInference::whenRecieveWpMaskInWorld(std::vector<cv::Point3d> worldCenters, std::vector<cv::Mat> worldMaskImages) {
     // 检查两个向量的大小是否一致
     if (worldCenters.size() != worldMaskImages.size()) {
         std::cerr << "Error: worldCenters and worldMaskImages sizes do not match!" << std::endl;
@@ -209,9 +231,10 @@ void Yolo11RectInference::whenRecieveWpMaskInWorld(std::vector<cv::Point3d> worl
         // cv::resize(image, resizedImage, cv::Size(imageWidth * AdjustWorkpieceResolution,
         //                                          imageHeight * AdjustWorkpieceResolution),
         //                                          0, 0, cv::INTER_LANCZOS4);
-        cv::resize(image, resizedImage,
-                   cv::Size(imageWidth * AdjustWorkpieceResolution, imageHeight * AdjustWorkpieceResolution), 0, 0,
-                   cv::INTER_CUBIC);
+        if (!image.empty()) {
+            cv::resize(image, resizedImage, cv::Size(imageWidth * AdjustWorkpieceResolution, imageHeight * AdjustWorkpieceResolution),
+                       0, 0, cv::INTER_CUBIC);
+        }
 
         // 获取放大后的图像大小
         imageWidth = resizedImage.cols;
@@ -240,8 +263,7 @@ void Yolo11RectInference::whenRecieveWpMaskInWorld(std::vector<cv::Point3d> worl
                 cv::rotate(canvas, canvas, cv::ROTATE_90_COUNTERCLOCKWISE);
                 break;
             default:
-                std::cerr << "Unsupported rotation angle: " << rectRotationAngle << ". Must be 0, 90, 180 or 270."
-                          << std::endl;
+                std::cerr << "Unsupported rotation angle: " << rectRotationAngle << ". Must be 0, 90, 180 or 270." << std::endl;
                 break;
         }
         // 保存合成后的图像
@@ -259,8 +281,9 @@ void Yolo11RectInference::whenRecieveWpMaskInWorld(std::vector<cv::Point3d> worl
 
 void Yolo11RectInference::whenImageNeedToInfer(std::vector<cv::Mat> cvImages) {
     imgNum = 0;
+    workpieceNum = 0;
     cvImagesInferring_Rect = cvImages;
-    // std::cout<<"cvImagesInferring_Rect.size()"<<cvImagesInferring_Rect.size()<<std::endl;
+    std::cout << "cvImagesInferring_Rect.size()" << cvImagesInferring_Rect.size() << std::endl;
     //  emit sendAppendInferLog(QString("已检测工件数量:%1").arg(cvImagesInferring_Rect.size()));
     std::vector<std::vector<cv::Rect_<float>>> rect_Dets;
     int i = 0;
@@ -274,8 +297,9 @@ void Yolo11RectInference::whenImageNeedToInfer(std::vector<cv::Mat> cvImages) {
         rect_Dets.push_back(rect_Det);
         inferedImages.push_back(res);
         // 把当前原图和结果掩膜图一起保存
-        workpieceFinalInfoInWorld.workpiece_weld_Mask.emplace_back(cvimage.clone(), res.clone());
-        // 在每次迭代时显示掩模图像
+        workpieceFinalInfoInWorldAfterVerify.workpieceInfoInWorld[workpieceNum++].workpiece_weld_Mask =
+            std::make_pair(cvimage.clone(), res.clone());
+
         // cv::imshow("Mask Image ", res);  // 显示掩模图像
         cv::imwrite("./data/roughWeldArea/" + std::to_string(i++) + ".bmp", res);
         // cv::waitKey(50);
@@ -285,8 +309,17 @@ void Yolo11RectInference::whenImageNeedToInfer(std::vector<cv::Mat> cvImages) {
 }
 // 推理画图，结果为画出来的res和objs_det。
 void Yolo11RectInference::inferSegAndCalcTime() {
-    static int wpNum = 0;
     objs_det.clear();
+    if (image.empty()) {
+        qDebug() << "image is empty, cannot infer!";
+        return;
+    }
+    // qDebug() << "workpieceFinalInfoInWorld.workpieceInfoInWorld.size():"<<
+    // workpieceFinalInfoInWorldAfterVerify.workpieceInfoInWorld.size();
+    if (workpieceNum < 0 || workpieceNum >= workpieceFinalInfoInWorldAfterVerify.workpieceInfoInWorld.size()) {
+        qDebug() << "Invalid workpieceNum:" << workpieceNum;
+        return;
+    }
 
     yolo11_rect->copy_from_Mat(image, size);
     auto start = std::chrono::system_clock::now();
@@ -296,8 +329,8 @@ void Yolo11RectInference::inferSegAndCalcTime() {
 
     yolo11_rect->draw_objects(image, res, objs_det, CLASS_NAMES, COLORS);
     inferTime = (double)std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.;
-    // 按顺序将 det 对象分配到对应 pair 的第二项中
-    workpieceFinalInfoInWorld.workpiece_weld_Obj[wpNum++].second = objs_det;
+    //  按顺序将 det 对象分配到对应 pair 的第二项中
+    workpieceFinalInfoInWorldAfterVerify.workpieceInfoInWorld[workpieceNum].workpiece_weld_Obj.second = objs_det;
 
     // emit sendCoordinateTofit (objs_Rect,imgNum);
     // cv::imshow("result", res);
@@ -361,8 +394,7 @@ void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<c
 
             cv::Point2d worldCenter2d(worldCenters[i].x, worldCenters[i].y);
 
-            cv::Point2d offset =
-                CoordinateMapper::relativeMapToCoord(rel, worldCenter2d, CoordinateMapper::CoordMappingType::X_NegY);
+            cv::Point2d offset = CoordinateMapper::relativeMapToCoord(rel, worldCenter2d, g_coordMappingType);
             double offsetX = offset.x;
             double offsetY = offset.y;
             double normW = w / AdjustWorkpieceResolution;

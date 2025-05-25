@@ -4,10 +4,13 @@
 // std::string inferencePath = "./data/toInfer"; //推理路径
 std::string inferencePath = "./data/workpieceCoaLoc/Test";  // 推理路径
 std::string calibCameraNum = "./data/config/calibCamera_SN.json";
-std::string trackFilePath = "./data/config/getTrackDirection.json";              // 地轨单位向量保存路径
-std::string configFilePath = "./data/config/workpiece_localization_calib.json";  // 相机参数保存路径
-
-WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget* parent) : QWidget(parent), ui(new Ui::MainWindow) {
+std::string trackFilePath = "./data/config/getTrackDirection.json";                                  // 地轨单位向量保存路径
+std::string configFilePath = "./data/config/workpiece_localization_calib.json";                      // 相机参数保存路径
+CoordinateMapper::CoordMappingType g_coordMappingType = CoordinateMapper::CoordMappingType::X_NegY;  // 机器人与像素坐标系之间的关系
+workpieceBoxInWorld workpieceFinalInfoInWorld;             // 保存确认前的结果，结果进度为分割工件
+workpieceBoxInWorld workpieceFinalInfoInWorldAfterVerify;  // 保存确认后的结果，结果进度为检测焊缝
+workpieceBoxInWorld workpieceFinalInfoInWorldAfterIOU;     // 保存iou合并，排序的数据，结果进度为全部
+WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget* parent) : QWidget(parent), ui(new Ui::WorkpieceCoarseLocalization) {
     ui->setupUi(this);
 
     // 初始化PLOG
@@ -34,8 +37,7 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget* parent) : QWid
     yolo11SegInference->moveToThread(inferenceSubThread);
     yolo11RectInference->moveToThread(inferenceSubThread);
     fittingWorkpieceCoordinate->moveToThread(fittingWorkpieceSubThread);
-    connect(this, &WorkpieceCoarseLocalization::sendCommandToInferPath, yolo11SegInference,
-            &Yolo11SegInference::whenPathNeedToInfer);
+    connect(this, &WorkpieceCoarseLocalization::sendCommandToInferPath, yolo11SegInference, &Yolo11SegInference::whenPathNeedToInfer);
     connect(yolo11SegInference, &Yolo11SegInference::sendInferResultToMainWindow, this,
             &WorkpieceCoarseLocalization::whenGetInferResult);
     connect(yolo11RectInference, &Yolo11RectInference::sendInferResultToMainWindow, this,
@@ -66,8 +68,7 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget* parent) : QWid
     connect(this, &WorkpieceCoarseLocalization::sendDisconnectCamera, baslerControl, &BaslerControl::closeCamera);
     connect(baslerControl, &BaslerControl::sendImageToView, this, &WorkpieceCoarseLocalization::whenGetImage);
     connect(baslerControl, &BaslerControl::sendSerialNumber, this, &WorkpieceCoarseLocalization::whenUpdateComboBox);
-    connect(baslerControl, &BaslerControl::sendCvImagesToInfer, yolo11SegInference,
-            &Yolo11SegInference::whenImageNeedToInfer);
+    connect(baslerControl, &BaslerControl::sendCvImagesToInfer, yolo11SegInference, &Yolo11SegInference::whenImageNeedToInfer);
     connect(baslerControl, &BaslerControl::appendCameraLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
     // 相机标定线程
     calibratateCamera->moveToThread(cameraCalibrationSubThread);
@@ -79,12 +80,10 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget* parent) : QWid
             &FittingWorkpieceCoordinate::loadCalibrationParameters);
     connect(this, &WorkpieceCoarseLocalization::sendEyeToHandCalib, eyeToHandCalibration,
             &HandEyeCalibrationLogic::whenCalibrateEye2Hand);
-    connect(this, &WorkpieceCoarseLocalization::sendGetTrackHcg, eyeToHandCalibration,
-            &HandEyeCalibrationLogic::whenGetTrackHcg);
+    connect(this, &WorkpieceCoarseLocalization::sendGetTrackHcg, eyeToHandCalibration, &HandEyeCalibrationLogic::whenGetTrackHcg);
     connect(eyeToHandCalibration, &HandEyeCalibrationLogic::sendSignalToTransmitCalibPara, fittingWorkpieceCoordinate,
             &FittingWorkpieceCoordinate::loadCalibrationParameters);
-    connect(eyeToHandCalibration, &HandEyeCalibrationLogic::appendHandEyeLog, this,
-            &WorkpieceCoarseLocalization::whenAppendLog);
+    connect(eyeToHandCalibration, &HandEyeCalibrationLogic::appendHandEyeLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
     connect(eyeToHandCalibration, &HandEyeCalibrationLogic::sendSaveHcg, calibratateCamera, &CalibratateCamera::whenSaveHcg);
     // 机器人线程
     robot->moveToThread(robotControlSubThread);
@@ -149,31 +148,8 @@ void WorkpieceCoarseLocalization::whenViewWorldCoordinateLabel(int x, int y) {
     ui->coordinateLabel->setText(QString("X: %1, Y: %2").arg(x).arg(y));
 }
 void WorkpieceCoarseLocalization::getLocalizationResult(const workpieceBoxInWorld& workpieceBoxInfoInWorld) {
-    auto resultPtr = std::make_shared<workpieceBoxInWorld>(workpieceBoxInfoInWorld);  // std::shared_ptr<workpieceBoxInWorld>
-
-    // std::cout << "Sorted workpiece and weld centers:"<<std::endl;;
-    for (size_t i = 0; i < resultPtr->workpieceAreaRect.size(); ++i) {
-        const auto& center = resultPtr->workpieceAreaRect[i].first;
-        // std::cout << "Object " << i << std::endl;
-        // std::cout << "  Workpiece Center: ("
-        //           << center.x << ", " << center.y << ", " << center.z << std::endl;
-
-        if (i < resultPtr->weldAreaRect.size()) {
-            const auto& weldRects = resultPtr->weldAreaRect[i];
-            for (size_t j = 0; j < weldRects.size(); ++j) {
-                const auto& rect = weldRects[j];
-                double center_x = rect.x + rect.width / 2.0;
-                double center_y = rect.y + rect.height / 2.0;
-                // std::cout << "   Weld Rect " << j << " Center: ("
-                //           << center_x << ", " << center_y << std::endl;
-            }
-        } else {
-            std::cout << "   [No weld area data for this workpiece]" << std::endl;
-            ;
-        }
-    }
-    // printWorkpieceBoxInfo(resultPtr.get());
-
+    resultPtr = std::make_shared<workpieceBoxInWorld>(workpieceBoxInfoInWorld);  // std::shared_ptr<workpieceBoxInWorld>
+    whenUpdateComboWp(static_cast<int>(workpieceBoxInfoInWorld.workpieceInfoInWorld.size()));
     // return resultPtr;
 }
 void WorkpieceCoarseLocalization::whenAppendLog(const QString message) { ui->textCalibratation->append(message); }
@@ -185,105 +161,113 @@ void WorkpieceCoarseLocalization::whenUpdateComboBox(const std::vector<std::stri
         ui->comboCameras->addItem(QString::fromStdString(serial));  // 将 std::string 转为 QString
     }
 }
+void WorkpieceCoarseLocalization::whenUpdateComboWp(const int size) {
+    ui->comboWorkpieceNum->clear();  // 清空现有项
+
+    for (int i = 0; i < size; ++i) {
+        ui->comboWorkpieceNum->addItem(QString::number(i));
+    }
+}
 void WorkpieceCoarseLocalization::startCoarseLocalization() { baslerControl->imageSaverToInfer++; }
-void WorkpieceCoarseLocalization::printWorkpieceBoxInfo(const workpieceBoxInWorld* info) {
+void WorkpieceCoarseLocalization::printWorkpieceBoxInfo(const workpieceBoxInWorld* info, int workpieceIndex) {
     if (!info) {
         std::cout << "[printWorkpieceBoxInfo] nullptr received!" << std::endl;
         return;
     }
 
-    std::cout << "========== workpieceBoxInWorld Debug Info ==========" << std::endl;
-
-    // cameraOriginalMat
-    std::cout << "[cameraOriginalMat] count: " << info->cameraOriginalMat.size() << std::endl;
-    for (size_t i = 0; i < info->cameraOriginalMat.size(); ++i) {
-        std::string winName = "cameraOriginalMat_" + std::to_string(i);
-        std::cout << "  Showing window: " << winName << std::endl;
-        cv::imshow(winName, info->cameraOriginalMat[i]);
-        cv::waitKey(100);  // 小停顿让窗口刷新
+    const auto& vec = info->workpieceInfoInWorld;
+    // qDebug() << "---vec---" << vec.size();
+    if (workpieceIndex < 0 || workpieceIndex >= vec.size()) {
+        std::cout << "[printWorkpieceBoxInfo] Invalid index: " << workpieceIndex << " (size: " << vec.size() << ")" << std::endl;
+        return;
     }
 
-    // cameraSegMat
-    std::cout << "[cameraSegMat] count: " << info->cameraSegMat.size() << std::endl;
-    for (size_t i = 0; i < info->cameraSegMat.size(); ++i) {
-        std::string winName = "cameraSegMat_" + std::to_string(i);
-        std::cout << "  Showing window: " << winName << std::endl;
-        cv::imshow(winName, info->cameraSegMat[i]);
-        cv::waitKey(100);
+    const auto& wp = vec[workpieceIndex];
+    std::cout << "========== workpiece[" << workpieceIndex << "] Debug Info ==========" << std::endl;
+
+    // 原图和掩膜图
+    std::cout << "[cameraOriginalMat] size: " << wp.cameraOriginalMat.size() << std::endl;
+    if (!wp.cameraOriginalMat.empty()) cv::imshow("cameraOriginalMat_" /*+ std::to_string(workpieceIndex) */, wp.cameraOriginalMat);
+
+    std::cout << "[cameraSegMat] size: " << wp.cameraSegMat.size() << std::endl;
+    if (!wp.cameraSegMat.empty()) cv::imshow("cameraSegMat_" /*+ std::to_string(workpieceIndex) */, wp.cameraSegMat);
+
+    // 焊缝掩膜
+    std::cout << "[workpiece_weld_Mask] before/after:" << wp.workpiece_weld_Mask.first.size() << " / "
+              << wp.workpiece_weld_Mask.second.size() << std::endl;
+    if (!wp.workpiece_weld_Mask.first.empty())
+        cv::imshow("weldMask_before_" /*+ std::to_string(workpieceIndex) */, wp.workpiece_weld_Mask.first);
+    if (!wp.workpiece_weld_Mask.second.empty())
+        cv::imshow("weldMask_after_" /*+ std::to_string(workpieceIndex) */, wp.workpiece_weld_Mask.second);
+
+    // 焊缝检测对象
+    const auto& segObj = wp.workpiece_weld_Obj.first;
+    const auto& detObjs = wp.workpiece_weld_Obj.second;
+    std::cout << "[workpiece_weld_Obj] segLabel: " << segObj.label << ", prob: " << segObj.prob << std::endl;
+    std::cout << "  Detected objects: " << detObjs.size() << std::endl;
+    for (size_t j = 0; j < detObjs.size(); ++j) {
+        const auto& d = detObjs[j];
+        std::cout << "    Det[" << j << "]: label=" << d.label << ", prob=" << d.prob << ", rect=(" << d.rect.x << "," << d.rect.y
+                  << "," << d.rect.width << "," << d.rect.height << ")" << ", rotated_rect.angle=" << d.rotated_rect.angle
+                  << std::endl;
     }
 
-    // workpiece_weld_Mask
-    std::cout << "[workpiece_weld_Mask] count: " << info->workpiece_weld_Mask.size() << std::endl;
-    for (size_t i = 0; i < info->workpiece_weld_Mask.size(); ++i) {
-        std::string winNameBefore = "weldMask_before_" + std::to_string(i);
-        std::string winNameAfter = "weldMask_after_" + std::to_string(i);
-        std::cout << "  Showing windows: " << winNameBefore << " & " << winNameAfter << std::endl;
-        cv::imshow(winNameBefore, info->workpiece_weld_Mask[i].first);
-        cv::imshow(winNameAfter, info->workpiece_weld_Mask[i].second);
-        cv::waitKey(100);
+    // 区域坐标
+    const auto& center = wp.workpieceAreaRect.first;
+    const auto& topleft = wp.workpieceAreaRect.second;
+    std::cout << "[workpieceAreaRect] center=(" << center.x << "," << center.y << "," << center.z << "), topleft=(" << topleft.x << ","
+              << topleft.y << "," << topleft.z << ")" << std::endl;
+
+    // 焊缝区域矩形框
+    std::cout << "[weldAreaRect] count: " << wp.weldAreaRect.size() << std::endl;
+    for (size_t j = 0; j < wp.weldAreaRect.size(); ++j) {
+        const auto& r = wp.weldAreaRect[j];
+        std::cout << "  Rect[" << j << "]: x=" << r.x << ", y=" << r.y << ", w=" << r.width << ", h=" << r.height << std::endl;
     }
 
-    // workpiece_weld_Obj
-    std::cout << "[workpiece_weld_Obj] count: " << info->workpiece_weld_Obj.size() << std::endl;
-    for (size_t i = 0; i < info->workpiece_weld_Obj.size(); ++i) {
-        const auto& segObj = info->workpiece_weld_Obj[i].first;
-        const auto& detObjs = info->workpiece_weld_Obj[i].second;
-        std::cout << "  SegObject[" << i << "]: label=" << segObj.label << ", prob=" << segObj.prob << ", rect=("
-                  << segObj.rect.x << "," << segObj.rect.y << "," << segObj.rect.width << "," << segObj.rect.height << ")"
-                  << ", boxMask size: " << segObj.boxMask.size() << std::endl;
+    // IOU 信息
+    const auto& iou = wp.workpieceIouInfo;
+    if (!iou.cameraOriginalMat.empty()) {
+        std::cout << "========== [workpieceIouInfo] ==========" << std::endl;
 
-        std::string winMask = "workpiece_weld_Obj_boxMask_" + std::to_string(i);
-        if (!segObj.boxMask.empty()) {
-            cv::imshow(winMask, segObj.boxMask);
-            cv::waitKey(100);
-        }
+        std::cout << "  [cameraOriginalMat] size: " << iou.cameraOriginalMat.size() << std::endl;
+        if (!iou.cameraOriginalMat.empty())
+            cv::imshow("iou_cameraOriginalMat_" /*+ std::to_string(workpieceIndex) */, iou.cameraOriginalMat);
 
-        std::cout << "    Detected Objects count: " << detObjs.size() << std::endl;
-        for (size_t j = 0; j < detObjs.size(); ++j) {
-            const auto& d = detObjs[j];
-            std::cout << "      DetObject[" << j << "]: label=" << d.label << ", prob=" << d.prob << ", rect=(" << d.rect.x
-                      << "," << d.rect.y << "," << d.rect.width << "," << d.rect.height << ")"
-                      << ", rotated_rect.angle=" << d.rotated_rect.angle << std::endl;
-        }
-    }
+        std::cout << "  [cameraSegMat] size: " << iou.cameraSegMat.size() << std::endl;
+        if (!iou.cameraSegMat.empty()) cv::imshow("iou_cameraSegMat_" /*+ std::to_string(workpieceIndex) */, iou.cameraSegMat);
 
-    // workpieceAreaRect
-    std::cout << "[workpieceAreaRect] count: " << info->workpieceAreaRect.size() << std::endl;
-    for (size_t i = 0; i < info->workpieceAreaRect.size(); ++i) {
-        const auto& center = info->workpieceAreaRect[i].first;
-        const auto& topleft = info->workpieceAreaRect[i].second;
-        std::cout << "  Workpiece[" << i << "]: center=(" << center.x << "," << center.y << "," << center.z << "), topleft=("
-                  << topleft.x << "," << topleft.y << "," << topleft.z << ")" << std::endl;
-    }
+        std::cout << "  [workpiece_weld_Mask] before size: " << iou.workpiece_weld_Mask.first.size()
+                  << ", after size: " << iou.workpiece_weld_Mask.second.size() << std::endl;
+        if (!iou.workpiece_weld_Mask.first.empty())
+            cv::imshow("iou_weldMask_before_" /*+ std::to_string(workpieceIndex) */, iou.workpiece_weld_Mask.first);
+        if (!iou.workpiece_weld_Mask.second.empty())
+            cv::imshow("iou_weldMask_after_" /*+ std::to_string(workpieceIndex) */, iou.workpiece_weld_Mask.second);
 
-    // weldAreaRect
-    std::cout << "[weldAreaRect] count: " << info->weldAreaRect.size() << std::endl;
-    for (size_t i = 0; i < info->weldAreaRect.size(); ++i) {
-        const auto& rects = info->weldAreaRect[i];
-        std::cout << "  WeldRects[" << i << "] count: " << rects.size() << std::endl;
-        for (size_t j = 0; j < rects.size(); ++j) {
-            const auto& r = rects[j];
-            std::cout << "    Rect[" << j << "]: x=" << r.x << ", y=" << r.y << ", w=" << r.width << ", h=" << r.height
+        const auto& iouSegObj = iou.workpiece_weld_Obj.first;
+        const auto& iouDetObjs = iou.workpiece_weld_Obj.second;
+        std::cout << "  [workpiece_weld_Obj] segLabel: " << iouSegObj.label << ", prob: " << iouSegObj.prob << std::endl;
+        std::cout << "    Detected objects: " << iouDetObjs.size() << std::endl;
+        for (size_t j = 0; j < iouDetObjs.size(); ++j) {
+            const auto& d = iouDetObjs[j];
+            std::cout << "    Det[" << j << "]: label=" << d.label << ", prob=" << d.prob << ", rect=(" << d.rect.x << "," << d.rect.y
+                      << "," << d.rect.width << "," << d.rect.height << ")" << ", rotated_rect.angle=" << d.rotated_rect.angle
                       << std::endl;
         }
     }
-
-    // trackDirection
+    // 全局信息
     std::cout << "[trackDirection] size: " << info->trackDirection.rows << "x" << info->trackDirection.cols << std::endl;
     if (!info->trackDirection.empty()) {
         std::cout << info->trackDirection << std::endl;
-        cv::imshow("trackDirection", info->trackDirection);
-        cv::waitKey(100);
+        // cv::imshow("trackDirection", info->trackDirection);
     }
 
-    // finalRailMap
     std::cout << "[finalRailMap] size: " << info->finalRailMap.rows << "x" << info->finalRailMap.cols << std::endl;
     if (!info->finalRailMap.empty()) {
         cv::imshow("finalRailMap", info->finalRailMap);
-        cv::waitKey(100);
     }
 
-    std::cout << "====================================================" << std::endl;
+    cv::waitKey(0);
 }
 //----------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------
@@ -352,3 +336,8 @@ void WorkpieceCoarseLocalization::on_btn_calibTrack_clicked() { emit sendGetTrac
 void WorkpieceCoarseLocalization::on_btnRobotConnect_clicked() { emit sendRobotConnect(); }
 
 void WorkpieceCoarseLocalization::on_btnRobotDisConnect_clicked() { emit sendRobotDisconnect(); }
+
+void WorkpieceCoarseLocalization::on_btnGetWorkpieceInfo_clicked() {
+    int selectedIndex = ui->comboWorkpieceNum->currentIndex();  // 获取当前选中项的索引
+    printWorkpieceBoxInfo(resultPtr.get(), selectedIndex);      // 使用这个索引替代原来的固定值
+}

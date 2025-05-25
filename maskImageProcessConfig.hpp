@@ -3,16 +3,23 @@
 #include <opencv2/opencv.hpp>
 
 #include "yolo11SegNormal/common.hpp"
-struct workpieceBoxInWorld {
-    std::vector<cv::Mat> cameraOriginalMat;                                            // 相机原图
-    std::vector<cv::Mat> cameraSegMat;                                                 // 原图下的掩膜检测
-    std::vector<std::pair<cv::Mat, cv::Mat>> workpiece_weld_Mask;                      // 焊缝检测前后的掩膜图像
-    std::vector<std::pair<seg::Object, std::vector<det::Object>>> workpiece_weld_Obj;  // 检测数据
-    std::vector<std::pair<cv::Point3d, cv::Point3d>> workpieceAreaRect;                // <center, topleft>
-    std::vector<std::vector<cv::Rect_<double>>> weldAreaRect;                          // 工件焊缝区域信息
-    cv::Mat trackDirection;                                                            // 地轨方向向量
-    cv::Mat finalRailMap;                                                              // 最终长图
+// struct workpieceBoxInWorld {
+//     std::vector<cv::Mat> cameraOriginalMat;                                            // 相机原图
+//     std::vector<cv::Mat> cameraSegMat;                                                 // 原图下的掩膜检测
+//     std::vector<std::pair<cv::Mat, cv::Mat>> workpiece_weld_Mask;                      // 焊缝检测前后的掩膜图像
+//     std::vector<std::pair<seg::Object, std::vector<det::Object>>> workpiece_weld_Obj;  // 检测数据
+//     std::vector<std::pair<cv::Point3d, cv::Point3d>> workpieceAreaRect;                // <center, topleft>
+//     std::vector<std::vector<cv::Rect_<double>>> weldAreaRect;                          // 工件焊缝区域信息
+//     cv::Mat trackDirection;                                                            // 地轨方向向量
+//     cv::Mat finalRailMap;                                                              // 最终长图
+// };
+struct workpieceIOUInfo {
+    cv::Mat cameraOriginalMat;                                            // 相机原图
+    cv::Mat cameraSegMat;                                                 // 原图下的掩膜检测
+    std::pair<cv::Mat, cv::Mat> workpiece_weld_Mask;                      // 焊缝检测前后的掩膜图像
+    std::pair<seg::Object, std::vector<det::Object>> workpiece_weld_Obj;  // 检测数据
 };
+
 struct workpieceInfo {
     cv::Mat cameraOriginalMat;                                            // 相机原图
     cv::Mat cameraSegMat;                                                 // 原图下的掩膜检测
@@ -20,13 +27,16 @@ struct workpieceInfo {
     std::pair<seg::Object, std::vector<det::Object>> workpiece_weld_Obj;  // 检测数据
     std::pair<cv::Point3d, cv::Point3d> workpieceAreaRect;                // <center, topleft>
     std::vector<cv::Rect_<double>> weldAreaRect;                          // 工件焊缝区域信息
+    workpieceIOUInfo workpieceIouInfo;
 };
-struct workpieceBoxInWorl {
+struct workpieceBoxInWorld {
     std::vector<workpieceInfo> workpieceInfoInWorld;
     cv::Mat trackDirection;  // 地轨方向向量
     cv::Mat finalRailMap;    // 最终长图
 };
-
+extern workpieceBoxInWorld workpieceFinalInfoInWorld;
+extern workpieceBoxInWorld workpieceFinalInfoInWorldAfterVerify;
+extern workpieceBoxInWorld workpieceFinalInfoInWorldAfterIOU;
 //------------------------------画布绘制参数---------------------------------------
 namespace CanvasDrawingConfig {
 // 长画布参数
@@ -54,7 +64,10 @@ const int expandedWidth = 1024;
 const int expandedHeight = 1024;
 const int AdjustWorkpieceResolution = 1;  // 调整工件掩膜分辨率倍数
 const int rectRotationAngle = 90;         // 90 180 270 //旋转工件提高召回率
+const std::string sortAxis = "X";
+const std::string sortOrder = "up";
 }  // namespace MaskTransformConfig
+
 class CoordinateMapper {
 public:
     // 坐标映射类型枚举
@@ -131,8 +144,8 @@ public:
         return cv::Point_<T>(x_original, y_original);
     }
     template <typename T>
-    static cv::Point_<T> originalToRotated(const cv::Point_<T>& originalPoint, int originalImageWidth,
-                                           int originalImageHeight, int rotationAngle) {
+    static cv::Point_<T> originalToRotated(const cv::Point_<T>& originalPoint, int originalImageWidth, int originalImageHeight,
+                                           int rotationAngle) {
         T x_original = originalPoint.x;
         T y_original = originalPoint.y;
         T x_rotated = 0;
@@ -164,4 +177,6 @@ public:
         return cv::Point_<T>(x_rotated, y_rotated);
     }
 };
+extern CoordinateMapper::CoordMappingType g_coordMappingType;  // 机器人与像素坐标系之间的关系
+
 #endif  // MASKIMAGEPROCESSCONFIG_H

@@ -26,7 +26,6 @@ struct ObjectInfo {
     int cameraIndex;   ///< 相机序号
 };
 extern std::array<cameraConfig, 3> cameraParameters;  // 相机参数数量
-extern workpieceBoxInWorld workpieceFinalInfoInWorld;
 using namespace CanvasDrawingConfig;
 
 /**
@@ -46,8 +45,7 @@ public:
 
     void Point2dto3d(std::vector<double> plane, cv::Mat &cameraMatrix, cv::Mat &distCoeffs, std::vector<cv::Point2d> &Pt2ds,
                      std::vector<cv::Point3d> &Pt3ds);
-    std::vector<cv::Point3d> transformCameraToBase(const std::vector<cv::Point3d> &cameraPoints,
-                                                   const cv::Mat &extrinsicMatrix);
+    std::vector<cv::Point3d> transformCameraToBase(const std::vector<cv::Point3d> &cameraPoints, const cv::Mat &extrinsicMatrix);
     void saveAllObjectsToFile(std::string filePath);
     double calculateDistance(const cv::Point3d &p1, const cv::Point3d &p2);
     cv::Point3d computeCentroid(const std::vector<ObjectInfo> &group);
@@ -55,14 +53,13 @@ public:
     void removeSmallCategories(std::vector<std::vector<ObjectInfo>> &categorizedObjects);
     std::vector<cv::Point3d> calculateCategoryCenters(std::vector<std::vector<ObjectInfo>> &categorizedObjects);
     void displayDetectedWorkpieces(const std::vector<std::vector<ObjectInfo>> &categorizedObjects,
-                                   const std::vector<cv::Mat> &cvImagesToDisplay,
-                                   const std::vector<cv::Point3d> &categoryCenters3d);
+                                   const std::vector<cv::Mat> &cvImagesToDisplay, const std::vector<cv::Point3d> &categoryCenters3d);
 
     void whenVerifyWorkpieceCoordinates();
     std::vector<cv::Point3d> pixel2WorldCoordPoint(std::vector<cv::Point2d> &Pt2ds, int cameraNumber);
     void drawGridAndAxes(cv::Mat &railMap);
     void drawDetectedWorkpieces(cv::Mat &railMap, const cv::Mat &resizedImage, cv::Point3d &worldCenter, int categoryIdx);
-    void whenDisplayWeldSeamArea(const workpieceBoxInWorld &boxInfo);
+    void whenDisplayWeldSeamArea(workpieceBoxInWorld &boxInfo);
     void railMapRotated(cv::Mat &image, int angle);
     cv::Point2d projectAndRotateCenter(const cv::Point3d &center3d, const cv::Mat &canvasMat, int imageRows, int imageCols,
                                        int rotationAngle);
@@ -70,7 +67,7 @@ public:
     void whenGetResultInfo(const std::vector<cv::Point3d> resultCenters, const std::vector<cv::Point3d> resultLeftTop);
     void whenGetWeldBoxInfo(const std::vector<std::vector<std::array<double, 4>>> &boxInfos);
     void computeIOUsWithOverlap(workpieceBoxInWorld &boxInfo);
-    void sortWorkpieceBoxInfo(workpieceBoxInWorld &boxInfo);
+    void sortWorkpieceBoxInfo(workpieceBoxInWorld &boxInfo, const std::string &axis, const std::string &order);
 
 private:
     std::vector<ObjectInfo> allObjects;

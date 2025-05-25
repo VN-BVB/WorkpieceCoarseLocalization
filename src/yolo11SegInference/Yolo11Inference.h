@@ -103,7 +103,8 @@ public:
     float score_thres = 0.2f;  // 置信度
     float iou_thres = 0.45f;   // 交并比
     double inferTime;          // 推理用时
-    int imgNum;
+    int imgNum;                // 图像索引
+    int workpieceNum;          // 存储用工件索引
     std::vector<det::Object> objs_det;
     std::vector<cv::Point3d> maskWorldCenters;
 
@@ -111,8 +112,7 @@ public:
 
 private:
     void inferSegAndCalcTime();
-    void whenCoordinatesNeedToProceed(std::vector<std::vector<cv::Rect_<float>>> rect_Dets,
-                                      std::vector<cv::Point3d> worldCenters);
+    void whenCoordinatesNeedToProceed(std::vector<std::vector<cv::Rect_<float>>> rect_Dets, std::vector<cv::Point3d> worldCenters);
 signals:
     void sendInferResultToMainWindow(cv::Mat res);
     void sendBoxInfoToDisplay(const std::vector<std::vector<std::array<double, 4>>> &boxInfos);

@@ -17,7 +17,7 @@
 #pragma execution_character_set("utf-8")
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class MainWindow;
+class WorkpieceCoarseLocalization;
 }
 QT_END_NAMESPACE
 extern std::string inferencePath;  // 推理路径
@@ -32,7 +32,7 @@ public:
     ~WorkpieceCoarseLocalization();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::WorkpieceCoarseLocalization *ui;
 
     Yolo11SegInference *yolo11SegInference = new Yolo11SegInference;                          // 分割类
     Yolo11RectInference *yolo11RectInference = new Yolo11RectInference;                       // 目标检测类
@@ -51,6 +51,7 @@ private:
 
     QGraphicsScene *scene = new QGraphicsScene;  // 创建一个 QGraphicsScene
     bool detectionEnabled;
+    std::shared_ptr<workpieceBoxInWorld> resultPtr;
 
 private slots:
     void on_btnConnectCamera_clicked();
@@ -77,6 +78,8 @@ private slots:
 
     void on_btn_calibTrack_clicked();
 
+    void on_btnGetWorkpieceInfo_clicked();
+
 public slots:
     void startCoarseLocalization();
     void whenGetInferResult(cv::Mat res);
@@ -85,9 +88,10 @@ public slots:
     void whenGetWorkpieceResult(cv::Mat res);
     void whenGetWorkpieceRailMap(cv::Mat res);
     void whenUpdateComboBox(const std::vector<std::string> &SerialNumbers);
+    void whenUpdateComboWp(const int size);
     void whenViewWorldCoordinateLabel(int x, int y);
     void getLocalizationResult(const workpieceBoxInWorld &workpieceBoxInfoInWorld);
-    void printWorkpieceBoxInfo(const workpieceBoxInWorld *info);
+    void printWorkpieceBoxInfo(const workpieceBoxInWorld *info, int workpieceIndex);
 signals:
     void sendCommandToInferPath(std::string path);
     void sendDisconnectCamera();
