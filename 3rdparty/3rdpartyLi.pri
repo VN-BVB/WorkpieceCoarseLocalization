@@ -45,10 +45,10 @@ LIBS += D:\ProgramData\cerea\ceres\lib\*.lib
 INCLUDEPATH += $$quote(D:/Basler/pylon7/Development/include)
 LIBS +=  $$quote(D:/Basler/pylon7/Development/lib/x64/*.lib)
 
-# 引入AUBO机器人库
-INCLUDEPATH += ./3rdparty/auboi5
-INCLUDEPATH += ./3rdparty/auboi5/inc
-LIBS += ./3rdparty/auboi5/lib/libserviceinterface.lib
+# # 引入AUBO机器人库
+# INCLUDEPATH += ./3rdparty/auboi5
+# INCLUDEPATH += ./3rdparty/auboi5/inc
+# LIBS += ./3rdparty/auboi5/lib/libserviceinterface.lib
 
 # 引入cereal序列化饭序列化库
 INCLUDEPATH += ./3rdparty/cereal/include

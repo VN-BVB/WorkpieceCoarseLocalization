@@ -1,6 +1,4 @@
-﻿#include <test.h>
-
-#include <QApplication>
+﻿#include <QApplication>
 
 #include "WorkpieceCoarseLocalization.h"
 int main(int argc, char *argv[]) {
@@ -8,8 +6,6 @@ int main(int argc, char *argv[]) {
 
     WorkpieceCoarseLocalization w;
     w.show();
-    // Test test;
-    // test.checkTensorRTEngine();
     return a.exec();
 }
 

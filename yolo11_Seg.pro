@@ -14,11 +14,6 @@ QMAKE_LFLAGS_RELEASE = /DEBUG
 SOURCES += \
     WorkpieceCoarseLocalization.cpp \
     main.cpp \
-    src/Aubo/robot_contorl.cpp \
-    src/Aubo/src/aubo_contorl.cpp \
-    src/Aubo/src/aubo_example.cpp \
-    src/Aubo/src/aubo_myMove.cpp \
-    src/Aubo/src/stdafx.cpp \
     src/Calibrate_HandToEye/Calibrate_handeye.cpp \
     src/Calibrate_HandToEye/src/calibration.cpp \
     src/Calibrate_HandToEye/src/handEyeCalibration.cpp \
@@ -32,17 +27,11 @@ SOURCES += \
     src/utils/image_widget/ScalableGraphicsView.cpp \
     src/yolo11SegInference/Yolo11Inference.cpp \
     src/yolo11SegNormal/yolo11-seg.cpp \
-    src/yolov11WeldSeamArea/yolov11-rect.cpp \
-    test.cpp
+    src/yolov11WeldSeamArea/yolov11-rect.cpp
 
 HEADERS += \
     WorkpieceCoarseLocalization.h \
     maskImageProcessConfig.hpp \
-    src/Aubo/include/aubo_control.h \
-    src/Aubo/include/aubo_example.h \
-    src/Aubo/include/aubo_myMove.h \
-    src/Aubo/include/stdafx.h \
-    src/Aubo/robot_control.h \
     src/Calibrate_HandToEye/include/Camera_Calibration.h \
     src/Calibrate_HandToEye/include/calibration.h \
     src/Calibrate_HandToEye/include/handEyeCalibration.h \
@@ -59,8 +48,7 @@ HEADERS += \
     src/yolo11SegInference/Yolo11Inference.h \
     src/yolo11SegNormal/yolo11-seg.h \
     src/yolo11SegNormal/common.hpp \
-    src/yolov11WeldSeamArea/yolov11-rect.h \
-    test.h
+    src/yolov11WeldSeamArea/yolov11-rect.h
 
 FORMS += \
     WorkpieceCoarseLocalization.ui

@@ -9,7 +9,6 @@
 #include <QMouseEvent>
 #include <QThread>
 
-#include "src/Aubo/robot_control.h"
 #include "src/Calibrate_HandToEye/Calibrate_handeye.h"
 #include "src/camera_control/basler/BaslerControl.h"
 #include "src/fittingWorkpieceCoordinate/Fittingworkpiececoordinate.h"
@@ -40,14 +39,12 @@ private:
     BaslerControl *baslerControl = new BaslerControl;                                         // 相机类
     CalibratateCamera *calibratateCamera = new CalibratateCamera;                             // 相机标定
     HandEyeCalibrationLogic *eyeToHandCalibration = new HandEyeCalibrationLogic;              // 手眼标定类
-    RobotController *robot = new RobotController;
 
     QThread *inferenceSubThread = new QThread;             // 深度学习推理线程
     QThread *cameraCalibrationSubThread = new QThread;     // 相机标定线程
     QThread *eyeToHandCalibrationSubThread = new QThread;  // 手眼标定线程
     QThread *cameraControlSubThread = new QThread;         // 相机线程
     QThread *fittingWorkpieceSubThread = new QThread;      // 坐标拟合线程
-    QThread *robotControlSubThread = new QThread;          // 机器人线程
 
     QGraphicsScene *scene = new QGraphicsScene;  // 创建一个 QGraphicsScene
     bool detectionEnabled;
@@ -103,6 +100,5 @@ signals:
     void sendGetTrackHcg();
     void sendRobotConnect();
     void sendRobotDisconnect();
-    void sendGetCurrentWaypoint();
 };
 #endif  // MAINWINDOW_H

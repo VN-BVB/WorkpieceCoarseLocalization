@@ -29,8 +29,6 @@
 -ID:/ProgramData/Coin3d/include
 -ID:/ProgramData/cerea/ceres/include
 -ID:/Basler/pylon7/Development/include
--ID:/YOLO/yolo11_Seg_C++/3rdparty/auboi5
--ID:/YOLO/yolo11_Seg_C++/3rdparty/auboi5/inc
 -ID:/YOLO/yolo11_Seg_C++/3rdparty/cereal/include
 -ID:/YOLO/yolo11_Seg_C++/3rdparty/HD6
 -ID:/YOLO/NVIDIA GPU Computing Toolkit/CUDA/v11.8/include

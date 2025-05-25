@@ -14,4 +14,6 @@
 *.exe
 *.opt
 *.bat
-*.engine
+*.xml
+/3rdparty/auboi5
+yolo11_Seg.pro.user

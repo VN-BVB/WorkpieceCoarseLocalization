@@ -85,16 +85,15 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget* parent) : QWid
             &FittingWorkpieceCoordinate::loadCalibrationParameters);
     connect(eyeToHandCalibration, &HandEyeCalibrationLogic::appendHandEyeLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
     connect(eyeToHandCalibration, &HandEyeCalibrationLogic::sendSaveHcg, calibratateCamera, &CalibratateCamera::whenSaveHcg);
+
     // 机器人线程
-    robot->moveToThread(robotControlSubThread);
-    connect(this, &WorkpieceCoarseLocalization::sendRobotConnect, robot, &RobotController::whenRobotConnect);
-    connect(this, &WorkpieceCoarseLocalization::sendRobotDisconnect, robot, &RobotController::whenRobotDisconnect);
-    // connect(this, &MainWindow::sendGetCurrentWaypoint, robot, &RobotController::whenGetCurrentWaypoint);
-    connect(baslerControl, &BaslerControl::sendGetCurrentWaypoint, robot, &RobotController::whenGetCurrentWaypoint);
-    connect(robot, &RobotController::appendMessageLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
+    // 连接、断联、获取姿态、获取字符信息
+    // connect(this, &WorkpieceCoarseLocalization::sendRobotConnect, robot, &RobotController::whenRobotConnect);
+    // connect(this, &WorkpieceCoarseLocalization::sendRobotDisconnect, robot, &RobotController::whenRobotDisconnect);
+    // connect(baslerControl, &BaslerControl::sendGetCurrentWaypoint, robot, &RobotController::whenGetCurrentWaypoint);
+    // connect(robot, &RobotController::appendMessageLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
 
     inferenceSubThread->start();
-    robotControlSubThread->start();
     cameraControlSubThread->start();
     fittingWorkpieceSubThread->start();
     cameraCalibrationSubThread->start();
@@ -109,7 +108,6 @@ WorkpieceCoarseLocalization::~WorkpieceCoarseLocalization() {
     delete baslerControl;
     delete calibratateCamera;
     delete eyeToHandCalibration;
-    delete robot;
 }
 
 void WorkpieceCoarseLocalization::whenGetImage(cv::Mat res) { ui->qImageWidget->setOpenCVImage(res); }
@@ -289,7 +287,6 @@ void WorkpieceCoarseLocalization::on_btnSaveImage_clicked() {
     bool validOption = true;
     if (selectedOption == "相机手眼标定") {
         saveType = 0;
-        // emit sendGetCurrentWaypoint();
     } else if (selectedOption == "平面拟合") {
         saveType = 1;
     } else if (selectedOption == "地轨标定") {
