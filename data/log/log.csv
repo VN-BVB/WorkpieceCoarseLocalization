@@ -8353,3 +8353,4 @@
 2025/05/24;21:54:00.985;DEBUG;28016;0000000000000000;BaslerControl::closeCamera@207;"Basler相机断开连接"
 2025/05/24;21:54:53.059;DEBUG;17320;0000000000000000;BaslerControl::closeCamera@207;"Basler相机断开连接"
 2025/05/25;19:21:09.886;DEBUG;4452;0000000000000000;BaslerControl::closeCamera@207;"Basler相机断开连接"
+2025/05/25;20:02:38.798;DEBUG;32228;0000000000000000;BaslerControl::closeCamera@212;"Basler相机断开连接"
