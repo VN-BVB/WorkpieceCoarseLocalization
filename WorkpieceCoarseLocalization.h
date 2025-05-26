@@ -71,6 +71,7 @@ public slots:
     void getLocalizationResult(const workpieceBoxInWorld &workpieceBoxInfoInWorld);
     void printWorkpieceBoxInfo(const workpieceBoxInWorld *info, int workpieceIndex);
     void debugProjectPointOnlyY(const cv::Mat &trackDirection, const cv::Point3d &pt);
+
 signals:
     void sendCommandToInferPath(std::string path);
     void sendDisconnectCamera();

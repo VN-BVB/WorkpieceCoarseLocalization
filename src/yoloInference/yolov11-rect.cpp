@@ -214,8 +214,7 @@ void Yolov11_Rect::copy_from_Mat(const cv::Mat& image) {
     cv::Size size{width, height};
     this->letterbox(image, nchw, size);
 
-    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice,
-                          this->stream));
+    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice, this->stream));
 
 #ifdef TRT_10
     auto name = this->input_bindings[0].name.c_str();
@@ -235,8 +234,7 @@ void Yolov11_Rect::copy_from_Mat(const cv::Mat& image, cv::Size& size) {
     this->letterbox(image, nchw, size);
     cudaError_t err = cudaMalloc(&this->device_ptrs[0], nchw.total() * nchw.elemSize());
 
-    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice,
-                          this->stream));
+    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice, this->stream));
     // cudaError_t error = cudaGetLastError();
     // printf("CUDA error: %s\n", cudaGetErrorString(error));
 

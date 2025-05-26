@@ -30,8 +30,13 @@ const std::vector<std::vector<unsigned int>> MASK_COLORS = {
     {128, 0,   255}
 };
 
-const std::string engine_file_path_seg_workpiece = "./data/YoloModel/degreesMask118.engine";  // degreesMask118
-const std::string engine_file_path_rect = "./data/YoloModel/degreesRoughweldseaminspection118-3.engine";
+extern std::vector<cv::Mat> cvImagesInferring;
+// const std::string engine_file_path_seg_workpiece = "./data/YoloModel/degreesMask118.engine";  // degreesMask118
+// const std::string engine_file_path_rect = "./data/YoloModel/degreesRoughweldseaminspection118-3.engine";
+const std::string engine_file_path_seg_workpiece = "./data/YoloModel/workpieceSegRom.engine";  // degreesMask118
+const std::string engine_file_path_rect = "./data/YoloModel/weldAreaDetRom.engine";
+// const std::string engine_file_path_seg_workpiece = "./data/YoloModel/degreesMask118.engine";  // degreesMask118
+// const std::string engine_file_path_rect = "./data/YoloModel/degreesRoughweldseaminspection118-3.engine";
 
 class Yolo11SegInference : public QObject {
     Q_OBJECT

@@ -180,8 +180,7 @@ void YOLO11_segCoarse::copy_from_Mat(const cv::Mat &image) {
     int height = in_binding.dims.d[2];
     cv::Size size{width, height};
     this->letterbox(image, nchw, size);
-    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice,
-                          this->stream));
+    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice, this->stream));
 
 #ifdef TRT_10
     auto name = this->input_bindings[0].name.c_str();
@@ -203,8 +202,7 @@ void YOLO11_segCoarse::copy_from_Mat(const cv::Mat &image, cv::Size &size) {
     // if (nchw.channels() == 1) {
     //     cv::cvtColor(nchw, nchw, cv::COLOR_GRAY2BGR);
     // }
-    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice,
-                          this->stream));
+    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice, this->stream));
 #ifdef TRT_10
     auto name = this->input_bindings[0].name.c_str();
     this->context->setInputShape(name, nvinfer1::Dims{
