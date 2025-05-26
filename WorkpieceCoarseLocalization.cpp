@@ -65,30 +65,7 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget* parent) : QWid
     connect(baslerControl, &BaslerControl::sendSerialNumber, this, &WorkpieceCoarseLocalization::whenUpdateComboBox);
     connect(baslerControl, &BaslerControl::sendCvImagesToInfer, yolo11SegInference, &Yolo11SegInference::whenImageNeedToInfer);
     connect(baslerControl, &BaslerControl::appendCameraLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
-<<<<<<< HEAD
-    // 相机标定线程
-    calibratateCamera->moveToThread(cameraCalibrationSubThread);
-    eyeToHandCalibration->moveToThread(eyeToHandCalibrationSubThread);
-    connect(this, &WorkpieceCoarseLocalization::sendSignalToCalibratate, calibratateCamera, &CalibratateCamera::whenNeedCalibratateCamera);
-    connect(calibratateCamera, &CalibratateCamera::appendCalibrationLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
-    connect(calibratateCamera, &CalibratateCamera::sendSignalToTransmitCalibPara, fittingWorkpieceCoordinate,
-            &FittingWorkpieceCoordinate::loadCalibrationParameters);
-    connect(this, &WorkpieceCoarseLocalization::sendEyeToHandCalib, eyeToHandCalibration, &HandEyeCalibrationLogic::whenCalibrateEye2Hand);
-    connect(this, &WorkpieceCoarseLocalization::sendGetTrackHcg, eyeToHandCalibration, &HandEyeCalibrationLogic::whenGetTrackHcg);
-    connect(eyeToHandCalibration, &HandEyeCalibrationLogic::sendSignalToTransmitCalibPara, fittingWorkpieceCoordinate,
-            &FittingWorkpieceCoordinate::loadCalibrationParameters);
-    connect(eyeToHandCalibration, &HandEyeCalibrationLogic::appendHandEyeLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
-    connect(eyeToHandCalibration, &HandEyeCalibrationLogic::sendSaveHcg, calibratateCamera, &CalibratateCamera::whenSaveHcg);
 
-    // 机器人线程
-    // 连接、断联、获取姿态、获取字符信息
-    // connect(this, &WorkpieceCoarseLocalization::sendRobotConnect, robot, &RobotController::whenRobotConnect);
-    // connect(this, &WorkpieceCoarseLocalization::sendRobotDisconnect, robot, &RobotController::whenRobotDisconnect);
-    // connect(baslerControl, &BaslerControl::sendGetCurrentWaypoint, robot, &RobotController::whenGetCurrentWaypoint);
-    // connect(robot, &RobotController::appendMessageLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
-
-=======
->>>>>>> 14f67258beab6f9128e2af30f1270ba52e11fde4
     inferenceSubThread->start();
     cameraControlSubThread->start();
     fittingWorkpieceSubThread->start();
@@ -253,6 +230,7 @@ void WorkpieceCoarseLocalization::printWorkpieceBoxInfo(const workpieceBoxInWorl
 
     cv::waitKey(0);
 }
+
 void WorkpieceCoarseLocalization::debugProjectPointOnlyY(const cv::Mat& trackDirection, const cv::Point3d& pt) {
     if (trackDirection.empty() || trackDirection.rows != 3 || trackDirection.cols != 1) {
         std::cerr << "Invalid trackDirection vector!" << std::endl;

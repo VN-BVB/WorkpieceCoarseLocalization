@@ -1,4 +1,4 @@
-﻿#include "src/yolo11SegNormal/yolo11-seg.h"
+﻿#include "src/yoloInference/yolo11-seg.h"
 
 YOLO11_segCoarse::YOLO11_segCoarse(const std::string &engine_file_path) {
     std::ifstream file(engine_file_path, std::ios::binary);
@@ -101,9 +101,9 @@ void YOLO11_segCoarse::make_pipe(bool warmup) {
         this->device_ptrs.push_back(d_ptr);
 
 #ifdef TRT_10
-    auto name = bindings.name.c_str();
-    this->context->setInputShape(name, bindings.dims);
-    this->context->setTensorAddress(name, d_ptr);
+        auto name = bindings.name.c_str();
+        this->context->setInputShape(name, bindings.dims);
+        this->context->setTensorAddress(name, d_ptr);
 #endif
     }
 
@@ -116,8 +116,8 @@ void YOLO11_segCoarse::make_pipe(bool warmup) {
         this->host_ptrs.push_back(h_ptr);
 
 #ifdef TRT_10
-    auto name = bindings.name.c_str();
-    this->context->setTensorAddress(name, d_ptr);
+        auto name = bindings.name.c_str();
+        this->context->setTensorAddress(name, d_ptr);
 #endif
     }
     if (warmup) {
@@ -131,7 +131,7 @@ void YOLO11_segCoarse::make_pipe(bool warmup) {
             }
             this->infer();
         }
-        //printf("model warmup 10 times\n");
+        // printf("model warmup 10 times\n");
     }
 }
 
@@ -180,19 +180,18 @@ void YOLO11_segCoarse::copy_from_Mat(const cv::Mat &image) {
     int height = in_binding.dims.d[2];
     cv::Size size{width, height};
     this->letterbox(image, nchw, size);
-    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice,
-                          this->stream));
+    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice, this->stream));
 
 #ifdef TRT_10
     auto name = this->input_bindings[0].name.c_str();
     this->context->setInputShape(name, nvinfer1::Dims{
                                            4, {1, 3, size.height, size.width}
-                                       });
+    });
     this->context->setTensorAddress(name, this->device_ptrs[0]);
 #else
     this->context->setBindingDimensions(0, nvinfer1::Dims{
                                                4, {1, 3, height, width}
-                                           });
+    });
 #endif
 }
 
@@ -203,18 +202,17 @@ void YOLO11_segCoarse::copy_from_Mat(const cv::Mat &image, cv::Size &size) {
     // if (nchw.channels() == 1) {
     //     cv::cvtColor(nchw, nchw, cv::COLOR_GRAY2BGR);
     // }
-    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice,
-                          this->stream));
+    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice, this->stream));
 #ifdef TRT_10
     auto name = this->input_bindings[0].name.c_str();
     this->context->setInputShape(name, nvinfer1::Dims{
                                            4, {1, 3, size.height, size.width}
-                                       });
+    });
     this->context->setTensorAddress(name, this->device_ptrs[0]);
 #else
     this->context->setBindingDimensions(0, nvinfer1::Dims{
                                                4, {1, 3, size.height, size.width}
-                                           });
+    });
 #endif
 }
 
@@ -226,14 +224,13 @@ void YOLO11_segCoarse::infer() {
 #endif
     for (int i = 0; i < this->num_outputs; i++) {
         size_t osize = this->output_bindings[i].size * this->output_bindings[i].dsize;
-        CHECK(cudaMemcpyAsync(this->host_ptrs[i], this->device_ptrs[i + this->num_inputs], osize, cudaMemcpyDeviceToHost,
-                              this->stream));
+        CHECK(cudaMemcpyAsync(this->host_ptrs[i], this->device_ptrs[i + this->num_inputs], osize, cudaMemcpyDeviceToHost, this->stream));
     }
     cudaStreamSynchronize(this->stream);
 }
 
 void YOLO11_segCoarse::postprocess(std::vector<seg::Object> &objs, float score_thres, float iou_thres, int topk, int seg_channels, int seg_h,
-                             int seg_w) {
+                                   int seg_w) {
     objs.clear();
     auto input_h = this->input_bindings[0].dims.d[2];
     auto input_w = this->input_bindings[0].dims.d[3];
@@ -308,7 +305,7 @@ void YOLO11_segCoarse::postprocess(std::vector<seg::Object> &objs, float score_t
 #else
     cv::dnn::NMSBoxes(bboxes, scores, score_thres, iou_thres, indices);
 #endif
-    //std::cout << "Number of detected indices: " << indices.size() << std::endl;
+    // std::cout << "Number of detected indices: " << indices.size() << std::endl;
     cv::Mat masks;
     int cnt = 0;
     for (auto &i : indices) {
@@ -362,9 +359,9 @@ void YOLO11_segCoarse::postprocess(std::vector<seg::Object> &objs, float score_t
 }
 
 void YOLO11_segCoarse::draw_objects(const cv::Mat &image, cv::Mat &res, const std::vector<seg::Object> &objs,
-                              const std::vector<std::string> &CLASS_NAMES, const std::vector<std::vector<unsigned int>> &COLORS,
-                              const std::vector<std::vector<unsigned int>> &MASK_COLORS) {
-    //std::cout << "Number of detected objects: " << objs.size() << std::endl;
+                                    const std::vector<std::string> &CLASS_NAMES, const std::vector<std::vector<unsigned int>> &COLORS,
+                                    const std::vector<std::vector<unsigned int>> &MASK_COLORS) {
+    // std::cout << "Number of detected objects: " << objs.size() << std::endl;
     res = image.clone();
     cv::Mat mask = image.clone();
     maskOnly = cv::Mat::zeros(image.size(), image.type());

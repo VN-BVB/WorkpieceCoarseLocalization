@@ -1,4 +1,5 @@
-﻿#include "yolo11SegInference/Yolo11Inference.h"
+﻿#include "yoloInference/Yolo11Inference.h"
+
 std::vector<cv::Mat> cvImagesInferring;
 Yolo11SegInference::Yolo11SegInference() {
     cudaSetDevice(0);
@@ -94,8 +95,7 @@ void Yolo11SegInference::whenImageNeedToSave(cv::Mat cvimage, cv::Mat cvImagesIn
     std::ostringstream dateTimeStream;
     dateTimeStream << std::put_time(localTime, "%Y%m%d_%H%M%S");
     // cv::imwrite("./data/workpieceCoaLoc/camera_" +std::to_string(imgNum) +"_"+ dateTimeStream.str() + ".bmp", cvimage);
-    cv::imwrite("./data/workpieceCoaLoc/infer/camera_" + std::to_string(imgNum++) + "_" + dateTimeStream.str() + "_result.bmp",
-                cvImagesInference);
+    cv::imwrite("./data/workpieceCoaLoc/infer/camera_" + std::to_string(imgNum++) + "_" + dateTimeStream.str() + "_result.bmp", cvImagesInference);
     // cv::imshow("Chessboard Image with Subpixel Corners", cvImagesInference);  // 显示处理后的图像
     // cv::waitKey(0);  // 防止采图卡顿
     std::cout << "camera" + std::to_string(imgNum) + " Save image in workpieceCoaLoc succ." << std::endl;
@@ -132,9 +132,8 @@ void Yolo11SegInference::sortSegObjects(std::vector<seg::Object> &objs, const st
 
     bool ascending = (order == "up" || order == "UP");
 
-    std::sort(objs.begin(), objs.end(), [&](const seg::Object &a, const seg::Object &b) {
-        return ascending ? getCoord(a) < getCoord(b) : getCoord(a) > getCoord(b);
-    });
+    std::sort(objs.begin(), objs.end(),
+              [&](const seg::Object &a, const seg::Object &b) { return ascending ? getCoord(a) < getCoord(b) : getCoord(a) > getCoord(b); });
 }
 void Yolo11SegInference::colorizeAndDisplayConnectedComponents(cv::Mat &mask) {
     // 确保掩膜是二值图像（0 或 255）
@@ -232,8 +231,8 @@ void Yolo11RectInference::whenRecieveWpMaskInWorld(std::vector<cv::Point3d> worl
         //                                          imageHeight * AdjustWorkpieceResolution),
         //                                          0, 0, cv::INTER_LANCZOS4);
         if (!image.empty()) {
-            cv::resize(image, resizedImage, cv::Size(imageWidth * AdjustWorkpieceResolution, imageHeight * AdjustWorkpieceResolution),
-                       0, 0, cv::INTER_CUBIC);
+            cv::resize(image, resizedImage, cv::Size(imageWidth * AdjustWorkpieceResolution, imageHeight * AdjustWorkpieceResolution), 0, 0,
+                       cv::INTER_CUBIC);
         }
 
         // 获取放大后的图像大小
@@ -297,8 +296,7 @@ void Yolo11RectInference::whenImageNeedToInfer(std::vector<cv::Mat> cvImages) {
         rect_Dets.push_back(rect_Det);
         inferedImages.push_back(res);
         // 把当前原图和结果掩膜图一起保存
-        workpieceFinalInfoInWorldAfterVerify.workpieceInfoInWorld[workpieceNum++].workpiece_weld_Mask =
-            std::make_pair(cvimage.clone(), res.clone());
+        workpieceFinalInfoInWorldAfterVerify.workpieceInfoInWorld[workpieceNum++].workpiece_weld_Mask = std::make_pair(cvimage.clone(), res.clone());
 
         // cv::imshow("Mask Image ", res);  // 显示掩模图像
         cv::imwrite("./data/roughWeldArea/" + std::to_string(i++) + ".bmp", res);
@@ -337,8 +335,7 @@ void Yolo11RectInference::inferSegAndCalcTime() {
     // cv::imwrite("D:/YOLO/yolo11_Seg_C++/data/roughWeldArea/camera_" +std::to_string(imgNum++)+"_result" + ".bmp", res);
     // cv::waitKey(0);
 }
-void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<cv::Rect_<float>>> rect_Dets,
-                                                       std::vector<cv::Point3d> worldCenters) {
+void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<cv::Rect_<float>>> rect_Dets, std::vector<cv::Point3d> worldCenters) {
     // 计算画布的中心，使用 double 类型
     const double canvasW = static_cast<double>(expandedWidth);
     const double canvasH = static_cast<double>(expandedHeight);
@@ -389,8 +386,7 @@ void Yolo11RectInference::whenCoordinatesNeedToProceed(std::vector<std::vector<c
             }
 
             // 计算相对位置（除以分辨率）
-            cv::Point2d rel((origX - canvasCenter.x) / AdjustWorkpieceResolution,
-                            (origY - canvasCenter.y) / AdjustWorkpieceResolution);
+            cv::Point2d rel((origX - canvasCenter.x) / AdjustWorkpieceResolution, (origY - canvasCenter.y) / AdjustWorkpieceResolution);
 
             cv::Point2d worldCenter2d(worldCenters[i].x, worldCenters[i].y);
 

@@ -70,11 +70,8 @@ public slots:
     void whenViewWorldCoordinateLabel(int x, int y);
     void getLocalizationResult(const workpieceBoxInWorld &workpieceBoxInfoInWorld);
     void printWorkpieceBoxInfo(const workpieceBoxInWorld *info, int workpieceIndex);
-<<<<<<< HEAD
-
-=======
     void debugProjectPointOnlyY(const cv::Mat &trackDirection, const cv::Point3d &pt);
->>>>>>> 14f67258beab6f9128e2af30f1270ba52e11fde4
+
 signals:
     void sendCommandToInferPath(std::string path);
     void sendDisconnectCamera();

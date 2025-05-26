@@ -1,10 +1,11 @@
-﻿#include "src/yolov11WeldSeamArea/yolov11-rect.h"
+﻿#include "src/yoloInference/yolov11-rect.h"
+
+#include <QBuffer>
 #include <QFile>
 #include <QImage>
-#include <QBuffer>
-#include <opencv2/opencv.hpp>
 #include <cassert>
 #include <cstring>
+#include <opencv2/opencv.hpp>
 
 Yolov11_Rect::Yolov11_Rect(const std::string& engine_file_path) {
     std::cout << "File path: " << engine_file_path << std::endl;
@@ -213,19 +214,18 @@ void Yolov11_Rect::copy_from_Mat(const cv::Mat& image) {
     cv::Size size{width, height};
     this->letterbox(image, nchw, size);
 
-    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice,
-                          this->stream));
+    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice, this->stream));
 
 #ifdef TRT_10
     auto name = this->input_bindings[0].name.c_str();
     this->context->setInputShape(name, nvinfer1::Dims{
                                            4, {1, 3, size.height, size.width}
-                                       });
+    });
     this->context->setTensorAddress(name, this->device_ptrs[0]);
 #else
     this->context->setBindingDimensions(0, nvinfer1::Dims{
                                                4, {1, 3, height, width}
-                                           });
+    });
 #endif
 }
 
@@ -234,8 +234,7 @@ void Yolov11_Rect::copy_from_Mat(const cv::Mat& image, cv::Size& size) {
     this->letterbox(image, nchw, size);
     cudaError_t err = cudaMalloc(&this->device_ptrs[0], nchw.total() * nchw.elemSize());
 
-    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice,
-                          this->stream));
+    CHECK(cudaMemcpyAsync(this->device_ptrs[0], nchw.ptr<float>(), nchw.total() * nchw.elemSize(), cudaMemcpyHostToDevice, this->stream));
     // cudaError_t error = cudaGetLastError();
     // printf("CUDA error: %s\n", cudaGetErrorString(error));
 
@@ -243,12 +242,12 @@ void Yolov11_Rect::copy_from_Mat(const cv::Mat& image, cv::Size& size) {
     auto name = this->input_bindings[0].name.c_str();
     this->context->setInputShape(name, nvinfer1::Dims{
                                            4, {1, 3, size.height, size.width}
-                                       });
+    });
     this->context->setTensorAddress(name, this->device_ptrs[0]);
 #else
     this->context->setBindingDimensions(0, nvinfer1::Dims{
                                                4, {1, 3, size.height, size.width}
-                                           });
+    });
 #endif
 }
 
@@ -259,11 +258,10 @@ void Yolov11_Rect::infer() {
     this->context->enqueueV2(this->device_ptrs.data(), this->stream, nullptr);
 #endif
 
-     // 将推理结果从 GPU 内存复制到主机内存
+    // 将推理结果从 GPU 内存复制到主机内存
     for (int i = 0; i < this->num_outputs; i++) {
         size_t osize = this->output_bindings[i].size * this->output_bindings[i].dsize;
-        CHECK(cudaMemcpyAsync(this->host_ptrs[i], this->device_ptrs[i + this->num_inputs], osize, cudaMemcpyDeviceToHost,
-                              this->stream));
+        CHECK(cudaMemcpyAsync(this->host_ptrs[i], this->device_ptrs[i + this->num_inputs], osize, cudaMemcpyDeviceToHost, this->stream));
     }
     // 等待所有的 CUDA 流操作完成
     cudaStreamSynchronize(this->stream);
@@ -281,17 +279,16 @@ void Yolov11_Rect::infer() {
     // }
 }
 
-
 void Yolov11_Rect::postprocess(std::vector<det::Object>& objs, float score_thres, float iou_thres, int topk, int num_labels) {
     objs.clear();
     int num_channels = this->output_bindings[0].dims.d[1];
-    //d[1]：通常代表通道数，即每个输出的通道数量。
-    //对于 YOLO 等目标检测模型，num_channels 可能代表每个锚点的所有输出类别的数量，
-    //qDebug()<<"num_channels"<<num_channels;
+    // d[1]：通常代表通道数，即每个输出的通道数量。
+    // 对于 YOLO 等目标检测模型，num_channels 可能代表每个锚点的所有输出类别的数量，
+    // qDebug()<<"num_channels"<<num_channels;
     int num_anchors = this->output_bindings[0].dims.d[2];
-    //qDebug()<<"num_anchors"<<num_anchors;
-    //d[2]：通常代表锚点的数量。在 YOLOv4、YOLOv5 等模型中，
-    //网络会为每个锚点预测多个框，每个框对应一个锚点（Anchor）。num_anchors 表示模型输出的锚点数量。
+    // qDebug()<<"num_anchors"<<num_anchors;
+    // d[2]：通常代表锚点的数量。在 YOLOv4、YOLOv5 等模型中，
+    // 网络会为每个锚点预测多个框，每个框对应一个锚点（Anchor）。num_anchors 表示模型输出的锚点数量。
 
     auto& dw = this->pparam.dw;
     auto& dh = this->pparam.dh;
@@ -306,8 +303,8 @@ void Yolov11_Rect::postprocess(std::vector<det::Object>& objs, float score_thres
 
     cv::Mat output = cv::Mat(num_channels, num_anchors, CV_32F, static_cast<float*>(this->host_ptrs[0]));
     output = output.t();
-    //AABB：5列锚点数行
-    //OBB：6列锚点数行
+    // AABB：5列锚点数行
+    // OBB：6列锚点数行
     for (int i = 0; i < num_anchors; i++) {
         auto row_ptr = output.row(i).ptr<float>();
         // //打印这一行的数据
@@ -317,24 +314,24 @@ void Yolov11_Rect::postprocess(std::vector<det::Object>& objs, float score_thres
         // }
         // std::cout << std::endl;  // 每一行数据打印完成后换行
         auto bboxes_ptr = row_ptr;
-        auto scores_ptr = row_ptr + 4;//AABB和OBB区别可打印出来看看
+        auto scores_ptr = row_ptr + 4;  // AABB和OBB区别可打印出来看看
         auto max_s_ptr = std::max_element(scores_ptr, scores_ptr + num_labels);
-        float x0 , y0 , x1 , y1 ;
-        //AABB第五个存放类别置信度
-        //OBB
+        float x0, y0, x1, y1;
+        // AABB第五个存放类别置信度
+        // OBB
         float score = *max_s_ptr;
-        //std::cout<<"score"<<score;
-        if (score >  score_thres ) {
+        // std::cout<<"score"<<score;
+        if (score > score_thres) {
             cv::Rect_<float> bbox;
             float x = *bboxes_ptr++ - dw;
             float y = *bboxes_ptr++ - dh;
             float w = *bboxes_ptr++;
 #ifdef obb
             float h = *bboxes_ptr++;
-            float* angle_ptr = bboxes_ptr + num_labels; // 将angle_ptr指向bboxes_ptr后移num_labels的位置
-            float angle = *angle_ptr * 180.0 / CV_PI;  // 从该位置读取angle并转换为度
-            //float angle = -1.45571* 180.0 / CV_PI;
-            //std::cout<<"angle"<<angle<<std::endl;
+            float* angle_ptr = bboxes_ptr + num_labels;  // 将angle_ptr指向bboxes_ptr后移num_labels的位置
+            float angle = *angle_ptr * 180.0 / CV_PI;    // 从该位置读取angle并转换为度
+                                                         // float angle = -1.45571* 180.0 / CV_PI;
+            // std::cout<<"angle"<<angle<<std::endl;
 #else
             float h = *bboxes_ptr;
             float angle = 0.0;
@@ -346,19 +343,19 @@ void Yolov11_Rect::postprocess(std::vector<det::Object>& objs, float score_thres
             // 计算右下角坐标 (x1, y1)
             x1 = clamp((x + 0.5f * w) * ratio, 0.f, width);
             y1 = clamp((y + 0.5f * h) * ratio, 0.f, height);
-            //std::cout<<"AABB"<<x0<<" "<<y0<<" "<<x1<<" "<<y1<<" "<<std::endl;
-            // rotate_bbox( x, y, w, h, 0.00, ratio, dw, dh, width, height, x0, y0, x1, y1);
-            // std::cout<<"OBB"<<x0<<" "<<y0<<" "<<x1<<" "<<y1<<" "<<std::endl;
-            cv::RotatedRect rotated_bbox(cv::Point2f(x* ratio, y* ratio), cv::Size2f(w* ratio, h* ratio), angle);
+            // std::cout<<"AABB"<<x0<<" "<<y0<<" "<<x1<<" "<<y1<<" "<<std::endl;
+            //  rotate_bbox( x, y, w, h, 0.00, ratio, dw, dh, width, height, x0, y0, x1, y1);
+            //  std::cout<<"OBB"<<x0<<" "<<y0<<" "<<x1<<" "<<y1<<" "<<std::endl;
+            cv::RotatedRect rotated_bbox(cv::Point2f(x * ratio, y * ratio), cv::Size2f(w * ratio, h * ratio), angle);
             rotated_bboxes.push_back(rotated_bbox);
             bbox.x = x0;
             bbox.y = y0;
             bbox.width = x1 - x0;
             bbox.height = y1 - y0;
             bboxes.push_back(bbox);
-            int label = max_s_ptr - scores_ptr;//计算标签类别
+            int label = max_s_ptr - scores_ptr;  // 计算标签类别
             labels.push_back(label);
-            scores.push_back(score);//懒得改结构体了
+            scores.push_back(score);  // 懒得改结构体了
         }
     }
 // iou_thres：交并比（IoU）的阈值，用于判断两个框的重叠程度。
@@ -378,14 +375,14 @@ void Yolov11_Rect::postprocess(std::vector<det::Object>& objs, float score_thres
 #endif
 
     int cnt = 0;
-    for (auto& i : indices) {//遍历
-        if (cnt >= topk) {//限制数量
+    for (auto& i : indices) {  // 遍历
+        if (cnt >= topk) {     // 限制数量
             break;
         }
         Object obj;
         obj.rotated_rect = rotated_bboxes[i];
-        obj.rect = bboxes[i];  // 将框的坐标赋给目标对象
-        obj.prob = scores[i];  // 将框的置信度赋给目标对象
+        obj.rect = bboxes[i];   // 将框的坐标赋给目标对象
+        obj.prob = scores[i];   // 将框的置信度赋给目标对象
         obj.label = labels[i];  // 将框的类别标签赋给目标对象
         objs.push_back(obj);
         cnt += 1;
@@ -414,15 +411,14 @@ void Yolov11_Rect::postprocess(std::vector<det::Object>& objs, float score_thres
         // std::cout << "Label: " << obj.label << std::endl;
 
         // std::cout << "---------------------------" << std::endl;
-
     }
 }
 
-void Yolov11_Rect::draw_objects(const cv::Mat& image, cv::Mat& res, const std::vector<det::Object>& objs,
-                          const std::vector<std::string>& CLASS_NAMES, const std::vector<std::vector<unsigned int>>& COLORS) {
+void Yolov11_Rect::draw_objects(const cv::Mat& image, cv::Mat& res, const std::vector<det::Object>& objs, const std::vector<std::string>& CLASS_NAMES,
+                                const std::vector<std::vector<unsigned int>>& COLORS) {
     res = image.clone();
     for (auto& obj : objs) {
-        cv::Scalar color = cv::Scalar(COLORS[obj.label][0], COLORS[obj.label][1], COLORS[obj.label][2]);//RGB
+        cv::Scalar color = cv::Scalar(COLORS[obj.label][0], COLORS[obj.label][1], COLORS[obj.label][2]);  // RGB
         // 计算文本内容
         char text[256];
         sprintf(text, "%s %.1f%%", CLASS_NAMES[obj.label].c_str(), obj.prob * 100);
@@ -438,25 +434,24 @@ void Yolov11_Rect::draw_objects(const cv::Mat& image, cv::Mat& res, const std::v
         //               << rect_points[i].x << ", "
         //               << rect_points[i].y << ")" << std::endl;
         // }
-        //旋转框的文本绘制功能存在缺陷，因为图像多次迭代，文本多了图像会模糊，可修改。
+        // 旋转框的文本绘制功能存在缺陷，因为图像多次迭代，文本多了图像会模糊，可修改。
         cv::Point2f pt1 = rect_points[1];
         cv::Point2f pt2 = rect_points[2];
 
-
         // 计算上边的方向向量
         cv::Point2f direction = pt2 - pt1;
-        float angle = std::atan2(direction.y, direction.x); // 计算旋转角度
+        float angle = std::atan2(direction.y, direction.x);  // 计算旋转角度
 
         // 获取文本的大小和基线
         int baseLine = 0;
         cv::Size label_size = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, 1, 1, &baseLine);
 
         // 计算文本的中心位置，使文本基线与矩形的上边对齐
-        cv::Point2f center = (pt1 + pt2) * 0.5; // 上边的中心点
-        cv::Point2f text_pos = center - cv::Point2f(label_size.width / 2, label_size.height / 2); // 确保文本居中
+        cv::Point2f center = (pt1 + pt2) * 0.5;                                                    // 上边的中心点
+        cv::Point2f text_pos = center - cv::Point2f(label_size.width / 2, label_size.height / 2);  // 确保文本居中
 
         // 旋转矩阵
-        cv::Mat rotation_matrix = cv::getRotationMatrix2D(center, angle * 180.0 / CV_PI, 1.0); // 旋转矩阵
+        cv::Mat rotation_matrix = cv::getRotationMatrix2D(center, angle * 180.0 / CV_PI, 1.0);  // 旋转矩阵
         cv::Mat inverse_rotation_matrix = cv::getRotationMatrix2D(center, -angle * 180.0 / CV_PI, 1.0);
 
         // 复制原图像
@@ -473,18 +468,16 @@ void Yolov11_Rect::draw_objects(const cv::Mat& image, cv::Mat& res, const std::v
         // cv::Mat temp3;
         // cv::warpAffine(temp2, temp3, inverse_rotation_matrix, res.size(), cv::INTER_LINEAR, cv::BORDER_TRANSPARENT);
         // temp3.copyTo(res);
-        //写字
-        //cv::putText(res, text, cv::Point(text_pos.x, text_pos.y ), cv::FONT_HERSHEY_SIMPLEX, 1, {0, 0, 255}, 2);
+        // 写字
+        // cv::putText(res, text, cv::Point(text_pos.x, text_pos.y ), cv::FONT_HERSHEY_SIMPLEX, 1, {0, 0, 255}, 2);
         // 获取文本框区域
-        //cv::Rect roi(text_pos.x, text_pos.y, 200, 200);
+        // cv::Rect roi(text_pos.x, text_pos.y, 200, 200);
 
         // 只复制该区域到目标图像
-        //temp3(roi).copyTo(res(roi));
-
+        // temp3(roi).copyTo(res(roi));
 
 #else
-        cv::rectangle(res, obj.rect, color, 2); \
-            // for (const auto& obj : objs) { \
+        cv::rectangle(res, obj.rect, color, 2);  // for (const auto& obj : objs) { \
             //     std::cout << "Object Rect: " \
             //               << "x: " << obj.rect.x << ", " \
             //               << "y: " << obj.rect.y << ", " \
@@ -495,17 +488,16 @@ void Yolov11_Rect::draw_objects(const cv::Mat& image, cv::Mat& res, const std::v
             sprintf(text, "%s %.1f%%", CLASS_NAMES[obj.label].c_str(), obj.prob * 100);//字写入内存
 
         int baseLine = 0;
-        cv::Size label_size = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, 1, 1, &baseLine);//计算文本大小，文本，字体，缩放，粗细
+        cv::Size label_size = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, 1, 1, &baseLine);  // 计算文本大小，文本，字体，缩放，粗细
         int x = (int)obj.rect.x;
-        int y = (int)obj.rect.y ;
+        int y = (int)obj.rect.y;
         if (y > res.rows) {
             y = res.rows;
         }
-        //填充
-        cv::rectangle(res, cv::Rect(x, y-label_size.height - baseLine, label_size.width, label_size.height + baseLine), {0, 0, 255}, -1);
-        //写字
-        cv::putText(res, text, cv::Point(x, y-baseLine ), cv::FONT_HERSHEY_SIMPLEX, 1, {255, 255, 255}, 2);
+        // 填充
+        cv::rectangle(res, cv::Rect(x, y - label_size.height - baseLine, label_size.width, label_size.height + baseLine), {0, 0, 255}, -1);
+        // 写字
+        cv::putText(res, text, cv::Point(x, y - baseLine), cv::FONT_HERSHEY_SIMPLEX, 1, {255, 255, 255}, 2);
 #endif
     }
-
 }
