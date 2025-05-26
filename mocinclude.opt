@@ -1,31 +1,46 @@
--ID:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc
--IE:/BaiduSyncdisk/railWeld/models/WorkpieceCoarseLocalization
--ID:/TensorRT-8.6.1.6/include
--ID:/Program Files/CUDA/v11.8/include
--ID:/PCL1.9.1new/include/pcl-1.9
--ID:/PCL1.9.1new/include/pcl-1.9/pcl
--ID:/PCL1.9.1new/3rdParty/Boost/include/boost-1_68
--ID:/PCL1.9.1new/3rdParty/Boost/include/boost-1_68/boost
--ID:/PCL1.9.1new/3rdParty/Eigen/eigen3
--ID:/PCL1.9.1new/3rdParty/FLANN/include
--ID:/PCL1.9.1new/3rdParty/FLANN/include/flann
--ID:/PCL1.9.1new/3rdParty/OpenNI2/Include
--ID:/PCL1.9.1new/3rdParty/Qhull/include
--ID:/PCL1.9.1new/3rdParty/VTKQt/include/vtk-8.2
--IE:/ProgramData/opencv/build/include
--IE:/ProgramData/opencv/build/include/opencv2
+-ID:/qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc
+-ID:/YOLO/yolo11_Seg_C++
+-ID:/qt/opencv/opencv/build/include
+-ID:/qt/vtkmsvc/include/vtk-8.2
+-ID:/ProgramData/eigen-git-mirror-master
+-ID:/qt/PCL1.9.1/3rdParty/OpenNI2/Include
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/include/pcl-1.9/pcl
+-ID:/qt/PCL1.9.1/include/pcl-1.9
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/3rdParty/Boost/include/boost-1_68
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/3rdParty/Eigen/eigen3
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/3rdParty/FLANN/include
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/3rdParty/FLANN/include/flann
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/3rdParty/Qhull/include
+-ID:/YOLO/yolo11_Seg_C++/INCLUDEPATH
+-ID:/YOLO/yolo11_Seg_C++/+=
+-ID:/qt/PCL1.9.1/3rdParty/VTK/include/vtk-8.1
+-ID:/ProgramData/Coin3d/include
+-ID:/ProgramData/cerea/ceres/include
 -ID:/Basler/pylon7/Development/include
--IE:/ProgramData/TJ_Projector/TCP
--IE:/BaiduSyncdisk/railWeld/models/WorkpieceCoarseLocalization/3rdparty/plog/include
--IE:/BaiduSyncdisk/railWeld/models/WorkpieceCoarseLocalization/3rdparty/cereal/include
--IE:/BaiduSyncdisk/railWeld/models/WorkpieceCoarseLocalization
--IE:/BaiduSyncdisk/railWeld/models/WorkpieceCoarseLocalization/src
--IE:/BaiduSyncdisk/railWeld/models/WorkpieceCoarseLocalization/3rdparty/plog/include
--ID:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include
--ID:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets
--ID:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui
--ID:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE
--ID:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore
+-ID:/YOLO/yolo11_Seg_C++/3rdparty/cereal/include
+-ID:/YOLO/yolo11_Seg_C++/3rdparty/HD6
+-ID:/YOLO/NVIDIA GPU Computing Toolkit/CUDA/v11.8/include
+-ID:/YOLO/NVIDIA GPU Computing Toolkit/TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8/TensorRT-8.6.1.6/include
+-ID:/YOLO/yolo11_Seg_C++
+-ID:/YOLO/yolo11_Seg_C++/src
+-ID:/YOLO/yolo11_Seg_C++/3rdparty/plog/include
+-ID:/qt5.14.2/5.14.2/msvc2017_64/include
+-ID:/qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets
+-ID:/qt5.14.2/5.14.2/msvc2017_64/include/QtGui
+-ID:/qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE
+-ID:/qt5.14.2/5.14.2/msvc2017_64/include/QtCore
 -ID:\ProgramData\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include
 -ID:\ProgramData\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include
 -ID:\Windows Kits\10\include\10.0.17763.0\ucrt
