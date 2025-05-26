@@ -322,19 +322,21 @@ void WorkpieceCoarseLocalization::on_btnGetWorkpieceInfo_clicked() {
 }
 
 void WorkpieceCoarseLocalization::on_comboWorkpieceNum_currentIndexChanged(int index) {
-    cv::Mat res = resultPtr->workpieceInfoInWorld[index].workpiece_weld_Mask.second;
-    cv::Mat resIOU = resultPtr->workpieceInfoInWorld[index].workpieceIouInfo.workpiece_weld_Mask.second;
-    if (!resIOU.empty()) {
-        // 调整尺寸一致性（如果有需要）
-        if (res.size() != resIOU.size()) {
-            cv::resize(resIOU, resIOU, res.size());
-        }
+    if (index > 0) {
+        cv::Mat res = resultPtr->workpieceInfoInWorld[index].workpiece_weld_Mask.second;
+        cv::Mat resIOU = resultPtr->workpieceInfoInWorld[index].workpieceIouInfo.workpiece_weld_Mask.second;
+        if (!resIOU.empty()) {
+            // 调整尺寸一致性（如果有需要）
+            if (res.size() != resIOU.size()) {
+                cv::resize(resIOU, resIOU, res.size());
+            }
 
-        // 左右拼接图像
-        cv::Mat concatResult;
-        cv::hconcat(res, resIOU, concatResult);
-        ui->qImageWidget->setOpenCVImage(concatResult);
-    } else {
-        ui->qImageWidget->setOpenCVImage(res);
+            // 左右拼接图像
+            cv::Mat concatResult;
+            cv::hconcat(res, resIOU, concatResult);
+            ui->qImageWidget->setOpenCVImage(concatResult);
+        } else {
+            ui->qImageWidget->setOpenCVImage(res);
+        }
     }
 }
