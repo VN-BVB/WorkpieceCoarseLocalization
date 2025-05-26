@@ -5,21 +5,21 @@
 // #endif
 Test::Test() {}
 
-void Test::testCalibration()
-{
-    //图片输入
+void Test::testCalibration() {
+    // 图片输入
     std::vector<std::string> imagePaths;
     std::string basePath = "D:/qt/qtb2/getImage_basler/getImage_basler/data/image/";
-    //std::string basePath = "D:/qt/qtb2/getImage_basler/getImage_basler/data/image/40";
-    //std::string basePath = "D:/wechatprofile/WeChat Files/wxid_8ljwsrm5m35k11/FileStorage/File/2025-03/calibration/calibration/"; // 修正相对路径格式
-    // for (int i = 0; i <= 8; ++i) {
-    //     std::string path = basePath + std::to_string(i) + ".bmp";
-    //     if (std::filesystem::exists(path)) {
-    //         imagePaths.push_back(path);
-    //     } else {
-    //         std::cerr << "Warning: File not found " << path << std::endl;
-    //     }
-    // }
+    // std::string basePath = "D:/qt/qtb2/getImage_basler/getImage_basler/data/image/40";
+    // std::string basePath = "D:/wechatprofile/WeChat Files/wxid_8ljwsrm5m35k11/FileStorage/File/2025-03/calibration/calibration/"; //
+    // 修正相对路径格式
+    //  for (int i = 0; i <= 8; ++i) {
+    //      std::string path = basePath + std::to_string(i) + ".bmp";
+    //      if (std::filesystem::exists(path)) {
+    //          imagePaths.push_back(path);
+    //      } else {
+    //          std::cerr << "Warning: File not found " << path << std::endl;
+    //      }
+    //  }
     loadImagePaths(basePath, imagePaths);
     // for (const auto& entry : std::filesystem::directory_iterator(basePath)) {
     //     // 只选择 bmp 格式的文件
@@ -28,7 +28,7 @@ void Test::testCalibration()
     //     }else{
     //         std::cerr << "Warning: File not found " << path << std::endl;
     //     }
-    //测试标定功能
+    // 测试标定功能
     cv::Mat cameraMatrix;
     cv::Mat distCoeffs;
     std::vector<cv::Mat> tvecsMat;
@@ -37,8 +37,8 @@ void Test::testCalibration()
     if (!imagePaths.empty()) {
         int imageCount;
         double totalErr;
-        CameraAndLaserPlaneCalibration::cameraCalibration(imagePaths, cameraMatrix, distCoeffs, tvecsMat, rvecsMat,
-                                                          imageCount,totalErr);
+        CameraAndLaserPlaneCalibration::cameraCalibration(imagePaths, cameraMatrix, distCoeffs, tvecsMat, rvecsMat, imageCount,
+                                                          totalErr);
         // 输出标定结果
         std::cout << "Camera Matrix:\n" << cameraMatrix << std::endl;
         std::cout << "Distortion Coefficients:\n" << distCoeffs << std::endl;
@@ -112,19 +112,16 @@ void Test::testCalibration()
 // }
 bool Test::directoryExists(const std::string& path) {
     struct _stat info;
-    if (_stat(path.c_str(), &info) != 0)
-        return false; // cannot access
+    if (_stat(path.c_str(), &info) != 0) return false;  // cannot access
     return (info.st_mode & _S_IFDIR) != 0;
 }
 
 void Test::createDirectoryIfNotExists(const std::string& path) {
     if (!directoryExists(path)) {
-        _mkdir(path.c_str()); // Windows专用
+        _mkdir(path.c_str());  // Windows专用
     }
 }
-bool Test::fileExists(const std::string& filename) {
-    return _access(filename.c_str(), 0) == 0;
-}
+bool Test::fileExists(const std::string& filename) { return _access(filename.c_str(), 0) == 0; }
 
 void Test::loadImagePaths(const std::string& basePath, std::vector<std::string>& imagePaths) {
     for (int i = 0; i <= 8; ++i) {
@@ -192,9 +189,7 @@ bool Test::checkEngineCompatibleTen10(const std::string& engine_path) {
     engine_file.read(engine_data.data(), size);
 
     // 创建 runtime（TensorRT 10+ 使用 unique_ptr 和 createInferRuntime）
-    auto runtime = std::unique_ptr<nvinfer1::IRuntime>(
-        nvinfer1::createInferRuntime(gLogger)
-        );
+    auto runtime = std::unique_ptr<nvinfer1::IRuntime>(nvinfer1::createInferRuntime(gLogger));
     if (!runtime) {
         std::cerr << "Failed to create TensorRT runtime." << std::endl;
         return false;
@@ -218,24 +213,21 @@ bool Test::checkEngineCompatibleTen10(const std::string& engine_path) {
     // engine->destroy();  // 或用 smart pointer
     return true;
 }
-void Test::checkTensorRTEngine(){
-    std::cout << "TensorRT version: "
-              << NV_TENSORRT_MAJOR << "."
-              << NV_TENSORRT_MINOR << "."
-              << NV_TENSORRT_PATCH << std::endl;
+void Test::checkTensorRTEngine() {
+    std::cout << "TensorRT version: " << NV_TENSORRT_MAJOR << "." << NV_TENSORRT_MINOR << "." << NV_TENSORRT_PATCH << std::endl;
 
     const std::string engine_file_path_seg_workpiece = "./data/YoloModel/degreesMask118.engine";
     const std::string engine_file_path_rect = "./data/YoloModel/degreesRoughweldseaminspection118.engine";
 
     if (!checkEngineCompatible(engine_file_path_seg_workpiece)) {
         std::cerr << "Engine (seg_workpiece) is incompatible or corrupted!" << std::endl;
-    }else{
+    } else {
         std::cerr << "yes" << std::endl;
     }
 
     if (!checkEngineCompatible(engine_file_path_rect)) {
         std::cerr << "Engine (rect) is incompatible or corrupted!" << std::endl;
-    }else{
+    } else {
         std::cerr << "yes" << std::endl;
     }
-}//createExecutionContext
+}  // createExecutionContext

@@ -1,13 +1,9 @@
 ﻿#include "BaslerControl.h"
 
 #include <QObject>
-// #define Test
+#define Test
 int cameraIndex = 0;  // 相机索引
-BaslerControl::BaslerControl() {
-    // CalibConfig configOut;
-    // saveCalibConfigToFile("./data/config/calibCamera_config.json", configOut);
-    loadCalibConfigFromFile(calibCameraNum);
-}
+BaslerControl::BaslerControl() { loadCalibConfigFromFile(configFilePath); }
 
 BaslerControl::~BaslerControl() { this->closeCamera(); }
 
@@ -222,29 +218,37 @@ void BaslerControl::closeCamera() {
 // }
 
 // void BaslerControl::whenNeedToSaveImage(int number) { imageNumberToSave = number; }
-void BaslerControl::saveCalibConfigToFile(const std::string& filename, CalibConfig config) {
-    config.primaryCameraSerialNum = "21158836";
-    config.secondaryCameraSerialNum = "22256419";
-    config.thirdaryCameraSerialNum = "22301065";
-    std::ofstream os(filename);
-    cereal::JSONOutputArchive archive(os);
-    archive(cereal::make_nvp("calib_config", config));
-}
+
 void BaslerControl::loadCalibConfigFromFile(const std::string& filename) {
-    CalibConfig config;
-    std::ifstream os(filename);
-    if (!os.is_open()) {
+    std::map<std::string, MyMatrix> cameraConfigMap;
+
+    std::ifstream is(filename);
+    if (!is.is_open()) {
         std::cerr << "Failed to open file: " << filename << std::endl;
         throw std::runtime_error("无法打开配置文件：" + filename);
     }
 
-    cereal::JSONInputArchive archive(os);
-    archive(cereal::make_nvp("calib_config", config));
+    cereal::JSONInputArchive archive(is);
+    archive(cereal::make_nvp("Cameras", cameraConfigMap));
 
-    serialNum.clear();
-    if (!config.primaryCameraSerialNum.empty()) serialNum.push_back(config.primaryCameraSerialNum);
-    if (!config.secondaryCameraSerialNum.empty()) serialNum.push_back(config.secondaryCameraSerialNum);
-    if (!config.thirdaryCameraSerialNum.empty()) serialNum.push_back(config.thirdaryCameraSerialNum);
+    serialNum.clear();  // 假设是 std::vector<std::string> serialNum;
 
-    return;
+    // 分别保存三个相机序列号，安全起见先初始化为空字符串
+    std::string serial1, serial2, serial3;
+
+    if (cameraConfigMap.count("Camera1") && !cameraConfigMap["Camera1"].CameraSerialNum.empty())
+        serial1 = cameraConfigMap["Camera1"].CameraSerialNum;
+    if (cameraConfigMap.count("Camera2") && !cameraConfigMap["Camera2"].CameraSerialNum.empty())
+        serial2 = cameraConfigMap["Camera2"].CameraSerialNum;
+    if (cameraConfigMap.count("Camera3") && !cameraConfigMap["Camera3"].CameraSerialNum.empty())
+        serial3 = cameraConfigMap["Camera3"].CameraSerialNum;
+
+    serialNum.push_back(serial1);
+    serialNum.push_back(serial2);
+    serialNum.push_back(serial3);
+
+    // // 你也可以打印确认
+    // std::cout << "Camera1 SerialNum: " << serial1 << std::endl;
+    // std::cout << "Camera2 SerialNum: " << serial2 << std::endl;
+    // std::cout << "Camera3 SerialNum: " << serial3 << std::endl;
 }

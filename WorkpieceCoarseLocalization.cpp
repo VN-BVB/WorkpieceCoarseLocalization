@@ -2,8 +2,7 @@
 
 #include "ui_WorkpieceCoarseLocalization.h"
 // std::string inferencePath = "./data/toInfer"; //推理路径
-std::string inferencePath = "./data/workpieceCoaLoc/Test";  // 推理路径
-std::string calibCameraNum = "./data/config/calibCamera_SN.json";
+std::string inferencePath = "./data/workpieceCoaLoc/Test";                                           // 推理路径
 std::string trackFilePath = "./data/config/getTrackDirection.json";                                  // 地轨单位向量保存路径
 std::string configFilePath = "./data/config/workpiece_localization_calib.json";                      // 相机参数保存路径
 CoordinateMapper::CoordMappingType g_coordMappingType = CoordinateMapper::CoordMappingType::X_NegY;  // 机器人与像素坐标系之间的关系
@@ -66,6 +65,7 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget* parent) : QWid
     connect(baslerControl, &BaslerControl::sendSerialNumber, this, &WorkpieceCoarseLocalization::whenUpdateComboBox);
     connect(baslerControl, &BaslerControl::sendCvImagesToInfer, yolo11SegInference, &Yolo11SegInference::whenImageNeedToInfer);
     connect(baslerControl, &BaslerControl::appendCameraLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
+<<<<<<< HEAD
     // 相机标定线程
     calibratateCamera->moveToThread(cameraCalibrationSubThread);
     eyeToHandCalibration->moveToThread(eyeToHandCalibrationSubThread);
@@ -87,11 +87,11 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget* parent) : QWid
     // connect(baslerControl, &BaslerControl::sendGetCurrentWaypoint, robot, &RobotController::whenGetCurrentWaypoint);
     // connect(robot, &RobotController::appendMessageLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
 
+=======
+>>>>>>> 14f67258beab6f9128e2af30f1270ba52e11fde4
     inferenceSubThread->start();
     cameraControlSubThread->start();
     fittingWorkpieceSubThread->start();
-    cameraCalibrationSubThread->start();
-    eyeToHandCalibrationSubThread->start();
 }
 
 WorkpieceCoarseLocalization::~WorkpieceCoarseLocalization() {
@@ -99,9 +99,6 @@ WorkpieceCoarseLocalization::~WorkpieceCoarseLocalization() {
     delete yolo11SegInference;
     delete yolo11RectInference;
     delete fittingWorkpieceCoordinate;
-    delete baslerControl;
-    delete calibratateCamera;
-    delete eyeToHandCalibration;
 }
 
 void WorkpieceCoarseLocalization::whenGetImage(cv::Mat res) { ui->qImageWidget->setOpenCVImage(res); }
@@ -140,6 +137,8 @@ void WorkpieceCoarseLocalization::whenViewWorldCoordinateLabel(int x, int y) { u
 void WorkpieceCoarseLocalization::getLocalizationResult(const workpieceBoxInWorld& workpieceBoxInfoInWorld) {
     resultPtr = std::make_shared<workpieceBoxInWorld>(workpieceBoxInfoInWorld);  // std::shared_ptr<workpieceBoxInWorld>
     whenUpdateComboWp(static_cast<int>(workpieceBoxInfoInWorld.workpieceInfoInWorld.size()));
+    cv::Mat res = resultPtr->workpieceInfoInWorld[0].workpiece_weld_Mask.second;
+    ui->qImageWidget->setOpenCVImage(res);
     // return resultPtr;
 }
 void WorkpieceCoarseLocalization::whenAppendLog(const QString message) { ui->textCalibratation->append(message); }
@@ -254,6 +253,38 @@ void WorkpieceCoarseLocalization::printWorkpieceBoxInfo(const workpieceBoxInWorl
 
     cv::waitKey(0);
 }
+void WorkpieceCoarseLocalization::debugProjectPointOnlyY(const cv::Mat& trackDirection, const cv::Point3d& pt) {
+    if (trackDirection.empty() || trackDirection.rows != 3 || trackDirection.cols != 1) {
+        std::cerr << "Invalid trackDirection vector!" << std::endl;
+        return;
+    }
+
+    // 读取trackDirection的x,y,z
+    double dx = trackDirection.at<double>(0, 0);
+    double dy = trackDirection.at<double>(1, 0);
+    double dz = trackDirection.at<double>(2, 0);
+
+    if (dy == 0) {
+        std::cerr << "trackDirection.y is zero, cannot divide by zero." << std::endl;
+        return;
+    }
+
+    // 只用y求t
+    double t = pt.y / dy;
+
+    // 计算对应的投影点坐标
+    double projected_x = t * dx;  // 这个是相对的，要叠加到原来
+    double projected_y = t * dy;
+    double projected_z = t * dz;  // 这个是相对的，要叠加到原来
+
+    // 计算点到原点的距离
+    double distance = std::sqrt(pt.x * pt.x + pt.y * pt.y + pt.z * pt.z);
+
+    std::cout << "Original Point: " << pt << "\n";
+    std::cout << "Projected Point on trackDirection: " << cv::Point3d(projected_x, projected_y, projected_z) << "\n";
+    std::cout << "Distance to origin: " << distance << "\n";
+    std::cout << "-----------------------------\n";
+}
 //----------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------
 void WorkpieceCoarseLocalization::on_btnConnectCamera_clicked() {
@@ -291,12 +322,6 @@ void WorkpieceCoarseLocalization::on_btnSaveImage_clicked() {
 }
 
 void WorkpieceCoarseLocalization::on_btnInferPath_clicked() { emit sendCommandToInferPath(inferencePath); }
-
-void WorkpieceCoarseLocalization::on_btnCalibratateCamera_clicked() {
-    emit sendSignalToCalibratate();
-    whenAppendLog("Start Camera Calibration...");
-}
-
 void WorkpieceCoarseLocalization::on_btnStartInfer_clicked() { startCoarseLocalization(); }
 
 void WorkpieceCoarseLocalization::on_btn_VerifyCoordinates_clicked() { emit sendVerifyCoordinatesInManual(); }
@@ -313,15 +338,25 @@ void WorkpieceCoarseLocalization::on_comboCameras_currentTextChanged(const QStri
     }
 }
 
-void WorkpieceCoarseLocalization::on_btn_calibEyetoHand_clicked() { emit sendEyeToHandCalib(); }
-
-void WorkpieceCoarseLocalization::on_btn_calibTrack_clicked() { emit sendGetTrackHcg(); }
-
-void WorkpieceCoarseLocalization::on_btnRobotConnect_clicked() { emit sendRobotConnect(); }
-
-void WorkpieceCoarseLocalization::on_btnRobotDisConnect_clicked() { emit sendRobotDisconnect(); }
-
 void WorkpieceCoarseLocalization::on_btnGetWorkpieceInfo_clicked() {
     int selectedIndex = ui->comboWorkpieceNum->currentIndex();  // 获取当前选中项的索引
     printWorkpieceBoxInfo(resultPtr.get(), selectedIndex);      // 使用这个索引替代原来的固定值
+}
+
+void WorkpieceCoarseLocalization::on_comboWorkpieceNum_currentIndexChanged(int index) {
+    cv::Mat res = resultPtr->workpieceInfoInWorld[index].workpiece_weld_Mask.second;
+    cv::Mat resIOU = resultPtr->workpieceInfoInWorld[index].workpieceIouInfo.workpiece_weld_Mask.second;
+    if (!resIOU.empty()) {
+        // 调整尺寸一致性（如果有需要）
+        if (res.size() != resIOU.size()) {
+            cv::resize(resIOU, resIOU, res.size());
+        }
+
+        // 左右拼接图像
+        cv::Mat concatResult;
+        cv::hconcat(res, resIOU, concatResult);
+        ui->qImageWidget->setOpenCVImage(concatResult);
+    } else {
+        ui->qImageWidget->setOpenCVImage(res);
+    }
 }

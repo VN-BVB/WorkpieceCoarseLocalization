@@ -21,7 +21,7 @@ CONFIG(debug, debug|release){
 # 引入Eigen矩阵运算库
 INCLUDEPATH += D:\ProgramData\eigen-git-mirror-master
 
-# 引入PCL点云库
+# # 引入PCL点云库
 INCLUDEPATH += D:\qt\PCL1.9.1\3rdParty\OpenNI2\Include\
 INCLUDEPATH += D:\qt\PCL1.9.1\include\pcl-1.9\pcl
 INCLUDEPATH += D:\qt\PCL1.9.1\include\pcl-1.9\

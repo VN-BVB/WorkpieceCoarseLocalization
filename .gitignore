@@ -15,5 +15,5 @@
 *.opt
 *.bat
 *.xml
-/3rdparty/auboi5
+3rdparty/auboi5
 yolo11_Seg.pro.user

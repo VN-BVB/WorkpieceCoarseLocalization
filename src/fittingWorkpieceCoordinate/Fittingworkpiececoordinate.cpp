@@ -4,9 +4,7 @@ std::array<cameraConfig, 3> cameraParameters;  // 相机参数数量
 /**
  * @brief 构造函数，初始化时加载校准参数
  */
-FittingWorkpieceCoordinate::FittingWorkpieceCoordinate() {
-    loadCalibrationParameters("./data/config/workpiece_localization_calib.json");
-}
+FittingWorkpieceCoordinate::FittingWorkpieceCoordinate() { loadCalibrationParameters(configFilePath); }
 
 /**
  * @brief 处理工件坐标拟合
@@ -333,7 +331,7 @@ void FittingWorkpieceCoordinate::loadCalibrationParameters(const std::string& fi
         // distCoeffs = cameraParameters[0].distCoeffs;
         // plane = cameraParameters[0].globalPlane;
         // extrinsicMatrix = cameraParameters[0].extrinsicMatrix;
-        // 打印相机的参数
+        // // 打印相机的参数
         // std::cout << "Calibration for cameraName" << 0 << ":\n";
         // std::cout << "Camera Matrix:\n" << cameraMatrix << std::endl;
         // std::cout << "Distortion Coefficients:\n" << distCoeffs << std::endl;

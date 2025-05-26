@@ -7,12 +7,10 @@
 #include <sstream>
 #include <vector>
 
-#include "maskImageProcessConfig.hpp"
-#include "src/camera_and_laser_plane_calibration/CalibratateCamera.h"
-#include "src/yolo11SegNormal/yolo11-seg.h"
-// #pragma execution_character_set("utf-8")
-extern std::string inferencePath;  // 推理路径
-extern std::vector<cv::Mat> cvImagesInferring;
+#include "include/MyMatrix.h"
+#include "include/maskImageProcessConfig.hpp"
+#include "src/yoloInference/yolo11-seg.h"
+#pragma execution_character_set("utf-8")
 struct cameraConfig {
     cv::Mat cameraMatrix;
     cv::Mat distCoeffs;
