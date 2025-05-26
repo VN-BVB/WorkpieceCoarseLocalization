@@ -1,4 +1,4 @@
-﻿#include "yolo11SegInference/Yolo11Inference.h"
+﻿#include "yoloInference/Yolo11Inference.h"
 std::vector<cv::Mat> cvImagesInferring;
 Yolo11SegInference::Yolo11SegInference() {
     cudaSetDevice(0);
