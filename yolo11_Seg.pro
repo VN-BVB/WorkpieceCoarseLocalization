@@ -53,7 +53,7 @@ HEADERS += \
 FORMS += \
     WorkpieceCoarseLocalization.ui
 
-include( ./3rdparty/3rdpartyLi.pri )
+include( ./3rdparty/3rdpartyRom.pri )
 INCLUDEPATH += $$PWD/.
 DEPENDPATH += $$PWD/.
 

@@ -89,6 +89,7 @@ public slots:
     void whenViewWorldCoordinateLabel(int x, int y);
     void getLocalizationResult(const workpieceBoxInWorld &workpieceBoxInfoInWorld);
     void printWorkpieceBoxInfo(const workpieceBoxInWorld *info, int workpieceIndex);
+
 signals:
     void sendCommandToInferPath(std::string path);
     void sendDisconnectCamera();
