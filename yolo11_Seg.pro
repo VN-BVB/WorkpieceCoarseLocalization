@@ -10,45 +10,30 @@ CONFIG += c++11
 
 QMAKE_CXXFLAGS_RELEASE = -ZI -MD
 QMAKE_LFLAGS_RELEASE = /DEBUG
-
+QMAKE_CXXFLAGS += /MP
 SOURCES += \
     WorkpieceCoarseLocalization.cpp \
     main.cpp \
-    src/Calibrate_HandToEye/Calibrate_handeye.cpp \
-    src/Calibrate_HandToEye/src/calibration.cpp \
-    src/Calibrate_HandToEye/src/handEyeCalibration.cpp \
-    src/Calibrate_HandToEye/src/others.cpp \
-    src/camera_and_laser_plane_calibration/CalibratateCamera.cpp \
-    src/camera_and_laser_plane_calibration/CameraAndLaserPlaneCalibration.cpp \
-    src/camera_and_laser_plane_calibration/LibDetect.cpp \
     src/camera_control/basler/BaslerControl.cpp \
     src/fittingWorkpieceCoordinate/Fittingworkpiececoordinate.cpp \
     src/utils/image_widget/QImageWidget.cpp \
     src/utils/image_widget/ScalableGraphicsView.cpp \
-    src/yolo11SegInference/Yolo11Inference.cpp \
-    src/yolo11SegNormal/yolo11-seg.cpp \
-    src/yolov11WeldSeamArea/yolov11-rect.cpp
+    src/yoloInference/Yolo11Inference.cpp \
+    src/yoloInference/yolo11-seg.cpp \
+    src/yoloInference/yolov11-rect.cpp
 
 HEADERS += \
     WorkpieceCoarseLocalization.h \
-    maskImageProcessConfig.hpp \
-    src/Calibrate_HandToEye/include/Camera_Calibration.h \
-    src/Calibrate_HandToEye/include/calibration.h \
-    src/Calibrate_HandToEye/include/handEyeCalibration.h \
-    src/Calibrate_HandToEye/include/others.h \
-    src/Calibrate_HandToEye/Calibrate_handeye.h \
-    src/camera_and_laser_plane_calibration/CalibratateCamera.h \
-    src/camera_and_laser_plane_calibration/CameraAndLaserPlaneCalibration.h \
-    src/camera_and_laser_plane_calibration/LibDetect.h \
-    src/camera_and_laser_plane_calibration/MyMatrix.h \
+    include/MyMatrix.h \
+    include/maskImageProcessConfig.hpp \
     src/camera_control/basler/BaslerControl.h \
     src/fittingWorkpieceCoordinate/Fittingworkpiececoordinate.h \
     src/utils/image_widget/QImageWidget.h \
     src/utils/image_widget/ScalableGraphicsView.h \
-    src/yolo11SegInference/Yolo11Inference.h \
-    src/yolo11SegNormal/yolo11-seg.h \
-    src/yolo11SegNormal/common.hpp \
-    src/yolov11WeldSeamArea/yolov11-rect.h
+    src/yoloInference/Yolo11Inference.h \
+    src/yoloInference/yolo11-seg.h \
+    src/yoloInference/common.hpp \
+    src/yoloInference/yolov11-rect.h
 
 FORMS += \
     WorkpieceCoarseLocalization.ui

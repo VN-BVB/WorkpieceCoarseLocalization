@@ -3,6 +3,7 @@
         {
             "key": "Camera1",
             "value": {
+                "CameraSerialNum": "21158836",
                 "CameraMatrix": [
                     1891.9393440154532,
                     0.0,
@@ -50,6 +51,7 @@
         {
             "key": "Camera2",
             "value": {
+                "CameraSerialNum": "22256419",
                 "CameraMatrix": [
                     1856.4374931631849,
                     0.0,
@@ -97,6 +99,7 @@
         {
             "key": "Camera3",
             "value": {
+                "CameraSerialNum": "22301065",
                 "CameraMatrix": [
                     1848.0280824592997,
                     0.0,
