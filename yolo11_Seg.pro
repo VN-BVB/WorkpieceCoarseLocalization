@@ -14,6 +14,12 @@ QMAKE_CXXFLAGS += /MP
 SOURCES += \
     WorkpieceCoarseLocalization.cpp \
     main.cpp \
+    src/calibrateHandToEye/Calibrate_handeye.cpp \
+    src/calibrateHandToEye/src/calibration.cpp \
+    src/calibrateHandToEye/src/handEyeCalibration.cpp \
+    src/calibrateHandToEye/src/others.cpp \
+    src/cameraCalibration/CalibratateCamera.cpp \
+    src/cameraCalibration/CameraAndLaserPlaneCalibration.cpp \
     src/camera_control/basler/BaslerControl.cpp \
     src/fittingWorkpieceCoordinate/Fittingworkpiececoordinate.cpp \
     src/utils/image_widget/QImageWidget.cpp \
@@ -26,6 +32,14 @@ HEADERS += \
     WorkpieceCoarseLocalization.h \
     include/MyMatrix.h \
     include/maskImageProcessConfig.hpp \
+    src/calibrateHandToEye/Calibrate_handeye.h \
+    src/calibrateHandToEye/include/Camera_Calibration.h \
+    src/calibrateHandToEye/include/calibration.h \
+    src/calibrateHandToEye/include/handEyeCalibration.h \
+    src/calibrateHandToEye/include/others.h \
+    src/calibrateHandToEye/src/Calibrate_handeye.h \
+    src/cameraCalibration/CalibratateCamera.h \
+    src/cameraCalibration/CameraAndLaserPlaneCalibration.h \
     src/camera_control/basler/BaslerControl.h \
     src/fittingWorkpieceCoordinate/Fittingworkpiececoordinate.h \
     src/utils/image_widget/QImageWidget.h \

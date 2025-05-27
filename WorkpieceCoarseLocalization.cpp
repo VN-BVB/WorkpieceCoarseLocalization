@@ -71,9 +71,26 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget* parent) : QWid
     connect(baslerControl, &BaslerControl::sendCvImagesToInfer, yolo11SegInference, &Yolo11SegInference::whenImageNeedToInfer);
     connect(baslerControl, &BaslerControl::appendCameraLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
 
+    // 相机标定线程
+    calibratateCamera->moveToThread(cameraCalibrationSubThread);
+    eyeToHandCalibration->moveToThread(cameraCalibrationSubThread);
+    connect(this, &WorkpieceCoarseLocalization::sendSignalToCalibratate, calibratateCamera,
+            &CalibratateCamera::whenNeedCalibratateCamera);
+    connect(calibratateCamera, &CalibratateCamera::appendCalibrationLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
+    connect(calibratateCamera, &CalibratateCamera::sendSignalToTransmitCalibPara, fittingWorkpieceCoordinate,
+            &FittingWorkpieceCoordinate::loadCalibrationParameters);
+    connect(this, &WorkpieceCoarseLocalization::sendEyeToHandCalib, eyeToHandCalibration,
+            &HandEyeCalibrationLogic::whenCalibrateEye2Hand);
+    connect(this, &WorkpieceCoarseLocalization::sendGetTrackHcg, eyeToHandCalibration, &HandEyeCalibrationLogic::whenGetTrackHcg);
+    connect(eyeToHandCalibration, &HandEyeCalibrationLogic::sendSignalToTransmitCalibPara, fittingWorkpieceCoordinate,
+            &FittingWorkpieceCoordinate::loadCalibrationParameters);
+    connect(eyeToHandCalibration, &HandEyeCalibrationLogic::appendHandEyeLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
+    connect(eyeToHandCalibration, &HandEyeCalibrationLogic::sendSaveHcg, calibratateCamera, &CalibratateCamera::whenSaveHcg);
+
     inferenceSubThread->start();
     cameraControlSubThread->start();
     fittingWorkpieceSubThread->start();
+    cameraCalibrationSubThread->start();
 }
 
 WorkpieceCoarseLocalization::~WorkpieceCoarseLocalization() {
@@ -355,3 +372,12 @@ void WorkpieceCoarseLocalization::on_comboWorkpieceNum_currentIndexChanged(int i
         }
     }
 }
+
+void WorkpieceCoarseLocalization::on_btnCalibratateCamera_clicked() {
+    emit sendSignalToCalibratate();
+    whenAppendLog("Start Camera Calibration...");
+}
+
+void WorkpieceCoarseLocalization::on_btnCalibEyetoHand_clicked() { emit sendEyeToHandCalib(); }
+
+void WorkpieceCoarseLocalization::on_btnCalibTrack_clicked() { emit sendGetTrackHcg(); }

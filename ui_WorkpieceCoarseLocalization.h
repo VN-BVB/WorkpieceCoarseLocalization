@@ -1,4 +1,4 @@
-/********************************************************************************
+﻿/********************************************************************************
 ** Form generated from reading UI file 'WorkpieceCoarseLocalization.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.14.2
@@ -18,9 +18,10 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTextBrowser>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include <utils/image_widget/QImageWidget.h>
 #include <utils/image_widget/ScalableGraphicsView.h>
-#include "utils/image_widget/QImageWidget.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -28,7 +29,7 @@ class Ui_WorkpieceCoarseLocalization
 {
 public:
     QGridLayout *gridLayout_2;
-    QTextBrowser *textCalibratation;
+    QImageWidget *qImageWidget;
     QTabWidget *tabWidget;
     QWidget *tab_3;
     QGridLayout *gridLayout;
@@ -42,6 +43,11 @@ public:
     QPushButton *btnDisconnectCamera;
     QLabel *label;
     QPushButton *btnConnectCamera;
+    QWidget *tab_4;
+    QVBoxLayout *verticalLayout;
+    QPushButton *btnCalibratateCamera;
+    QPushButton *btnCalibEyetoHand;
+    QPushButton *btnConnectCamera_4;
     QWidget *tab;
     QGridLayout *gridLayout_6;
     ScalableGraphicsView *mapView;
@@ -53,7 +59,7 @@ public:
     QLabel *label_3;
     QComboBox *comboWorkpieceNum;
     QPushButton *btnGetWorkpieceInfo;
-    QImageWidget *qImageWidget;
+    QTextBrowser *textCalibratation;
 
     void setupUi(QWidget *WorkpieceCoarseLocalization)
     {
@@ -62,34 +68,30 @@ public:
         WorkpieceCoarseLocalization->resize(1536, 1200);
         gridLayout_2 = new QGridLayout(WorkpieceCoarseLocalization);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
-        textCalibratation = new QTextBrowser(WorkpieceCoarseLocalization);
-        textCalibratation->setObjectName(QString::fromUtf8("textCalibratation"));
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        qImageWidget = new QImageWidget(WorkpieceCoarseLocalization);
+        qImageWidget->setObjectName(QString::fromUtf8("qImageWidget"));
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(textCalibratation->sizePolicy().hasHeightForWidth());
-        textCalibratation->setSizePolicy(sizePolicy);
-        textCalibratation->setMinimumSize(QSize(0, 250));
-        textCalibratation->setMaximumSize(QSize(16777215, 16777215));
+        sizePolicy.setHeightForWidth(qImageWidget->sizePolicy().hasHeightForWidth());
+        qImageWidget->setSizePolicy(sizePolicy);
+        qImageWidget->setMinimumSize(QSize(800, 0));
 
-        gridLayout_2->addWidget(textCalibratation, 3, 1, 1, 1);
+        gridLayout_2->addWidget(qImageWidget, 1, 0, 3, 1);
 
         tabWidget = new QTabWidget(WorkpieceCoarseLocalization);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
-        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(tabWidget->sizePolicy().hasHeightForWidth());
-        tabWidget->setSizePolicy(sizePolicy1);
+        sizePolicy.setHeightForWidth(tabWidget->sizePolicy().hasHeightForWidth());
+        tabWidget->setSizePolicy(sizePolicy);
         tabWidget->setMinimumSize(QSize(0, 0));
         tabWidget->setMaximumSize(QSize(800, 16777215));
         tab_3 = new QWidget();
         tab_3->setObjectName(QString::fromUtf8("tab_3"));
-        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Minimum);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(tab_3->sizePolicy().hasHeightForWidth());
-        tab_3->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Minimum);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(tab_3->sizePolicy().hasHeightForWidth());
+        tab_3->setSizePolicy(sizePolicy1);
         tab_3->setMinimumSize(QSize(0, 250));
         gridLayout = new QGridLayout(tab_3);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
@@ -109,8 +111,11 @@ public:
 
         btnSaveImage = new QPushButton(tab_3);
         btnSaveImage->setObjectName(QString::fromUtf8("btnSaveImage"));
-        sizePolicy.setHeightForWidth(btnSaveImage->sizePolicy().hasHeightForWidth());
-        btnSaveImage->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(btnSaveImage->sizePolicy().hasHeightForWidth());
+        btnSaveImage->setSizePolicy(sizePolicy2);
         btnSaveImage->setMinimumSize(QSize(0, 0));
         QFont font1;
         font1.setPointSize(26);
@@ -120,8 +125,8 @@ public:
 
         btnStartInfer = new QPushButton(tab_3);
         btnStartInfer->setObjectName(QString::fromUtf8("btnStartInfer"));
-        sizePolicy.setHeightForWidth(btnStartInfer->sizePolicy().hasHeightForWidth());
-        btnStartInfer->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(btnStartInfer->sizePolicy().hasHeightForWidth());
+        btnStartInfer->setSizePolicy(sizePolicy2);
         btnStartInfer->setFont(font1);
 
         gridLayout->addWidget(btnStartInfer, 1, 0, 1, 1);
@@ -135,8 +140,8 @@ public:
 
         label_2 = new QLabel(tab_3);
         label_2->setObjectName(QString::fromUtf8("label_2"));
-        sizePolicy.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
-        label_2->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
+        label_2->setSizePolicy(sizePolicy2);
         label_2->setFont(font1);
         label_2->setLayoutDirection(Qt::LeftToRight);
         label_2->setAlignment(Qt::AlignCenter);
@@ -145,8 +150,8 @@ public:
 
         lineEditInferTime = new QLineEdit(tab_3);
         lineEditInferTime->setObjectName(QString::fromUtf8("lineEditInferTime"));
-        sizePolicy.setHeightForWidth(lineEditInferTime->sizePolicy().hasHeightForWidth());
-        lineEditInferTime->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(lineEditInferTime->sizePolicy().hasHeightForWidth());
+        lineEditInferTime->setSizePolicy(sizePolicy2);
         lineEditInferTime->setFont(font1);
 
         gridLayout->addWidget(lineEditInferTime, 4, 1, 1, 2);
@@ -178,8 +183,8 @@ public:
 
         label = new QLabel(tab_3);
         label->setObjectName(QString::fromUtf8("label"));
-        sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy2);
         label->setFont(font1);
         label->setLayoutDirection(Qt::LeftToRight);
         label->setAlignment(Qt::AlignCenter);
@@ -197,6 +202,41 @@ public:
         gridLayout->addWidget(btnConnectCamera, 0, 0, 1, 1);
 
         tabWidget->addTab(tab_3, QString());
+        tab_4 = new QWidget();
+        tab_4->setObjectName(QString::fromUtf8("tab_4"));
+        verticalLayout = new QVBoxLayout(tab_4);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        btnCalibratateCamera = new QPushButton(tab_4);
+        btnCalibratateCamera->setObjectName(QString::fromUtf8("btnCalibratateCamera"));
+        sizePolicy3.setHeightForWidth(btnCalibratateCamera->sizePolicy().hasHeightForWidth());
+        btnCalibratateCamera->setSizePolicy(sizePolicy3);
+        btnCalibratateCamera->setMinimumSize(QSize(300, 0));
+        btnCalibratateCamera->setMaximumSize(QSize(16777215, 16777215));
+        btnCalibratateCamera->setFont(font1);
+
+        verticalLayout->addWidget(btnCalibratateCamera);
+
+        btnCalibEyetoHand = new QPushButton(tab_4);
+        btnCalibEyetoHand->setObjectName(QString::fromUtf8("btnCalibEyetoHand"));
+        sizePolicy3.setHeightForWidth(btnCalibEyetoHand->sizePolicy().hasHeightForWidth());
+        btnCalibEyetoHand->setSizePolicy(sizePolicy3);
+        btnCalibEyetoHand->setMinimumSize(QSize(300, 0));
+        btnCalibEyetoHand->setMaximumSize(QSize(16777215, 16777215));
+        btnCalibEyetoHand->setFont(font1);
+
+        verticalLayout->addWidget(btnCalibEyetoHand);
+
+        btnConnectCamera_4 = new QPushButton(tab_4);
+        btnConnectCamera_4->setObjectName(QString::fromUtf8("btnConnectCamera_4"));
+        sizePolicy3.setHeightForWidth(btnConnectCamera_4->sizePolicy().hasHeightForWidth());
+        btnConnectCamera_4->setSizePolicy(sizePolicy3);
+        btnConnectCamera_4->setMinimumSize(QSize(300, 0));
+        btnConnectCamera_4->setMaximumSize(QSize(16777215, 16777215));
+        btnConnectCamera_4->setFont(font1);
+
+        verticalLayout->addWidget(btnConnectCamera_4);
+
+        tabWidget->addTab(tab_4, QString());
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
         gridLayout_6 = new QGridLayout(tab);
@@ -229,8 +269,8 @@ public:
         gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
         label_3 = new QLabel(tab_2);
         label_3->setObjectName(QString::fromUtf8("label_3"));
-        sizePolicy.setHeightForWidth(label_3->sizePolicy().hasHeightForWidth());
-        label_3->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(label_3->sizePolicy().hasHeightForWidth());
+        label_3->setSizePolicy(sizePolicy2);
         label_3->setFont(font1);
         label_3->setLayoutDirection(Qt::LeftToRight);
         label_3->setAlignment(Qt::AlignCenter);
@@ -246,8 +286,8 @@ public:
 
         btnGetWorkpieceInfo = new QPushButton(tab_2);
         btnGetWorkpieceInfo->setObjectName(QString::fromUtf8("btnGetWorkpieceInfo"));
-        sizePolicy.setHeightForWidth(btnGetWorkpieceInfo->sizePolicy().hasHeightForWidth());
-        btnGetWorkpieceInfo->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(btnGetWorkpieceInfo->sizePolicy().hasHeightForWidth());
+        btnGetWorkpieceInfo->setSizePolicy(sizePolicy2);
         btnGetWorkpieceInfo->setFont(font1);
 
         gridLayout_5->addWidget(btnGetWorkpieceInfo, 1, 0, 1, 2);
@@ -256,18 +296,19 @@ public:
 
         gridLayout_2->addWidget(tabWidget, 1, 1, 2, 1);
 
-        qImageWidget = new QImageWidget(WorkpieceCoarseLocalization);
-        qImageWidget->setObjectName(QString::fromUtf8("qImageWidget"));
-        sizePolicy1.setHeightForWidth(qImageWidget->sizePolicy().hasHeightForWidth());
-        qImageWidget->setSizePolicy(sizePolicy1);
-        qImageWidget->setMinimumSize(QSize(800, 0));
+        textCalibratation = new QTextBrowser(WorkpieceCoarseLocalization);
+        textCalibratation->setObjectName(QString::fromUtf8("textCalibratation"));
+        sizePolicy2.setHeightForWidth(textCalibratation->sizePolicy().hasHeightForWidth());
+        textCalibratation->setSizePolicy(sizePolicy2);
+        textCalibratation->setMinimumSize(QSize(0, 250));
+        textCalibratation->setMaximumSize(QSize(16777215, 16777215));
 
-        gridLayout_2->addWidget(qImageWidget, 1, 0, 3, 1);
+        gridLayout_2->addWidget(textCalibratation, 3, 1, 1, 1);
 
 
         retranslateUi(WorkpieceCoarseLocalization);
 
-        tabWidget->setCurrentIndex(2);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(WorkpieceCoarseLocalization);
@@ -290,6 +331,10 @@ public:
         label->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\346\216\250\347\220\206\347\224\250\346\227\266", nullptr));
         btnConnectCamera->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\350\277\236\346\216\245\347\233\270\346\234\272", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("WorkpieceCoarseLocalization", "\346\213\215\346\221\204\346\216\250\347\220\206", nullptr));
+        btnCalibratateCamera->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\347\233\270\346\234\272\346\240\207\345\256\232", nullptr));
+        btnCalibEyetoHand->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\346\211\213\347\234\274\346\240\207\345\256\232", nullptr));
+        btnConnectCamera_4->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\345\234\260\350\275\250\346\240\207\345\256\232", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_4), QCoreApplication::translate("WorkpieceCoarseLocalization", "\346\240\207\345\256\232", nullptr));
         coordinateLabel->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "coordinateLabel", nullptr));
         btn_VerifyCoordinates->setText(QCoreApplication::translate("WorkpieceCoarseLocalization", "\347\241\256\350\256\244\345\267\245\344\273\266\345\235\220\346\240\207", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("WorkpieceCoarseLocalization", "\345\205\250\345\261\200\346\243\200\346\237\245", nullptr));

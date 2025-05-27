@@ -1,11 +1,14 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <src/cameraCalibration/CalibratateCamera.h>
+
 #include <QMainWindow>
 #include <QMetaType>
 #include <QMouseEvent>
 #include <QThread>
 
+#include "src/calibrateHandToEye/Calibrate_handeye.h"
 #include "src/camera_control/basler/BaslerControl.h"
 #include "src/fittingWorkpieceCoordinate/Fittingworkpiececoordinate.h"
 #include "src/utils/image_widget/ScalableGraphicsView.h"
@@ -30,10 +33,13 @@ private:
     Yolo11RectInference *yolo11RectInference = new Yolo11RectInference;                       // 目标检测类
     FittingWorkpieceCoordinate *fittingWorkpieceCoordinate = new FittingWorkpieceCoordinate;  // 工件拟合
     BaslerControl *baslerControl = new BaslerControl;                                         // 相机类
+    CalibratateCamera *calibratateCamera = new CalibratateCamera;                             // 相机标定
+    HandEyeCalibrationLogic *eyeToHandCalibration = new HandEyeCalibrationLogic;              // 手眼标定类
 
-    QThread *inferenceSubThread = new QThread;         // 深度学习推理线程
-    QThread *cameraControlSubThread = new QThread;     // 相机线程
-    QThread *fittingWorkpieceSubThread = new QThread;  // 坐标拟合线程
+    QThread *inferenceSubThread = new QThread;          // 深度学习推理线程
+    QThread *cameraCalibrationSubThread = new QThread;  // 相机标定线程
+    QThread *cameraControlSubThread = new QThread;      // 相机线程
+    QThread *fittingWorkpieceSubThread = new QThread;   // 坐标拟合线程
 
     QGraphicsScene *scene = new QGraphicsScene;  // 创建一个 QGraphicsScene
     bool detectionEnabled;
@@ -58,6 +64,12 @@ private slots:
 
     void on_comboWorkpieceNum_currentIndexChanged(int index);
 
+    void on_btnCalibratateCamera_clicked();
+
+    void on_btnCalibEyetoHand_clicked();
+
+    void on_btnCalibTrack_clicked();
+
 public slots:
     void startCoarseLocalization();
     void whenGetInferResult(cv::Mat res);
@@ -81,5 +93,7 @@ signals:
     void sendVerifyCoordinatesInManual();
     void sendRobotConnect();
     void sendRobotDisconnect();
+    void sendEyeToHandCalib();
+    void sendGetTrackHcg();
 };
 #endif  // MAINWINDOW_H

@@ -1,7 +1,6 @@
 -ID:/qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc
 -ID:/YOLO/yolo11_Seg_C++
 -ID:/qt/opencv/opencv/build/include
--ID:/qt/vtkmsvc/include/vtk-8.2
 -ID:/ProgramData/eigen-git-mirror-master
 -ID:/ProgramData/PCL1.9.1new/include/pcl-1.9
 -ID:/ProgramData/PCL1.9.1new/include/pcl-1.9/pcl
