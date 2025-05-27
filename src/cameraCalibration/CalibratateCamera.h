@@ -1,7 +1,6 @@
 ﻿#ifndef CALIBRATATECAMERA_H
 #define CALIBRATATECAMERA_H
 #include <direct.h>  // 💡 这里包含 _mkdir
-#include <src/cameraCalibration/CameraAndLaserPlaneCalibration.h>
 #include <sys/stat.h>
 #include <windows.h>
 
@@ -17,6 +16,7 @@
 
 #include "include/MyMatrix.h"
 #include "opencv2/opencv.hpp"
+#include "src/cameraCalibration/CameraAndLaserPlaneCalibration.h"
 #pragma execution_character_set("utf-8")
 extern int cameraIndex;
 extern std::string configFilePath;

@@ -20,6 +20,7 @@
 #include <opencv2/opencv.hpp>
 #include <sstream>
 
+#include "src/cameraCalibration/CameraAndLaserPlaneCalibration.h"
 #include "src/yoloInference/Yolo11Inference.h"
 #include "utils/StateLight.h"
 #pragma execution_character_set("utf-8")

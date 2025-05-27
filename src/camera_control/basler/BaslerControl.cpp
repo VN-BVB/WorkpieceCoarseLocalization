@@ -1,7 +1,7 @@
 ﻿#include "BaslerControl.h"
 
 #include <QObject>
-#define Test
+// #define Test
 int cameraIndex = 0;  // 相机索引
 BaslerControl::BaslerControl() { loadCalibConfigFromFile(configFilePath); }
 

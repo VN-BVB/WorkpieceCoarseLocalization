@@ -44,6 +44,7 @@ public:
     QLabel *label;
     QPushButton *btnConnectCamera;
     QWidget *tab_4;
+    QGridLayout *gridLayout_4;
     QVBoxLayout *verticalLayout;
     QPushButton *btnCalibratateCamera;
     QPushButton *btnCalibEyetoHand;
@@ -204,7 +205,9 @@ public:
         tabWidget->addTab(tab_3, QString());
         tab_4 = new QWidget();
         tab_4->setObjectName(QString::fromUtf8("tab_4"));
-        verticalLayout = new QVBoxLayout(tab_4);
+        gridLayout_4 = new QGridLayout(tab_4);
+        gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
+        verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         btnCalibratateCamera = new QPushButton(tab_4);
         btnCalibratateCamera->setObjectName(QString::fromUtf8("btnCalibratateCamera"));
@@ -235,6 +238,9 @@ public:
         btnConnectCamera_4->setFont(font1);
 
         verticalLayout->addWidget(btnConnectCamera_4);
+
+
+        gridLayout_4->addLayout(verticalLayout, 0, 0, 1, 1);
 
         tabWidget->addTab(tab_4, QString());
         tab = new QWidget();
