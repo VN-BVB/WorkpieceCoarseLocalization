@@ -272,7 +272,7 @@ Makefile: yolo11_Seg.pro ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\win32-msvc\qm
 		..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\toolchain.prf \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\default_pre.prf \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\win32\default_pre.prf \
-		..\..\qt\PCL1.9.1\pcl191.pri \
+		..\..\ProgramData\PCL1.9.1new\PCL191new.pri \
 		3rdparty\3rdpartyLi.pri \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\resolve_config.prf \
 		..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\exclusive_builds_post.prf \
@@ -492,7 +492,7 @@ Makefile: yolo11_Seg.pro ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\win32-msvc\qm
 ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\toolchain.prf:
 ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\default_pre.prf:
 ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\win32\default_pre.prf:
-..\..\qt\PCL1.9.1\pcl191.pri:
+..\..\ProgramData\PCL1.9.1new\PCL191new.pri:
 3rdparty\3rdpartyLi.pri:
 ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\resolve_config.prf:
 ..\..\qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\exclusive_builds_post.prf:

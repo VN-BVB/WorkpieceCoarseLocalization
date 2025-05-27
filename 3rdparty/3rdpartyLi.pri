@@ -9,29 +9,20 @@ CONFIG(debug, debug|release){
     LIBS += D:/qt/opencv/opencv/build/x64/vc15/lib/opencv_world460.lib
 }
 
-# 引入VTK库
-CONFIG(debug, debug|release){
-    INCLUDEPATH += $$quote(D:/qt/vtkmsvc/include/vtk-8.2)
-    LIBS += $$quote(D:/qt/vtkmsvc/lib/vtk*d.lib)
-} else {
-    INCLUDEPATH += $$quote(D:/qt/vtkmsvc/include/vtk-8.2)
-    LIBS += $$quote(D:/qt/vtkmsvc/lib/vtk*.lib)
-}
+# # 引入VTK库
+# CONFIG(debug, debug|release){
+#     INCLUDEPATH += $$quote(D:/qt/vtkmsvc/include/vtk-8.2)
+#     LIBS += $$quote(D:/qt/vtkmsvc/lib/vtk*d.lib)
+# } else {
+#     INCLUDEPATH += $$quote(D:/qt/vtkmsvc/include/vtk-8.2)
+#     LIBS += $$quote(D:/qt/vtkmsvc/lib/vtk*.lib)
+# }
 
 # 引入Eigen矩阵运算库
 INCLUDEPATH += D:\ProgramData\eigen-git-mirror-master
 
 # # 引入PCL点云库
-INCLUDEPATH += D:\qt\PCL1.9.1\3rdParty\OpenNI2\Include\
-INCLUDEPATH += D:\qt\PCL1.9.1\include\pcl-1.9\pcl
-INCLUDEPATH += D:\qt\PCL1.9.1\include\pcl-1.9\
-INCLUDEPATH += D:\qt\PCL1.9.1\3rdParty\Boost\include\boost-1_68\
-INCLUDEPATH += D:\qt\PCL1.9.1\3rdParty\Eigen\eigen3\
-INCLUDEPATH += D:\qt\PCL1.9.1\3rdParty\FLANN\include\
-INCLUDEPATH += D:\qt\PCL1.9.1\3rdParty\FLANN\include\flann\
-INCLUDEPATH += D:\qt\PCL1.9.1\3rdParty\Qhull\include\
-INCLUDEPATH += D:\qt\PCL1.9.1\3rdParty\VTK\include\vtk-8.1
-include(D:\qt\PCL1.9.1\pcl191.pri)
+include(D:\ProgramData\PCL1.9.1new\PCL191new.pri)
 
 # 引入Coin3d机器人显示库
 INCLUDEPATH += D:/ProgramData/Coin3d/include
