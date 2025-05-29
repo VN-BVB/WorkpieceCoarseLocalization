@@ -1,4 +1,4 @@
-# 引入OpenCV库
+#------------------OpenCV库-------------------
 # INCLUDEPATH += D:/ProgramData/opencv/build/include/
 # INCLUDEPATH += D:/ProgramData/opencv/build/include/opencv2/
 # LIBS += -LD:/ProgramData/opencv/build/x64/vc15/lib/ -lopencv_world440
@@ -9,7 +9,7 @@ CONFIG(debug, debug|release){
     LIBS += D:/qt/opencv/opencv/build/x64/vc15/lib/opencv_world460.lib
 }
 
-# # 引入VTK库
+# VTK
 # CONFIG(debug, debug|release){
 #     INCLUDEPATH += $$quote(D:/qt/vtkmsvc/include/vtk-8.2)
 #     LIBS += $$quote(D:/qt/vtkmsvc/lib/vtk*d.lib)
@@ -32,6 +32,21 @@ INCLUDEPATH += D:\ProgramData\cerea\ceres\include
 LIBS += D:\ProgramData\cerea\ceres\lib\*.lib
 # LIBS += -lglog
 
+# 引入cereal序列化饭序列化库
+INCLUDEPATH += ./3rdparty/cereal/include
+
+# # CUDA合并TensorRT12.6
+# INCLUDEPATH += 'D:/YOLO/NVIDIA GPU Computing Toolkit/CUDA/v12.6/include'
+# LIBS += 'D:/YOLO/NVIDIA GPU Computing Toolkit/CUDA/v12.6/lib/x64/*.lib'
+# CUDA合并TensorRT
+INCLUDEPATH += 'D:/YOLO/NVIDIA GPU Computing Toolkit/CUDA/v11.8/include'
+LIBS += 'D:/YOLO/NVIDIA GPU Computing Toolkit/CUDA/v11.8/lib/x64/*.lib'
+INCLUDEPATH += 'D:/YOLO/NVIDIA GPU Computing Toolkit/TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8/TensorRT-8.6.1.6/include'
+LIBS += 'D:/YOLO/NVIDIA GPU Computing Toolkit/TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8/TensorRT-8.6.1.6/lib/*.lib'
+
+
+
+
 # 引入Basler相机库
 INCLUDEPATH += $$quote(D:/Basler/pylon7/Development/include)
 LIBS +=  $$quote(D:/Basler/pylon7/Development/lib/x64/*.lib)
@@ -41,18 +56,9 @@ LIBS +=  $$quote(D:/Basler/pylon7/Development/lib/x64/*.lib)
 # INCLUDEPATH += ./3rdparty/auboi5/inc
 # LIBS += ./3rdparty/auboi5/lib/libserviceinterface.lib
 
-# 引入cereal序列化饭序列化库
-INCLUDEPATH += ./3rdparty/cereal/include
-
-
 # 引入镭烁HD6相机库
 INCLUDEPATH += ./3rdparty/HD6
 LIBS += ./3rdparty/HD6/LS_HD6.lib
-# # CUDA合并TensorRT12.6
-# INCLUDEPATH += 'D:/YOLO/NVIDIA GPU Computing Toolkit/CUDA/v12.6/include'
-# LIBS += 'D:/YOLO/NVIDIA GPU Computing Toolkit/CUDA/v12.6/lib/x64/*.lib'
-# CUDA合并TensorRT
-INCLUDEPATH += 'D:/YOLO/NVIDIA GPU Computing Toolkit/CUDA/v11.8/include'
-LIBS += 'D:/YOLO/NVIDIA GPU Computing Toolkit/CUDA/v11.8/lib/x64/*.lib'
-INCLUDEPATH += 'D:/YOLO/NVIDIA GPU Computing Toolkit/TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8/TensorRT-8.6.1.6/include'
-LIBS += 'D:/YOLO/NVIDIA GPU Computing Toolkit/TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8/TensorRT-8.6.1.6/lib/*.lib'
+
+
+

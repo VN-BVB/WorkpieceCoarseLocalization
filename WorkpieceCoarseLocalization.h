@@ -26,6 +26,7 @@ public:
     WorkpieceCoarseLocalization(QWidget *parent = nullptr);
     ~WorkpieceCoarseLocalization();
 
+    std::string num2fixedStr(int i);
 private:
     Ui::WorkpieceCoarseLocalization *ui;
 
@@ -44,6 +45,7 @@ private:
     QGraphicsScene *scene = new QGraphicsScene;  // 创建一个 QGraphicsScene
     bool detectionEnabled;
     std::shared_ptr<workpieceBoxInWorld> resultPtr;
+    int capture_index = 0;
 
 private slots:
     void on_btnConnectCamera_clicked();
@@ -69,6 +71,8 @@ private slots:
     void on_btnCalibEyetoHand_clicked();
 
     void on_btnCalibTrack_clicked();
+
+    void on_btnSaveImage_2_clicked();
 
 public slots:
     void startCoarseLocalization();

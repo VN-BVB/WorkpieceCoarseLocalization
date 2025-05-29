@@ -174,5 +174,4 @@ public:
     }
 };
 extern CoordinateMapper::CoordMappingType g_coordMappingType;  // 机器人与像素坐标系之间的关系
-
-#endif  // MASKIMAGEPROCESSCONFIG_H
+#endif                                                         // MASKIMAGEPROCESSCONFIG_H

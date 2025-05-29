@@ -14,11 +14,11 @@
 -ID:/ProgramData/PCL1.9.1new/3rdParty/VTKQt/include/vtk-8.2
 -ID:/ProgramData/Coin3d/include
 -ID:/ProgramData/cerea/ceres/include
--ID:/Basler/pylon7/Development/include
 -ID:/YOLO/yolo11_Seg_C++/3rdparty/cereal/include
--ID:/YOLO/yolo11_Seg_C++/3rdparty/HD6
 -ID:/YOLO/NVIDIA GPU Computing Toolkit/CUDA/v11.8/include
 -ID:/YOLO/NVIDIA GPU Computing Toolkit/TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8/TensorRT-8.6.1.6/include
+-ID:/Basler/pylon7/Development/include
+-ID:/YOLO/yolo11_Seg_C++/3rdparty/HD6
 -ID:/YOLO/yolo11_Seg_C++
 -ID:/YOLO/yolo11_Seg_C++/src
 -ID:/YOLO/yolo11_Seg_C++/3rdparty/plog/include

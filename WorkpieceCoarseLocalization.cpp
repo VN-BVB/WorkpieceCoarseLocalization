@@ -86,6 +86,12 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget* parent) : QWid
             &FittingWorkpieceCoordinate::loadCalibrationParameters);
     connect(eyeToHandCalibration, &HandEyeCalibrationLogic::appendHandEyeLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
     connect(eyeToHandCalibration, &HandEyeCalibrationLogic::sendSaveHcg, calibratateCamera, &CalibratateCamera::whenSaveHcg);
+    connect(ui->lineEditX, &QLineEdit::returnPressed, this, [this]() { ui->lineEditY->setFocus(); });
+    connect(ui->lineEditY, &QLineEdit::returnPressed, this, [this]() { ui->lineEditZ->setFocus(); });
+    connect(ui->lineEditZ, &QLineEdit::returnPressed, this, [this]() { ui->lineEditRX->setFocus(); });
+    connect(ui->lineEditRX, &QLineEdit::returnPressed, this, [this]() { ui->lineEditRY->setFocus(); });
+    connect(ui->lineEditRY, &QLineEdit::returnPressed, this, [this]() { ui->lineEditRZ->setFocus(); });
+    connect(ui->lineEditRZ, &QLineEdit::returnPressed, this, [this]() { ui->lineEditX->setFocus(); });
 
     inferenceSubThread->start();
     cameraControlSubThread->start();
@@ -295,6 +301,11 @@ void WorkpieceCoarseLocalization::debugProjectPointOnlyY(const cv::Mat& trackDir
     std::cout << "Distance to origin: " << distance << "\n";
     std::cout << "-----------------------------\n";
 }
+std::string WorkpieceCoarseLocalization::num2fixedStr(int i) {
+    char ss[10];
+    sprintf(ss, "%02d", i);
+    return ss;
+}
 //----------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------
 void WorkpieceCoarseLocalization::on_btnConnectCamera_clicked() {
@@ -381,3 +392,43 @@ void WorkpieceCoarseLocalization::on_btnCalibratateCamera_clicked() {
 void WorkpieceCoarseLocalization::on_btnCalibEyetoHand_clicked() { emit sendEyeToHandCalib(); }
 
 void WorkpieceCoarseLocalization::on_btnCalibTrack_clicked() { emit sendGetTrackHcg(); }
+
+void WorkpieceCoarseLocalization::on_btnSaveImage_2_clicked() {
+    // int saveType = 0;
+    // baslerControl->imageNumberToSaveInCalibration++;
+    // baslerControl->saveTypeEnable = saveType;
+
+    // 获取并存入 robot_flange_coordinate
+    std::vector<double> robot_flange_coordinate(6);
+    robot_flange_coordinate[0] = ui->lineEditX->text().toDouble();
+    robot_flange_coordinate[1] = ui->lineEditY->text().toDouble();
+    robot_flange_coordinate[2] = ui->lineEditZ->text().toDouble();
+    robot_flange_coordinate[3] = ui->lineEditRX->text().toDouble();
+    robot_flange_coordinate[4] = ui->lineEditRY->text().toDouble();
+    robot_flange_coordinate[5] = ui->lineEditRZ->text().toDouble();
+
+    // 写入 XML
+    std::string output_file =
+        "./data/calib/camera" + std::to_string(cameraIndex + 1) + "/pos/robotpos/robotpos" + num2fixedStr(capture_index++) + ".xml";
+    cv::FileStorage fs(output_file, cv::FileStorage::WRITE);
+    if (!fs.isOpened()) {
+        whenAppendLog(QString("保存失败: 无法打开文件 ") + QString::fromStdString(output_file));
+    } else {
+        for (int i = 0; i < 6; ++i) {
+            fs << ("Position" + std::to_string(i)) << robot_flange_coordinate[i];
+        }
+        fs.release();
+        whenAppendLog(QString("保存成功: ") + QString::fromStdString(output_file));
+    }
+
+    // 清空所有 lineEdit
+    ui->lineEditX->clear();
+    ui->lineEditY->clear();
+    ui->lineEditZ->clear();
+    ui->lineEditRX->clear();
+    ui->lineEditRY->clear();
+    ui->lineEditRZ->clear();
+
+    // 焦点返回第一个框
+    ui->lineEditX->setFocus();
+}
