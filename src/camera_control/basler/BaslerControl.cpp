@@ -18,6 +18,9 @@ void BaslerControl::openCamera() {
     S_Ns.push_back("1");
     S_Ns.push_back("2");
     S_Ns.push_back("3");
+    S_Ns.push_back("4");
+    S_Ns.push_back("5");
+    S_Ns.push_back("6");
     emit sendSerialNumber(S_Ns);
     currentS_N = S_Ns[0];  // 初始化为未采图。
     while (cameraFlag) {

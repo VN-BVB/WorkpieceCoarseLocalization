@@ -11,6 +11,7 @@ void HandEyeCalibrationLogic::whenCalibrateEye2Hand() {
     std::string imagePathEyeToHand = calibPath + std::to_string(cameraIndex) + "/img";  // images   images_2   Aubo  second_factory
     std::string posePath = calibPath + std::to_string(cameraIndex) + "/pos";            // 对应棋盘格图像的机械臂位姿
     Kc = cameraParameters[cameraIndex - 1].cameraMatrix;
+    std::cout << "KC0" << Kc;
     camera_distortion = cameraParameters[cameraIndex - 1].distCoeffs;
     cv::Size boardSize = {board_width, board_heignt};  // 标定板规格
     vector<cv::Point3f> objPoints;
