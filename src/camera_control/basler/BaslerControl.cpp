@@ -70,7 +70,7 @@ void BaslerControl::openCamera() {
                 const GenApi::CFloatPtr exposureTime = cameraNodeMap.GetNode("ExposureTimeAbs");
                 exposureTime->SetValue(exposure);
 
-                cameras[calibCameraIndex].StartGrabbing(Pylon::GrabStrategy_OneByOne, Pylon::GrabLoop_ProvidedByUser);  // 启动抓取模式
+                cameras[calibCameraIndex].StartGrabbing(Pylon::GrabStrategy_UpcomingImage, Pylon::GrabLoop_ProvidedByUser);  // 启动抓取模式
                 formatConverter.OutputPixelFormat = Pylon::PixelType_BGR8packed;
                 PLOGD << L"第" << i + 1 << L"台Basler相机连接成功";
                 emit appendCameraLog(QString("第%1台Basler相机连接成功").arg(i + 1));

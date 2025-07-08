@@ -254,7 +254,7 @@ void HandEyeCalibrationLogic::getTrackDirection(std::string path, cv::Mat& HcgTr
     double magnitude =
         sqrt(totalTranslation.x * totalTranslation.x + totalTranslation.y * totalTranslation.y + totalTranslation.z * totalTranslation.z);
     // currentTrackPosToCalib = magnitude; // 假设地轨编码器读取到的位置，实际在手眼标定函数中获取。
-    currentTrackPosToCalib = 2200;  // 假设地轨编码器读取到的位置
+    currentTrackPosToCalib = 4000;  // 假设地轨编码器读取到的位置
     cv::Point3d unitDirection(totalTranslation.x / magnitude, totalTranslation.y / magnitude, totalTranslation.z / magnitude);
 
     // 将 unitDirection 转换为 cv::Mat
@@ -264,7 +264,7 @@ void HandEyeCalibrationLogic::getTrackDirection(std::string path, cv::Mat& HcgTr
     // 更新平移向量
     std::cout << "unitDirectionMat: " << unitDirectionMat << std::endl;
     // std::cout << "t: " << t << std::endl;
-    cv::Mat t_updated = t * 1000 - unitDirectionMat * currentTrackPosToCalib;
+    cv::Mat t_updated = t * 1000 + unitDirectionMat * currentTrackPosToCalib;  // + 为远离原点方向
     // std::cout << "unitDirectionMat * currentTrackPosToCalib;: " << unitDirectionMat * currentTrackPosToCalib << std::endl;
     // std::cout << "t_updated: " << t_updated << std::endl;
 

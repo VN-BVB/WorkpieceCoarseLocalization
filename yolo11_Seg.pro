@@ -49,7 +49,7 @@ HEADERS += \
     src/yoloInference/common.hpp \
     src/yoloInference/yolov11-rect.h
 
-FORMS +=
+FORMS +=\
     WorkpieceCoarseLocalization.ui
 include(./3rdParty/3rdPartyGongRail.pri)
 include( ./libdetect/libdetect.pri)

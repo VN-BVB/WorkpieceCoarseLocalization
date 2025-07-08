@@ -65,6 +65,7 @@ WorkpieceCoarseLocalization::WorkpieceCoarseLocalization(QWidget* parent) : QWid
     connect(baslerControl, &BaslerControl::sendSerialNumber, this, &WorkpieceCoarseLocalization::whenUpdateComboBox);
     connect(baslerControl, &BaslerControl::sendCvImagesToInfer, yolo11SegInference, &Yolo11SegInference::whenImageNeedToInfer);
     connect(baslerControl, &BaslerControl::appendCameraLog, this, &WorkpieceCoarseLocalization::whenAppendLog);
+    connect(baslerControl, &BaslerControl::sendGetCurrentWaypoint, this, &WorkpieceCoarseLocalization::whenSavePosOfRobot);
 
     // 相机标定线程
     calibratateCamera->moveToThread(cameraCalibrationSubThread);
@@ -388,7 +389,9 @@ void WorkpieceCoarseLocalization::on_btnSaveImage_2_clicked() {
     int saveType = 0;
     baslerControl->imageNumberToSaveInCalibration++;
     baslerControl->saveTypeEnable = saveType;
+}
 
+void WorkpieceCoarseLocalization::whenSavePosOfRobot() {
     // 获取并存入 robot_flange_coordinate
     std::vector<double> robot_flange_coordinate(6);
     robot_flange_coordinate[0] = ui->lineEditX->text().toDouble();

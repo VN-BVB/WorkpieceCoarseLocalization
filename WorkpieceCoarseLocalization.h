@@ -88,6 +88,7 @@ public slots:
     void printWorkpieceBoxInfo(const workpieceBoxInWorld *info, int workpieceIndex);
     void debugProjectPointOnlyY(const cv::Mat &trackDirection, const cv::Point3d &pt);
 
+    void whenSavePosOfRobot();
 signals:
     void sendCommandToInferPath(std::string path);
     void sendDisconnectCamera();
