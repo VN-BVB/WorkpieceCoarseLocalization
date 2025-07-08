@@ -36,21 +36,25 @@ extern workpieceBoxInWorld workpieceFinalInfoInWorldAfterIOU;
 //------------------------------画布绘制参数---------------------------------------
 namespace CanvasDrawingConfig {
 // 长画布参数
-const int pixelRow = 6000;                     // 原始画布高度
-const int pixelCol = 1800;                     // 原始画布宽度
+const int pixelRow = 3000;                     // 原始画布高度
+const int pixelCol = 8000;                     // 原始画布宽度
 const cv::Scalar correctColor(0, 255, 0);      // 正确颜色
 const cv::Scalar warningColor(255, 255, 125);  // 警告颜色
 const cv::Scalar deleteColor(255, 0, 0);       // 删除颜色
-const int correctLineThickness = 3;            // 正常线厚度
-const int warningLineThickness = 3;            // 警告线厚度
-const int deleteLineThickness = 3;             // 删除线厚度
+const cv::Scalar weldSeamColor(0, 0, 0);       // 焊缝区域颜色
+const int correctLineThickness = 20;           // 正常线厚度
+const int warningLineThickness = 20;           // 警告线厚度
+const int deleteLineThickness = 20;            // 删除线厚度
+const int weldSeamLineThickness = 2;           // 焊缝区线厚度
 const int gridSpacingX = 100;                  // 坐标轴X间距
 const int gridSpacingY = 100;                  // 坐标轴Y间距
 const cv::Scalar axisColor(0, 0, 0);           // 坐标轴颜色
 const int axisThickness = 2;                   // 坐标轴厚度
 
-const cv::Mat canvasMat = (cv::Mat_<double>(3, 3) << 1, 0, pixelCol - 100, 0, -1, 500, 0, 0, 1);  // 绘制坐标系偏移
-const int railMapRotationAngle = 90;  // 0 90 180 270  画布最后可视化的角度
+const cv::Mat canvasMat = (cv::Mat_<double>(3, 3) << 1, 0, 100, 0, -1, pixelRow - 100, 0, 0, 1);  // 绘制坐标系偏移
+const int railMapRotationAngle = 0;                                                               // 0 90 180 270  画布最后可视化的角度
+const std::string sortWorldAxis = "X";                                                            // 世界坐标系下排序
+const std::string sortWorldOrder = "up";                                                          // 世界坐标系下排序
 }  // namespace CanvasDrawingConfig
 
 //------------------------------推理掩膜变换---------------------------------------
@@ -107,8 +111,7 @@ public:
         }
     }
     template <typename T>
-    static cv::Point_<T> rotateToOriginal(const cv::Point_<T>& rotatedPoint, int originalImageWidth, int originalImageHeight,
-                                          int rotationAngle) {
+    static cv::Point_<T> rotateToOriginal(const cv::Point_<T>& rotatedPoint, int originalImageWidth, int originalImageHeight, int rotationAngle) {
         T x_rotated = rotatedPoint.x;
         T y_rotated = rotatedPoint.y;
         T x_original = 0;
@@ -140,8 +143,7 @@ public:
         return cv::Point_<T>(x_original, y_original);
     }
     template <typename T>
-    static cv::Point_<T> originalToRotated(const cv::Point_<T>& originalPoint, int originalImageWidth, int originalImageHeight,
-                                           int rotationAngle) {
+    static cv::Point_<T> originalToRotated(const cv::Point_<T>& originalPoint, int originalImageWidth, int originalImageHeight, int rotationAngle) {
         T x_original = originalPoint.x;
         T y_original = originalPoint.y;
         T x_rotated = 0;

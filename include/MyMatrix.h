@@ -15,8 +15,7 @@ public:
     std::vector<double> extrinsicMatrixData;
 
     // 构造函数，初始化矩阵数据
-    MyMatrix(cv::Mat cameraMatrix, cv::Mat distCoeffs, std::vector<double> globalPlane, cv::Mat extrinsicMatrix)
-        : globalPlaneData(globalPlane) {
+    MyMatrix(cv::Mat cameraMatrix, cv::Mat distCoeffs, std::vector<double> globalPlane, cv::Mat extrinsicMatrix) : globalPlaneData(globalPlane) {
         cameraMatrixData = std::vector<double>(cameraMatrix.begin<double>(), cameraMatrix.end<double>());
         distCoeffsData = std::vector<double>(distCoeffs.begin<double>(), distCoeffs.end<double>());
         extrinsicMatrixData = std::vector<double>(extrinsicMatrix.begin<double>(), extrinsicMatrix.end<double>());
@@ -59,15 +58,13 @@ public:
         }
     }
     void saveCalibConfigToFile() {
-        // 构造3个相机的MyMatrix实例
+        // 创建6个相机的MyMatrix实例
         MyMatrix cam1;
         cam1.CameraSerialNum = "21158836";
-        // 这里示例给cameraMatrixData填充9个double
         cam1.cameraMatrixData = {1891.93, 0.0, 798.93, 0.0, 1886.25, 617.64, 0.0, 0.0, 1.0};
-        // distCoeffsData示例填充5个double
         cam1.distCoeffsData = {0, 0, 0, 0, 0};
         cam1.globalPlaneData = {0, 0, 0};
-        cam1.extrinsicMatrixData = std::vector<double>(16, 0.0);  // 全零示例
+        cam1.extrinsicMatrixData = std::vector<double>(16, 0.0);  // 示例：4x4全零矩阵
 
         MyMatrix cam2 = cam1;
         cam2.CameraSerialNum = "22256419";
@@ -77,16 +74,31 @@ public:
         cam3.CameraSerialNum = "22301065";
         cam3.cameraMatrixData = {1850.00, 0.0, 760.00, 0.0, 1840.00, 590.00, 0.0, 0.0, 1.0};
 
-        // 用std::map组织数据，key就是Camera1, Camera2, Camera3
+        MyMatrix cam4 = cam1;
+        cam4.CameraSerialNum = "23456789";
+        cam4.cameraMatrixData = {1900.00, 0.0, 810.00, 0.0, 1875.00, 620.00, 0.0, 0.0, 1.0};
+
+        MyMatrix cam5 = cam1;
+        cam5.CameraSerialNum = "24567890";
+        cam5.cameraMatrixData = {1885.00, 0.0, 795.00, 0.0, 1865.00, 605.00, 0.0, 0.0, 1.0};
+
+        MyMatrix cam6 = cam1;
+        cam6.CameraSerialNum = "25678901";
+        cam6.cameraMatrixData = {1870.00, 0.0, 780.00, 0.0, 1850.00, 590.00, 0.0, 0.0, 1.0};
+
+        // 用 std::map 组织数据
         std::map<std::string, MyMatrix> cameraMap;
         cameraMap["Camera1"] = cam1;
         cameraMap["Camera2"] = cam2;
         cameraMap["Camera3"] = cam3;
+        cameraMap["Camera4"] = cam4;
+        cameraMap["Camera5"] = cam5;
+        cameraMap["Camera6"] = cam6;
 
-        // 打开文件保存
+        // 保存到 JSON 文件
         std::ofstream os("./data/config/workpiece_localization_calib.json");
         if (!os.is_open()) {
-            std::cerr << "Failed to open file for writing: " << "./data/config/workpiece_localization_calib.json" << std::endl;
+            std::cerr << "Failed to open file for writing: ./data/config/workpiece_localization_calib.json" << std::endl;
             return;
         }
 
@@ -150,8 +162,7 @@ public:
     // cereal序列化支持
     template <class Archive>
     void serialize(Archive& ar) {
-        ar(cereal::make_nvp("primaryCameraSerialNum", primaryCameraSerialNum),
-           cereal::make_nvp("secondaryCameraSerialNum", secondaryCameraSerialNum),
+        ar(cereal::make_nvp("primaryCameraSerialNum", primaryCameraSerialNum), cereal::make_nvp("secondaryCameraSerialNum", secondaryCameraSerialNum),
            cereal::make_nvp("thirdaryCameraSerialNum", thirdaryCameraSerialNum));
     }
 };

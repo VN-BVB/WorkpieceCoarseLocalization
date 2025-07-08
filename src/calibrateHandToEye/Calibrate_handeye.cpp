@@ -187,8 +187,7 @@ void HandEyeCalibrationLogic::getTrackDirection(std::string path, cv::Mat& HcgTr
             cv::Mat robotBasePoint = Hcg * RT_Mat * point3d;
 
             // 提取机器人基坐标系下的 3D 坐标
-            worldPoints.push_back(
-                cv::Point3d(robotBasePoint.at<double>(0), robotBasePoint.at<double>(1), robotBasePoint.at<double>(2)));
+            worldPoints.push_back(cv::Point3d(robotBasePoint.at<double>(0), robotBasePoint.at<double>(1), robotBasePoint.at<double>(2)));
         }
 
         worldPointsVec.push_back(worldPoints);
@@ -251,10 +250,10 @@ void HandEyeCalibrationLogic::getTrackDirection(std::string path, cv::Mat& HcgTr
     cv::Mat t = Hcg(cv::Rect(3, 0, 1, 3));  // 原始平移向量
 
     // 将计算得到的平移向量转换为 Mat 类型
-    double magnitude = sqrt(totalTranslation.x * totalTranslation.x + totalTranslation.y * totalTranslation.y +
-                            totalTranslation.z * totalTranslation.z);
+    double magnitude =
+        sqrt(totalTranslation.x * totalTranslation.x + totalTranslation.y * totalTranslation.y + totalTranslation.z * totalTranslation.z);
     // currentTrackPosToCalib = magnitude; // 假设地轨编码器读取到的位置，实际在手眼标定函数中获取。
-    currentTrackPosToCalib = 3888;  // 假设地轨编码器读取到的位置
+    currentTrackPosToCalib = 2200;  // 假设地轨编码器读取到的位置
     cv::Point3d unitDirection(totalTranslation.x / magnitude, totalTranslation.y / magnitude, totalTranslation.z / magnitude);
 
     // 将 unitDirection 转换为 cv::Mat
@@ -288,13 +287,13 @@ void HandEyeCalibrationLogic::test(std::string trackPath) {
         dirImages.push_back(image);
     }
     // 手动给定的平移向量
-    cv::Mat Hc1_manual1 = (cv::Mat_<double>(4, 4) << 0.9995132115610255, -0.02019904319366579, -0.02377684943435908,
-                           -0.8605622719022955, -0.02025012754446433, -0.9997931213772339, -0.001909654733043817, -0.1559250071294697,
-                           -0.02373335731405568, 0.002390209368848928, -0.9997154668453262, 1.06690330933994, 0, 0, 0, 1);
+    cv::Mat Hc1_manual1 = (cv::Mat_<double>(4, 4) << 0.9995132115610255, -0.02019904319366579, -0.02377684943435908, -0.8605622719022955,
+                           -0.02025012754446433, -0.9997931213772339, -0.001909654733043817, -0.1559250071294697, -0.02373335731405568,
+                           0.002390209368848928, -0.9997154668453262, 1.06690330933994, 0, 0, 0, 1);
 
-    cv::Mat Hc2_manual1 = (cv::Mat_<double>(4, 4) << 0.9998209637165499, -0.001445359319344509, -0.01886667563052896,
-                           -0.7248343721691441, -0.001446082067449214, -0.999998954118583, -2.466563952358003e-05, -0.0560321003531572,
-                           -0.01886662024751207, 5.194398478103324e-05, -0.9998220081305766, 1.064627607740112, 0, 0, 0, 1);
+    cv::Mat Hc2_manual1 = (cv::Mat_<double>(4, 4) << 0.9998209637165499, -0.001445359319344509, -0.01886667563052896, -0.7248343721691441,
+                           -0.001446082067449214, -0.999998954118583, -2.466563952358003e-05, -0.0560321003531572, -0.01886662024751207,
+                           5.194398478103324e-05, -0.9998220081305766, 1.064627607740112, 0, 0, 0, 1);
     cv::Size boardSize = {board_width, board_heignt};  // 标定板规格
 
     // 获取每个标定图像的图像坐标点集
@@ -392,9 +391,9 @@ void HandEyeCalibrationLogic::getTrackDirectiontest(std::string trackPath) {
         cv::Mat image = cv::imread(path);
         dirImages.push_back(image);
     }
-    cv::Mat Hc2_manual1 = (cv::Mat_<double>(4, 4) << 0.9995132115610255, -0.02019904319366579, -0.02377684943435908,
-                           -0.8605622719022955, -0.02025012754446433, -0.9997931213772339, -0.001909654733043817, -0.1559250071294697,
-                           -0.02373335731405568, 0.002390209368848928, -0.9997154668453262, 1.06690330933994, 0, 0, 0, 1);
+    cv::Mat Hc2_manual1 = (cv::Mat_<double>(4, 4) << 0.9995132115610255, -0.02019904319366579, -0.02377684943435908, -0.8605622719022955,
+                           -0.02025012754446433, -0.9997931213772339, -0.001909654733043817, -0.1559250071294697, -0.02373335731405568,
+                           0.002390209368848928, -0.9997154668453262, 1.06690330933994, 0, 0, 0, 1);
     cv::Mat Hc1 = (cv::Mat_<double>(4, 4) << 0.9998209637165499, -0.001445359319344509, -0.01886667563052896, -0.7248343721691441,
                    -0.001446082067449214, -0.999998954118583, -2.466563952358003e-05, -0.0560321003531572, -0.01886662024751207,
                    5.194398478103324e-05, -0.9998220081305766, 1.064627607740112, 0, 0, 0, 1);
@@ -429,8 +428,7 @@ void HandEyeCalibrationLogic::getTrackDirectiontest(std::string trackPath) {
             cv::Mat robotBasePoint = Hc1 * RT_Mat * point3d;
 
             // 提取机器人基坐标系下的 3D 坐标
-            worldPoints.push_back(
-                cv::Point3d(robotBasePoint.at<double>(0), robotBasePoint.at<double>(1), robotBasePoint.at<double>(2)));
+            worldPoints.push_back(cv::Point3d(robotBasePoint.at<double>(0), robotBasePoint.at<double>(1), robotBasePoint.at<double>(2)));
         }
 
         worldPointsVec.push_back(worldPoints);
@@ -496,8 +494,8 @@ void HandEyeCalibrationLogic::getTrackDirectiontest(std::string trackPath) {
     std::cout << "Y error: " << translation_error.at<double>(1) * 1000 << std::endl;
     std::cout << "Z error: " << translation_error.at<double>(2) * 1000 << std::endl;
     // 单位化 totalTranslation 向量
-    double magnitude = sqrt(totalTranslation.x * totalTranslation.x + totalTranslation.y * totalTranslation.y +
-                            totalTranslation.z * totalTranslation.z);
+    double magnitude =
+        sqrt(totalTranslation.x * totalTranslation.x + totalTranslation.y * totalTranslation.y + totalTranslation.z * totalTranslation.z);
     cv::Point3d unitDirection(totalTranslation.x / magnitude, totalTranslation.y / magnitude, totalTranslation.z / magnitude);
 
     // 计算点到原点的向量
@@ -553,10 +551,10 @@ double ReprojectionErrorCallback::calculate_Reprojection_Error(const std::vector
     // std::cout << "TEB_4x4: " << TEB_4x4 << std::endl;
     for (size_t i = 0; i < objectPoints.size(); ++i) {
         // 3D点
-        if (std::isnan(objectPoints[i].x) || std::isnan(objectPoints[i].y) || std::isnan(objectPoints[i].z) ||
-            std::isinf(objectPoints[i].x) || std::isinf(objectPoints[i].y) || std::isinf(objectPoints[i].z)) {
-            std::cerr << "Warning: Invalid 3D point at index " << i << ": " << "x = " << objectPoints[i].x
-                      << ", y = " << objectPoints[i].y << ", z = " << objectPoints[i].z << std::endl;
+        if (std::isnan(objectPoints[i].x) || std::isnan(objectPoints[i].y) || std::isnan(objectPoints[i].z) || std::isinf(objectPoints[i].x) ||
+            std::isinf(objectPoints[i].y) || std::isinf(objectPoints[i].z)) {
+            std::cerr << "Warning: Invalid 3D point at index " << i << ": " << "x = " << objectPoints[i].x << ", y = " << objectPoints[i].y
+                      << ", z = " << objectPoints[i].z << std::endl;
             // 可以选择抛出异常或者返回某种错误值
             continue;  // 或者其他错误处理方式
         }
@@ -588,8 +586,7 @@ double ReprojectionErrorCallback::calculate_Reprojection_Error(const std::vector
             std::cerr << "point_camera rowRange(0, 3) is invalid!" << std::endl;
         }
 
-        cv::projectPoints(point_camera.rowRange(0, 3), cv::Mat::zeros(3, 1, CV_64F), cv::Mat::zeros(3, 1, CV_64F), K, dist_coeffs,
-                          projected_point);
+        cv::projectPoints(point_camera.rowRange(0, 3), cv::Mat::zeros(3, 1, CV_64F), cv::Mat::zeros(3, 1, CV_64F), K, dist_coeffs, projected_point);
 
         projected_points.push_back(cv::Point2f(projected_point.at<double>(0, 0), projected_point.at<double>(0, 1)));
 

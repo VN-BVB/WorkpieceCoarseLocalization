@@ -19,8 +19,8 @@
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QWidget>
-#include "utils/image_widget/QImageWidget.h"
-#include "utils/image_widget/ScalableGraphicsView.h"
+#include <utils/image_widget/QImageWidget.h>
+#include <utils/image_widget/ScalableGraphicsView.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -442,7 +442,7 @@ public:
 
         retranslateUi(WorkpieceCoarseLocalization);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(WorkpieceCoarseLocalization);

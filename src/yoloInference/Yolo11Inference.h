@@ -52,7 +52,7 @@ public:
     int seg_h = 256;
     int seg_w = 256;
     cv::Size size = cv::Size{1024, 1024};
-    int num_channels = 32;     // 标签数量
+    int seg_channels = 32;     // 分割通道
     int topk = 100;            // 输出结果时的最多目标数量
     float score_thres = 0.5f;  // 置信度
     float iou_thres = 0.1f;    // 交并比

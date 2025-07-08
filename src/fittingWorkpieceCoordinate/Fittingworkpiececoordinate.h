@@ -23,7 +23,7 @@ struct ObjectInfo {
     int validPixel;    ///< 物体的有效像素数量
     int cameraIndex;   ///< 相机序号
 };
-extern std::array<cameraConfig, 3> cameraParameters;  // 相机参数数量
+extern std::array<cameraConfig, 6> cameraParameters;  // 相机参数数量
 using namespace CanvasDrawingConfig;
 
 /**
@@ -50,8 +50,8 @@ public:
     std::vector<std::vector<ObjectInfo>> classifyWorkpieces(const std::vector<ObjectInfo> &allObjects, double threshold);
     void removeSmallCategories(std::vector<std::vector<ObjectInfo>> &categorizedObjects);
     std::vector<cv::Point3d> calculateCategoryCenters(std::vector<std::vector<ObjectInfo>> &categorizedObjects);
-    void displayDetectedWorkpieces(const std::vector<std::vector<ObjectInfo>> &categorizedObjects,
-                                   const std::vector<cv::Mat> &cvImagesToDisplay, const std::vector<cv::Point3d> &categoryCenters3d);
+    void displayDetectedWorkpieces(const std::vector<std::vector<ObjectInfo>> &categorizedObjects, const std::vector<cv::Mat> &cvImagesToDisplay,
+                                   const std::vector<cv::Point3d> &categoryCenters3d);
 
     void whenVerifyWorkpieceCoordinates();
     std::vector<cv::Point3d> pixel2WorldCoordPoint(std::vector<cv::Point2d> &Pt2ds, int cameraNumber);
@@ -59,8 +59,7 @@ public:
     void drawDetectedWorkpieces(cv::Mat &railMap, const cv::Mat &resizedImage, cv::Point3d &worldCenter, int categoryIdx);
     void whenDisplayWeldSeamArea(workpieceBoxInWorld &boxInfo);
     void railMapRotated(cv::Mat &image, int angle);
-    cv::Point2d projectAndRotateCenter(const cv::Point3d &center3d, const cv::Mat &canvasMat, int imageRows, int imageCols,
-                                       int rotationAngle);
+    cv::Point2d projectAndRotateCenter(const cv::Point3d &center3d, const cv::Mat &canvasMat, int imageRows, int imageCols, int rotationAngle);
     // 获取结果
     void whenGetResultInfo(const std::vector<cv::Point3d> resultCenters, const std::vector<cv::Point3d> resultLeftTop);
     void whenGetWeldBoxInfo(const std::vector<std::vector<std::array<double, 4>>> &boxInfos);

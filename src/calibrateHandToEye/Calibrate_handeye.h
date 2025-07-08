@@ -28,9 +28,9 @@ public:
     // int board_width = 11;  //??????    ??????????
     // int board_heignt = 9; //??????
     // double circle_distance = 0.015;  //??????????  Aubo??????(??λ??m) 0.015  ;  ??????????(??λ??mm) 15
-    int board_width = 6;            //??????    ??????????
-    int board_heignt = 9;           //??????
-    double circle_distance = 0.06;  //??????????  Aubo??????(??λ??m) 0.015  ;  ??????????(??λ??mm) 15
+    int board_width = 6;             //??????    ??????????
+    int board_heignt = 9;            //??????
+    double circle_distance = 0.042;  //??????????  Aubo??????(??λ??m) 0.015  ;  ??????????(??λ??mm) 15
     std::string calibPath = "./data/calib/camera";
     float currentTrackPosToCalib;
     void whenCalibrateEye2Hand();
@@ -141,8 +141,7 @@ public:
             enforceOrthogonality(TEBEpsilon);  // 强制 TEB 的前 3x3 为单位正交矩阵
             std::cout << "tkb-------------------" << i << std::endl;
             for (size_t j = 0; j < imagePoints.size(); j++) {
-                newError +=
-                    calculate_Reprojection_Error(imagePoints[j], objPoints, TCWEpsilon, vecHg[j], TEBEpsilon, Kc, camera_distortion);
+                newError += calculate_Reprojection_Error(imagePoints[j], objPoints, TCWEpsilon, vecHg[j], TEBEpsilon, Kc, camera_distortion);
             }
             // qDebug()<<"newError"<<newError;
             JMat.at<double>(0, i) = (newError - totalError) / epsilon;  // 计算雅可比矩阵
@@ -153,9 +152,8 @@ public:
     }
 
     void enforceOrthogonality(cv::Mat& matrix) const;
-    double calculate_Reprojection_Error(const std::vector<cv::Point2f>& imagePoints, const std::vector<cv::Point3f>& objectPoints,
-                                        const cv::Mat& TCW, const cv::Mat& TWE, const cv::Mat& TEB, const cv::Mat& K,
-                                        const cv::Mat& dist_coeffs) const;
+    double calculate_Reprojection_Error(const std::vector<cv::Point2f>& imagePoints, const std::vector<cv::Point3f>& objectPoints, const cv::Mat& TCW,
+                                        const cv::Mat& TWE, const cv::Mat& TEB, const cv::Mat& K, const cv::Mat& dist_coeffs) const;
 
 private:
     const std::vector<std::vector<cv::Point2f>>& imagePoints;
@@ -163,8 +161,8 @@ private:
     const std::vector<cv::Mat>& vecHg;
     const cv::Mat& Kc;
     const cv::Mat& camera_distortion;
-    cv::Mat refValues = (cv::Mat_<double>(12, 1) << -0.001720457820086829, -0.9999436738515231, -0.01047325876737607,
-                         0.2442762011199959, -0.9998644588949632, 0.001548644461831869, 0.01639102007239512, -0.7893348578291108,
-                         -0.01637387747517729, 0.01050003926897141, -0.9998108047584747, 1.843818786835483);
+    cv::Mat refValues = (cv::Mat_<double>(12, 1) << -0.001720457820086829, -0.9999436738515231, -0.01047325876737607, 0.2442762011199959,
+                         -0.9998644588949632, 0.001548644461831869, 0.01639102007239512, -0.7893348578291108, -0.01637387747517729,
+                         0.01050003926897141, -0.9998108047584747, 1.843818786835483);
 };
 #endif  // HANDEYECALIBRATIONLOGIC_H

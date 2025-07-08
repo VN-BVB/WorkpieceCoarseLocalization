@@ -17,3 +17,4 @@
 *.xml
 3rdparty/auboi5
 yolo11_Seg.pro.user
+data/calib/camera1/pos/robotpos01.xml

@@ -1,7 +1,7 @@
 ﻿#include "BaslerControl.h"
 
 #include <QObject>
-// #define Test
+#define Test
 int cameraIndex = 0;  // 相机索引
 BaslerControl::BaslerControl() { loadCalibConfigFromFile(configFilePath); }
 
@@ -78,7 +78,6 @@ void BaslerControl::openCamera() {
 
     currentS_N = S_Ns[0];  // 初始化为未采图。
     int* savedImages = nullptr;
-
     while (cameraFlag) {
         bool isImageCaptured = (currentS_N != "未选择相机");
         cv::Mat cvImage = cv::Mat(1, 1, CV_8UC3, cv::Scalar(0, 0, 0));
@@ -89,8 +88,7 @@ void BaslerControl::openCamera() {
                 cameras[j].RetrieveResult(5000, ptrGrabResult, Pylon::TimeoutHandling_ThrowException);
                 if (ptrGrabResult->GrabSucceeded()) {
                     formatConverter.Convert(pylonImage, ptrGrabResult);  // 将抓取的缓冲数据转化成pylonImage
-                    cv::Mat cvImage =
-                        cv::Mat(ptrGrabResult->GetHeight(), ptrGrabResult->GetWidth(), CV_8UC3, (uint8_t*)pylonImage.GetBuffer());
+                    cv::Mat cvImage = cv::Mat(ptrGrabResult->GetHeight(), ptrGrabResult->GetWidth(), CV_8UC3, (uint8_t*)pylonImage.GetBuffer());
 
                     // 在inference统一保存原图与分割结果
                     //  获取当前时间
@@ -100,8 +98,7 @@ void BaslerControl::openCamera() {
                     std::ostringstream dateTimeStream;
                     // 格式化年月日时分秒，添加前导零
                     dateTimeStream << std::put_time(localTime, "%Y%m%d_%H%M%S");
-                    cv::imwrite("./data/workpieceCoaLoc/infer/camera" + std::to_string(j) + "_" + dateTimeStream.str() + ".bmp",
-                                cvImage);
+                    cv::imwrite("./data/workpieceCoaLoc/infer/camera" + std::to_string(j) + "_" + dateTimeStream.str() + ".bmp", cvImage);
                     std::cout << "camera" + std::to_string(j + 1) + " Save image in workpieceCoaLoc succ." << std::endl;
                     // cv::imshow("Chessboard Image with Subpixel Corners", cvImage);  // 显示处理后的图像
                     // cv::waitKey(0);  // 防止采图卡顿
@@ -122,8 +119,7 @@ void BaslerControl::openCamera() {
                 cameras[cameraIndex - 1].RetrieveResult(5000, ptrGrabResult, Pylon::TimeoutHandling_ThrowException);
                 if (ptrGrabResult->GrabSucceeded()) {
                     formatConverter.Convert(pylonImage, ptrGrabResult);  // 将抓取的缓冲数据转化成pylonImage
-                    cvImage =
-                        cv::Mat(ptrGrabResult->GetHeight(), ptrGrabResult->GetWidth(), CV_8UC3, (uint8_t*)pylonImage.GetBuffer());
+                    cvImage = cv::Mat(ptrGrabResult->GetHeight(), ptrGrabResult->GetWidth(), CV_8UC3, (uint8_t*)pylonImage.GetBuffer());
                     emit sendImageToView(cvImage);
                 }
 
@@ -150,10 +146,10 @@ void BaslerControl::openCamera() {
                             savedImages = &savednNormalImages;
                             break;
                     }
-                    if (saveTypeEnable == 0) {
-                        if (0 == cv::findChessboardCornersSB(a, boardSize, imagePointsBuf)) {
-                            // cv::bitwise_not(a, a);  // 反转灰度图像
-                            // if(0 == CameraAndLaserPlaneCalibration::calculate_Image_Points(a, boardSize, imagePointsBuf)){
+                    if (saveTypeEnable == 0 || saveTypeEnable == 1 || saveTypeEnable == 2) {
+                        // if (0 == cv::findChessboardCornersSB(a, boardSize, imagePointsBuf)) {
+                        cv::bitwise_not(a, a);  // 反转灰度图像
+                        if (0 == CameraAndLaserPlaneCalibration::calculate_Image_Points(a, boardSize, imagePointsBuf)) {
                             appendCameraLog(QString("未找到角点"));
                             imageNumberToSaveInCalibration--;
                             continue;
@@ -162,6 +158,11 @@ void BaslerControl::openCamera() {
                             emit sendGetCurrentWaypoint();
                         }
                     }
+                    // static int lastCameraIndex2 = 0;
+                    // if (cameraIndex != lastCameraIndex2) {
+                    //     *savedImages = 0;
+                    //     lastCameraIndex2 = cameraIndex;
+                    // }
 
                     if ((*savedImages) < 10) {
                         cv::imwrite("./data/calib/camera" + std::to_string(cameraIndex) + "/" + saveTypePath + "/image0" +
@@ -236,12 +237,9 @@ void BaslerControl::loadCalibConfigFromFile(const std::string& filename) {
     // 分别保存三个相机序列号，安全起见先初始化为空字符串
     std::string serial1, serial2, serial3;
 
-    if (cameraConfigMap.count("Camera1") && !cameraConfigMap["Camera1"].CameraSerialNum.empty())
-        serial1 = cameraConfigMap["Camera1"].CameraSerialNum;
-    if (cameraConfigMap.count("Camera2") && !cameraConfigMap["Camera2"].CameraSerialNum.empty())
-        serial2 = cameraConfigMap["Camera2"].CameraSerialNum;
-    if (cameraConfigMap.count("Camera3") && !cameraConfigMap["Camera3"].CameraSerialNum.empty())
-        serial3 = cameraConfigMap["Camera3"].CameraSerialNum;
+    if (cameraConfigMap.count("Camera1") && !cameraConfigMap["Camera1"].CameraSerialNum.empty()) serial1 = cameraConfigMap["Camera1"].CameraSerialNum;
+    if (cameraConfigMap.count("Camera2") && !cameraConfigMap["Camera2"].CameraSerialNum.empty()) serial2 = cameraConfigMap["Camera2"].CameraSerialNum;
+    if (cameraConfigMap.count("Camera3") && !cameraConfigMap["Camera3"].CameraSerialNum.empty()) serial3 = cameraConfigMap["Camera3"].CameraSerialNum;
 
     serialNum.push_back(serial1);
     serialNum.push_back(serial2);

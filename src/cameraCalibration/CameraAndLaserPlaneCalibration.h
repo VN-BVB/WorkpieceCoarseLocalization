@@ -20,7 +20,7 @@ extern int cameraIndex;
 #include <pcl/io/ply_io.h>
 #include <pcl/point_types.h>
 
-#define BOARD_SCALE 60  // 棋盘格边长（mm）35
+#define BOARD_SCALE 42  // 棋盘格边长（mm）35
 #define BOARD_HEIGHT 6  // 棋盘格高度方向角点个数
 #define BOARD_WIDTH 9   // 棋盘格宽度方向角点个数
 // #define BOARD_SCALE 60    // 棋盘格边长（mm）35
@@ -55,15 +55,15 @@ void whenCalculateImagePoints(int i, const cv::Mat& imageInput, cv::Size boardSi
                               std::vector<cv::Point2f>& imagePointsBuf);  // 图像角点计算辅助函数
 void calibrationSolveExtrinsics(cv::Mat& Kc, cv::Mat& distCoeffs, std::vector<cv::Point3f>& objPoints,
                                 std::vector<std::vector<cv::Point2f>>& imagePoints, std::vector<cv::Mat>& vecHc);  // 外参矩阵求解
-bool PointSortRule(const cv::Point2d pt1, const cv::Point2d pt2);  // 点坐标排序规则
+bool PointSortRule(const cv::Point2d pt1, const cv::Point2d pt2);                                                  // 点坐标排序规则
 
 // 坐标转换与分离
 void Point2dSperate(std::vector<cv::Point2d>& P, std::vector<cv::Point2d>& pPlane,
                     std::vector<cv::Point2d>& pObject);  // 分离平面和物体点
-void Point2dto3d(const std::vector<double> plane, const cv::Mat& cameraMatrix, const cv::Mat& distCoeffs,
-                 const std::vector<cv::Point2d>& Pt2ds, std::vector<cv::Point3d>& Pt3ds);  // 2D转3D坐标
+void Point2dto3d(const std::vector<double> plane, const cv::Mat& cameraMatrix, const cv::Mat& distCoeffs, const std::vector<cv::Point2d>& Pt2ds,
+                 std::vector<cv::Point3d>& Pt3ds);  // 2D转3D坐标
 std::vector<cv::Point3d> transformCameraToBase(const std::vector<cv::Point3d>& cameraPoints,
-                                               const cv::Mat& extrinsicMatrix);  // 相机坐标系转基坐标系
+                                               const cv::Mat& extrinsicMatrix);                                     // 相机坐标系转基坐标系
 void savePointCloud(const std::vector<std::vector<cv::Point3d>>& objectCornerPoints, const std::string& filename);  // 保存点云数据
 // 平面拟合与评估
 std::vector<double> planeLeastSquareFitting(std::vector<cv::Point3d>& pts);                       // 最小二乘法拟合平面
@@ -82,9 +82,8 @@ void calculateExtrinsicMatrices(int imageCount, std::vector<cv::Mat>& tvecsMat, 
 void planeCalibration(std::vector<std::string>& files, cv::Mat& cameraMatrix, cv::Mat& distCoeffs, std::vector<double>& globalPlane,
                       CameraAndLaserPlaneCalibration::ErrorMetrics& errorMetrics);  // 平面标定主函数
 ErrorMetrics evaluatePlaneFittingError(const std::vector<std::vector<cv::Point2f>>& imageCornerPoints,
-                                       const std::vector<cv::Point3f>& objectCornerPoints,
-                                       const std::vector<cv::Mat>& extrinsicMatrices, const cv::Mat& cameraMatrix,
-                                       const cv::Mat& distCoeffs,
+                                       const std::vector<cv::Point3f>& objectCornerPoints, const std::vector<cv::Mat>& extrinsicMatrices,
+                                       const cv::Mat& cameraMatrix, const cv::Mat& distCoeffs,
                                        const std::vector<double>& globalPlane);  // 平面拟合误差评估
 }  // namespace CameraAndLaserPlaneCalibration
 

@@ -53,6 +53,7 @@ FORMS += \
     WorkpieceCoarseLocalization.ui
 
 include( ./3rdparty/3rdpartyLi.pri )
+include( ./libdetect/libdetect.pri)
 INCLUDEPATH += $$PWD/.
 DEPENDPATH += $$PWD/.
 
