@@ -1,8 +1,2 @@
 Classification Results:
 
-Category 1:
-ID:0 x 3594.43y 691.721z -135.433Image X:526Image y:1037Valid Pixels: 3366
-Category 2:
-ID:0 x 1132.63y 897.44z -116.946Image X:1229Image y:890Valid Pixels: 45514
-Category 3:
-ID:0 x 2028.77y 876.84z -125.47Image X:551Image y:899Valid Pixels: 459

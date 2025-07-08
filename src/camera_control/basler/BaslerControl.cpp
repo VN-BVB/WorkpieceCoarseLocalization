@@ -1,7 +1,7 @@
 ﻿#include "BaslerControl.h"
 
 #include <QObject>
-#define Test
+// #define Test
 int cameraIndex = 0;  // 相机索引
 BaslerControl::BaslerControl() { loadCalibConfigFromFile(configFilePath); }
 
@@ -41,41 +41,46 @@ void BaslerControl::openCamera() {
         emit appendCameraLog(QString("未找到Basler相机，请检查相机连接情况"));
         return;
     }
-    for (size_t i = 0; i < device.size(); ++i) {
-        std::string devSerial = device[i].GetSerialNumber();
+    for (size_t n = 0; n < serialNum.size(); ++n) {
+        for (size_t i = 0; i < device.size(); ++i) {
+            std::string devSerial = device[i].GetSerialNumber();
 
-        if (std::find(serialNum.begin(), serialNum.end(), devSerial) != serialNum.end()) {
-            PLOGD << L"尝试连接第" << i + 1 << L"台相机...";
-            // 创建并连接相机
-            // Pylon::CBaslerUniversalInstantCamera& camera = camerasa[i];
-            cameras[calibCameraIndex].Attach(Pylon::CTlFactory::GetInstance().CreateDevice(device[i]));
+            if (devSerial == serialNum[n]) {
+                PLOGD << L"尝试连接第" << i + 1 << L"台相机...";
+                // 创建并连接相机
+                // Pylon::CBaslerUniversalInstantCamera& camera = camerasa[i];
+                // auto it = std::find(serialNum.begin(), serialNum.end(), devSerial);
+                // calibCameraIndex = std::distance(serialNum.begin(), it);  // 计算索引位置
+                cameras[calibCameraIndex].Attach(Pylon::CTlFactory::GetInstance().CreateDevice(device[i]));
 
-            try {
-                PLOGD << L"尝试打开" << L"第" << i + 1 << L"台Basler相机...";
-                emit appendCameraLog(QString("尝试打开第%1台Basler相机...").arg(i + 1));
-                cameras[i].Open();  // 打开相机
-                PLOGD << L"已经打开" << L"第" << i + 1 << L"台Basler相机";
-                emit appendCameraLog(QString("已经打开第%1台Basler相机").arg(i + 1));
-            } catch (...) {
-                emit sendCameraState(MY_COLOR::RED);
-                PLOGE << L"Basler相机连接失败，可能存在其它程序正在使用相机";
-                emit appendCameraLog(QString("Basler相机连接失败，可能存在其它程序正在使用相机"));
-                return;
+                try {
+                    PLOGD << L"尝试打开" << L"第" << i + 1 << L"台Basler相机...";
+                    emit appendCameraLog(QString("尝试打开第%1台Basler相机...").arg(i + 1));
+                    cameras[calibCameraIndex].Open();  // 打开相机
+                    PLOGD << L"已经打开" << L"第" << i + 1 << L"台Basler相机";
+                    emit appendCameraLog(QString("已经打开第%1台Basler相机").arg(i + 1));
+                } catch (...) {
+                    emit sendCameraState(MY_COLOR::RED);
+                    PLOGE << L"Basler相机连接失败，可能存在其它程序正在使用相机";
+                    emit appendCameraLog(QString("Basler相机连接失败，可能存在其它程序正在使用相机"));
+                    return;
+                }
+                // 设置相机曝光时间
+                GenApi::INodeMap& cameraNodeMap = cameras[calibCameraIndex].GetNodeMap();
+                const GenApi::CFloatPtr exposureTime = cameraNodeMap.GetNode("ExposureTimeAbs");
+                exposureTime->SetValue(exposure);
+
+                cameras[calibCameraIndex].StartGrabbing(Pylon::GrabStrategy_OneByOne, Pylon::GrabLoop_ProvidedByUser);  // 启动抓取模式
+                formatConverter.OutputPixelFormat = Pylon::PixelType_BGR8packed;
+                PLOGD << L"第" << i + 1 << L"台Basler相机连接成功";
+                emit appendCameraLog(QString("第%1台Basler相机连接成功").arg(i + 1));
+                // std::string S_N = cameras[calibCameraIndex].GetDeviceInfo().GetSerialNumber();
+                S_Ns.push_back(devSerial);
+                calibCameraIndex++;
             }
-            // 设置相机曝光时间
-            GenApi::INodeMap& cameraNodeMap = cameras[i].GetNodeMap();
-            const GenApi::CFloatPtr exposureTime = cameraNodeMap.GetNode("ExposureTimeAbs");
-            exposureTime->SetValue(exposure);
-
-            cameras[i].StartGrabbing(Pylon::GrabStrategy_LatestImageOnly);  // 启动抓取模式
-            formatConverter.OutputPixelFormat = Pylon::PixelType_BGR8packed;
-            PLOGD << L"第" << i + 1 << L"台Basler相机连接成功";
-            emit appendCameraLog(QString("第%1台Basler相机连接成功").arg(i + 1));
-            // std::string S_N = cameras[calibCameraIndex].GetDeviceInfo().GetSerialNumber();
-            S_Ns.push_back(devSerial);
-            calibCameraIndex++;
         }
     }
+
     emit sendCameraState(MY_COLOR::GREEN);
     emit sendSerialNumber(S_Ns);
 
@@ -238,15 +243,21 @@ void BaslerControl::loadCalibConfigFromFile(const std::string& filename) {
     serialNum.clear();  // 假设是 std::vector<std::string> serialNum;
 
     // 分别保存三个相机序列号，安全起见先初始化为空字符串
-    std::string serial1, serial2, serial3;
+    std::string serial1, serial2, serial3, serial4, serial5, serial6;
 
     if (cameraConfigMap.count("Camera1") && !cameraConfigMap["Camera1"].CameraSerialNum.empty()) serial1 = cameraConfigMap["Camera1"].CameraSerialNum;
     if (cameraConfigMap.count("Camera2") && !cameraConfigMap["Camera2"].CameraSerialNum.empty()) serial2 = cameraConfigMap["Camera2"].CameraSerialNum;
     if (cameraConfigMap.count("Camera3") && !cameraConfigMap["Camera3"].CameraSerialNum.empty()) serial3 = cameraConfigMap["Camera3"].CameraSerialNum;
+    if (cameraConfigMap.count("Camera4") && !cameraConfigMap["Camera4"].CameraSerialNum.empty()) serial4 = cameraConfigMap["Camera4"].CameraSerialNum;
+    if (cameraConfigMap.count("Camera5") && !cameraConfigMap["Camera5"].CameraSerialNum.empty()) serial5 = cameraConfigMap["Camera5"].CameraSerialNum;
+    if (cameraConfigMap.count("Camera6") && !cameraConfigMap["Camera6"].CameraSerialNum.empty()) serial6 = cameraConfigMap["Camera6"].CameraSerialNum;
 
     serialNum.push_back(serial1);
     serialNum.push_back(serial2);
     serialNum.push_back(serial3);
+    serialNum.push_back(serial4);
+    serialNum.push_back(serial5);
+    serialNum.push_back(serial6);
 
     // // 你也可以打印确认
     // std::cout << "Camera1 SerialNum: " << serial1 << std::endl;

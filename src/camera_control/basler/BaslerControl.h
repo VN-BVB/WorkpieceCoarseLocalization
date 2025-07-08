@@ -50,7 +50,7 @@ public:
     int saveTypeEnable;                      // 图像保存类型
     bool cameraFlag = true;                  // 相机开启使能
 private:
-    double exposure = 40000;   // 相机曝光率
+    double exposure = 88888;   // 相机曝光率
     int savedCalibImages = 0;  // 已经保存的图像数
     int savedPlaneImages = 0;
     int savedTrackImages = 0;
